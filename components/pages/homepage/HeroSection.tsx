@@ -23,7 +23,7 @@ export default function Hero() {
             Stromtarif.
           </h2>
 
-          <p className="w-[630px] text-[#C9D7E2] text-center mx-auto text-base font-medium leading-[160%] tracking-[0.08px] mb-14">
+          <p className="max-w-[630px] text-[#C9D7E2] text-center mx-auto text-base font-medium leading-[160%] tracking-[0.08px] mb-14">
             Vergleichen Sie die besten Stromanbieter, wählen Sie den besten
             Tarif für Ihr Zuhause und lassen Sie uns den Wechsel einfach,
             schnell und sicher durchführen.

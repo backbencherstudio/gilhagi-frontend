@@ -5,7 +5,7 @@ import React from "react";
 export default function PublicLayout({ children }: { children: any }) {
   return (
     <div>
-      <nav className="absolute top-0 left-0  py-4  z-20 w-full bg-[#F2F6F50D] border-b border-gray-400/50 shadow">
+      {/* <nav className="absolute top-0 left-0  py-4  z-20 w-full bg-[#F2F6F50D] border-b border-gray-400/50 shadow">
         <div className="w-full flex flex-wrap justify-between items-center max-w-[1320px] mx-auto">
           <div className="flex gap-1">
             <ThunderIcon/>
@@ -20,7 +20,7 @@ export default function PublicLayout({ children }: { children: any }) {
             Jetzt registrieren
           </button>
         </div>
-      </nav>
+      </nav> */}
       {children}
     </div>
   );
