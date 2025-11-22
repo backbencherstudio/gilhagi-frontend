@@ -1,3 +1,4 @@
+import Footer from "@/components/common/Footer";
 import Navber from "@/components/common/Navber";
 import ThunderIcon from "@/components/icons/ThunderIcon";
 import React from "react";
@@ -22,6 +23,7 @@ export default function PublicLayout({ children }: { children: any }) {
         </div>
       </nav> */}
       {children}
+      <Footer/>
     </div>
   );
 }
