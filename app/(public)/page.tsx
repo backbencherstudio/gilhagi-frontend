@@ -1,3 +1,4 @@
+import ContactSection from "@/components/pages/homepage/ContactSection";
 import FeatureSection from "@/components/pages/homepage/FeatureSection";
 import Hero from "@/components/pages/homepage/HeroSection";
 import HowItWorks from "@/components/pages/homepage/HowItWorks";
@@ -13,6 +14,7 @@ export default function HomePage() {
       <FeatureSection />
       <HowItWorks/>
       <Testimonials/>
+      <ContactSection/>
     </div>
   );
 }
