@@ -4,6 +4,7 @@ import Timeline from "./Timeline";
 const HowItWorks = () => {
   return (
     <section
+      id="how-it-works"
       className=" w-full bg-cover bg-center flex flex-col items-center justify-center text-white px-4"
       style={{ backgroundImage: "url('images/how-it-works.png')" }}
     >

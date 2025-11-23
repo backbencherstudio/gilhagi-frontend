@@ -11,7 +11,7 @@ import TestimonialsCard from "@/components/others/TestimonialsCard";
 
 const Testimonials = () => {
   return (
-    <section className="max-w-[1320px] mx-auto px-12  md:py-25">
+    <section id="customer-reviews" className="max-w-[1320px] mx-auto px-4 md:px-12 py-10 md:py-25">
       {/* info */}
       <div className="mb-14">
         <h2 className="title-text max-w-[664px]">
@@ -24,7 +24,7 @@ const Testimonials = () => {
             Nutzer sagen.
           </p>
 
-          <div className="flex gap-5 items-center">
+          <div className="flex gap-5 items-center mt-10">
             <h4 className="text-[40px] font-medium leading-[130%]">4.5</h4>
             {/* trust pilot */}
             <div className="flex flex-col gap-2.5">

@@ -28,68 +28,60 @@ const steps = [
     icon: "images/timelins/step_4.svg",
   },
 ];
+
 export default function Timeline() {
   return (
-    <div className="relative max-w-6xl mx-auto px-4 pb-[72px]">
-      {/* Vertical line */}
-      <div className="absolute left-1/2 transform -translate-x-1/2  border-l-2 border-gray-300 w-0.5 h-[95%] shrink-0 opacity-30 [background:#FFF] rounded-lg "></div>
+    <div className="relative max-w-6xl mx-auto px-4 md:px-6 lg:px-8 pb-30">
+      {/* Center vertical line (desktop only) */}
+      <div className="hidden lg:block absolute left-1/2 -translate-x-1/2 top-0 bottom-0 border-l-2 border-gray-300 opacity-30 h-[92%]" />
 
       <div className="space-y-16 mt-4">
         {steps.map((step, idx) => {
-          const isLeft = idx % 2 === 0; // alternate sides
-          return (
-            <div key={idx} className="relative flex  w-full ">
-              {/* Dot on the line */}
-              {/* <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-blue-600 rounded-full z-10 mt-2"></div> */}
+          const isLeft = idx % 2 === 0; // alternate sides on desktop
 
-              <div className="absolute left-1/2 transform -translate-x-1/2  w-[22px] h-[22px] shrink-0 border rounded-[22px] border-solid border-[#DADEE4] p-4 flex items-center justify-center ">
-                <span className="block w-3.5 h-3.5 shrink-0 [background:#DADEE4] rounded-[14px]"></span>
+          return (
+            <div key={step.id} className="relative">
+              {/* Dot on the line (desktop only) */}
+              <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center justify-center">
+                <div className="w-[22px] h-[22px] border border-[#DADEE4] rounded-full flex items-center justify-center bg-[#0A3F8C]">
+                  <span className="block w-3.5 h-3.5 bg-[#DADEE4] rounded-full" />
+                </div>
               </div>
 
-              {/* Step content */}
-              {isLeft ? (
-                <>
-                  <div className="w-1/2   flex items-center justify-end pr-26 h-full">
-                    <img
-                      src={step?.icon}
-                      alt={step.id}
-                      className="w-[150px] h-[150px] "
-                    />
-                  </div>
-                  <div className="w-1/2 pl-26 text-left">
-                    <h3 className="mb-12 text-[#F2F9FF]  text-[40px] font-semibold leading-[130%]">
-                      {step.id}.
-                    </h3>
-                    <p className="mb-4 text-[#F2F9FF]  text-2xl font-medium leading-[130%] tracking-[0.12px]">
-                      {step.title}
-                    </p>
-                    <p className=" self-stretch text-[#C9D7E2] text-base font-medium leading-[160%] tracking-[0.08px]">
-                      {step.description}
-                    </p>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="w-1/2 pr-26 text-right">
+              {/* Content */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+                {/* Image side */}
+                <div
+                  className={`flex justify-center lg:justify-${
+                    isLeft ? "end" : "start"
+                  } order-1 ${
+                    isLeft ? "lg:order-1" : "lg:order-2"
+                  }`}
+                >
+                  <img
+                    src={step.icon}
+                    alt={step.id}
+                    className="w-[150px] h-[150px]"
+                  />
+                </div>
 
-                    <h3 className="mb-12 text-[#F2F9FF]  text-[40px] font-semibold leading-[130%]">
-                      {step.id}.
-                    </h3>
-                    <h3 className="text-xl font-bold text-white">
-                      {step.id}. {step.title}
-                    </h3>
-                    <p className="mt-2 text-gray-300">{step.description}</p>
-                  </div>
-                  <div className="w-1/2 pl-26 text-left">
-                    {" "}
-                    <img
-                      src={step?.icon}
-                      alt={step.id}
-                      className="w-[150px] h-[150px] "
-                    />
-                  </div>
-                </>
-              )}
+                {/* Text side */}
+                <div
+                  className={`order-2 ${
+                    isLeft ? "lg:order-2 lg:text-left" : "lg:order-1 lg:text-right"
+                  } text-left`}
+                >
+                  <h3 className="mb-3 text-[#F2F9FF] text-[32px] md:text-[40px] font-semibold leading-[130%]">
+                    {step.id}.
+                  </h3>
+                  <p className="mb-3 text-[#F2F9FF] text-2xl font-medium leading-[130%] tracking-[0.12px]">
+                    {step.title}
+                  </p>
+                  <p className="text-[#C9D7E2] text-base md:text-lg font-medium leading-[160%] tracking-[0.08px]">
+                    {step.description}
+                  </p>
+                </div>
+              </div>
             </div>
           );
         })}

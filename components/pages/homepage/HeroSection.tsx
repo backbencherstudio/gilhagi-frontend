@@ -17,7 +17,7 @@ export default function Hero() {
         ></div>
 
         {/* Hero Content */}
-        <div className="absolute inset-0 flex flex-col z-20 px-4 md:px-8 mt-50 ">
+        <div className="absolute inset-0 flex flex-col z-20 px-4 md:px-8 mt-30 md:mt-50 ">
           <h2 className="text-white text-3xl sm:text-4xl md:text-[64px] font-semibold leading-[130%] mb-6 max-w-full md:max-w-[1016px] text-center mx-auto">
             Wechseln Sie heute smarter und sichern Sie sich immer den besten
             Stromtarif.

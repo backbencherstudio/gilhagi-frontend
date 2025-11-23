@@ -3,9 +3,9 @@ import { Mail, MapPin, Phone } from "lucide-react";
 
 export default function ContactSection() {
   return (
-  <section className="w-full py-35 bg-[#F9F9F9] relative overflow-hidden">
+  <section id="contact" className="w-full py-15 md:py-35 bg-[#F9F9F9] relative overflow-hidden px-4 md:px-0">
   {/* Background thunder effect */}
-  <div className="absolute  inset-y-0   z-0 left-1/2 -translate-x-1/2 ">
+  <div className="absolute  inset-x-0 md:inset-x-auto inset-y-0   z-0 md:left-1/2 md:-translate-x-1/2 ">
     <img className="w-full h-full object-cover" src="/images/bolt-bg.svg" alt="" />
   </div>
 
@@ -25,9 +25,9 @@ export default function ContactSection() {
 
 const ContactInfo = () => {
   return (
-    <div className="lg:w-1/2 space-y-14 max-w-[528px]">
+    <div className="w-full  space-y-14 max-w-[528px]">
       <div>
-        <h2 className="self-stretch text-[#1C2022]  text-5xl font-semibold leading-[130%] mb-4">
+        <h2 className="self-stretch text-[#1C2022] text-3xl md:text-5xl font-semibold leading-[130%] mb-4">
           Kontaktieren Sie uns
         </h2>
         <p className="self-stretch text-[#5F728B]  text-lg font-normal leading-[160%]">
