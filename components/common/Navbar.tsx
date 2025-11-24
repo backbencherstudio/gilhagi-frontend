@@ -1,18 +1,21 @@
-
-"use client"
+"use client";
 import { useState } from "react";
 import Link from "next/link";
 import ThunderIcon from "../icons/ThunderIcon";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
-  
-    const isHome = pathname === "/";
+
+  const isHome = pathname === "/";
 
   return (
-    <nav className={`absolute top-0 left-0 py-4 z-50 w-full  border-b border-gray-400/50 shadow backdrop-blur-md ${isHome ?"bg-[#F2F6F50D]":"bg-[#1A3D67]"}`}>
+    <nav
+      className={`absolute top-0 left-0 py-4 z-50 w-full  border-b border-gray-400/50 shadow backdrop-blur-md ${
+        isHome ? "bg-[#F2F6F50D]" : "bg-[#1A3D67]"
+      }`}
+    >
       <div className="w-full flex justify-between items-center max-w-[1320px] mx-auto px-4 text-white">
         {/* Logo */}
         <Link href="/" className="flex gap-1 items-center">
@@ -24,13 +27,13 @@ export default function Navbar() {
         <div className="hidden md:flex gap-20 items-center">
           <ul className="flex gap-10">
             <li className="whitespace-nowrap hover:text-gray-300 transition">
-              <Link href="#customer-reviews">Kundenbewertungen</Link>
+              <Link href="/#customer-reviews">Kundenbewertungen</Link>
             </li>
             <li className="whitespace-nowrap hover:text-gray-300 transition">
-              <Link href="#how-it-works">Wie es funktioniert</Link>
+              <Link href="/#how-it-works">Wie es funktioniert</Link>
             </li>
             <li className="whitespace-nowrap hover:text-gray-300 transition">
-              <Link href="#contact">Kontakt</Link>
+              <Link href="/#contact">Kontakt</Link>
             </li>
           </ul>
           <button className="px-8 py-4 bg-[#085EC4] rounded-full hover:bg-[#064DA1] transition font-medium text-lg">
@@ -67,13 +70,14 @@ export default function Navbar() {
           open ? "max-h-[300px] opacity-100 bg-" : "max-h-0 opacity-0"
         }`}
       >
-        <Link href="#customer-reviews" onClick={() => setOpen(false)}>
+        <Link href="/#customer-reviews" onClick={() => setOpen(false)}>
           Kundenbewertungen
         </Link>
-        <Link href="#how-it-works" onClick={() => setOpen(false)}>
+
+        <Link href="./#how-it-works" onClick={() => setOpen(false)}>
           Wie es funktioniert
         </Link>
-        <Link href="#contact" onClick={() => setOpen(false)}>
+        <Link href="./#contact" onClick={() => setOpen(false)}>
           Kontakt
         </Link>
         <button className="px-8 py-4 bg-[#085EC4] rounded-full hover:bg-[#064DA1] transition font-medium text-lg">
