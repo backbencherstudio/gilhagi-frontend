@@ -13,7 +13,7 @@ export default function TariffSection({
   ribbon,
   tariffs,
 }: TariffSectionProps) {
-  console.log("THis is , ", tariffs);
+  // console.log("THis is , ", tariffs);
   return (
     <section className="p-6 bg-white rounded-2xl">
       {/* Title + Subtitle */}

@@ -71,7 +71,7 @@ export default function FeatureSection() {
 }
 
 const FeatureCard = ({ icon, title, description }: FeatureCardProps) => (
-  <div className="p-6 rounded-2xl border border-[#D8DEE4] flex flex-col gap-8 md:gap-10">
+  <div className="p-6 rounded-2xl border border-[#D8DEE4] flex flex-col gap-8 md:gap-10 hover:border-gray-300 hover:shadow  transition-all duration-300 hover:scale-101">
     <img className="md:h-14 md:w-14 w-12 h-12" src={icon} alt="" />
     <div>
       <h2 className="text-[#1C2022] text-2xl font-semibold mb-2 md:mb-4">{title}</h2>
