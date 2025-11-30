@@ -1,4 +1,5 @@
-import BookingForm from "./BookingForm";
+import CalculateForm from "./CalculateForm";
+import BookingForm from "./CalculateForm";
 
 export default function Hero() {
   return (
@@ -29,7 +30,7 @@ export default function Hero() {
             schnell und sicher durchführen.
           </p>
 
-          <BookingForm />
+          <CalculateForm />
         </div>
       </section>
     </>

@@ -2,6 +2,7 @@
 
 import CompanyIcon from "@/components/icons/CompanyIcon";
 import HomeIcon from "@/components/icons/HomeIcon";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
@@ -12,7 +13,7 @@ type FormValues = {
   annualConsumption: number;
 };
 
-export default function BookingForm() {
+export default function CalculateForm() {
   const {
     register,
     handleSubmit,
@@ -22,10 +23,13 @@ export default function BookingForm() {
   });
 
   const [userType, setUserType] = useState<"Privat" | "Gewerblich">("Privat");
+  const router = useRouter();
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log("Form Data:", data);
     alert("Form submitted! Check console for data.");
+    router.push("/services")
+    
   };
 
   return (
@@ -90,11 +94,15 @@ export default function BookingForm() {
             <input
               type="text"
               placeholder="Ihre Postleitzahl"
-              {...register("postcode", { required: "Postleitzahl ist erforderlich" })}
-              className="w-full mb-4 px-4 py-3 border border-[#D8DEE4] rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition text-gray-800"
+              {...register("postcode", {
+                required: "Postleitzahl ist erforderlich",
+              })}
+              className="calculate-input"
             />
             {errors.postcode && (
-              <p className="text-red-500 text-xs mb-2">{errors.postcode.message}</p>
+              <p className="text-red-500 text-xs mb-2">
+                {errors.postcode.message}
+              </p>
             )}
           </div>
           <div className="flex-1">
@@ -108,23 +116,44 @@ export default function BookingForm() {
               type="text"
               placeholder="Ihre Stadt"
               {...register("city", { required: "Stadt ist erforderlich" })}
-              className="w-full mb-4 px-4 py-3 border border-[#D8DEE4] rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition text-gray-800"
+              className="calculate-input"
             />
             {errors.city && (
               <p className="text-red-500 text-xs mb-2">{errors.city.message}</p>
             )}
           </div>
         </div>
-
-        <div className="flex gap-6">
+        <div className="flex flex-col md:flex-row gap-6">
           <div className="flex-1">
             <label
               className="block text-[#2D2926] text-lg font-semibold leading-[160%]"
-              htmlFor="annualConsumption"
+              htmlFor="postcode"
             >
-              Jährlicher Stromverbrauch (kWh) *
+              Postleitzahl *
             </label>
             <input
+              type="text"
+              placeholder="Ihre Postleitzahl"
+              {...register("postcode", {
+                required: "Postleitzahl ist erforderlich",
+              })}
+              className="calculate-input"
+            />
+            {errors.postcode && (
+              <p className="text-red-500 text-xs mb-2">
+                {errors.postcode.message}
+              </p>
+            )}
+          </div>
+          <div className="flex-1">
+            <label
+              className="block text-[#2D2926] text-lg font-semibold leading-[160%]"
+              htmlFor="city"
+            >
+              Annual household consumption (kWh) *
+            </label>
+            <input
+              className="calculate-input"
               type="number"
               placeholder="z. B. 3500"
               {...register("annualConsumption", {
@@ -132,7 +161,6 @@ export default function BookingForm() {
                 valueAsNumber: true,
                 min: { value: 1, message: "Wert muss größer als 0 sein" },
               })}
-              className="w-full mb-4 px-4 py-3 border border-[#D8DEE4] rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition"
             />
             {errors.annualConsumption && (
               <p className="text-red-500 text-xs mb-2">
