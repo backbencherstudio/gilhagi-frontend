@@ -1,10 +1,9 @@
-"use client"
+"use client";
 
 import Leaf from "@/components/icons/LeafIcon";
 import RatingStar from "@/components/icons/RatingStar";
-import { Info  } from "lucide-react";
-
-
+import { Info } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface Props {
   tariff: any;
@@ -12,7 +11,25 @@ interface Props {
 
 export default function TariffCard({ tariff }: Props) {
 
-    console.log("tar", tariff)
+  const router = useRouter();
+
+    // const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+    const isAuthenticated = false;
+
+  const handleSwitch = () => {
+    if (!isAuthenticated) {
+      // return alert("Please log in first!");
+      router.push("/register")
+      
+    }
+    router.push(`/services/provider/${tariff.id}`);
+
+
+    // User is logged in — continue
+    alert("Switching...");
+  };
+  console.log("tar", tariff);
+
   return (
     <div className="p-8 rounded-[14px] border border-[#D8DEE4] bg-[#F0F6FA] flex justify-between">
       {/* LEFT */}
@@ -29,9 +46,7 @@ export default function TariffCard({ tariff }: Props) {
 
         {/* title + badge */}
         <div className="flex gap-4 mb-2">
-          <p className="text-[#1C2022] text-2xl font-semibold">
-            {tariff.name}
-          </p>
+          <p className="text-[#1C2022] text-2xl font-semibold">{tariff.name}</p>
           <div className="flex items-center gap-1.5 border px-3 py-1 rounded-3xl border-[#00B57A]">
             <Leaf />
             <span className="text-[#00B57A] text-xs font-medium">
@@ -43,10 +58,9 @@ export default function TariffCard({ tariff }: Props) {
         {/* info */}
         <div className="max-w-[494px]">
           <p className="text-[#5F728B] text-lg mb-4">
-            Arbeitspreis: {tariff.energyPrice} ct/kWh |
-            Grundpreis: {tariff.basePrice} €/Monat |
-            Neukundenbonus: {tariff.newCustomerBonus} € |
-            Sofortbonus: {tariff.instantBonus} €
+            Arbeitspreis: {tariff.energyPrice} ct/kWh | Grundpreis:{" "}
+            {tariff.basePrice} €/Monat | Neukundenbonus:{" "}
+            {tariff.newCustomerBonus} € | Sofortbonus: {tariff.instantBonus} €
           </p>
 
           <div className="text-[#5F728B]">
@@ -74,7 +88,7 @@ export default function TariffCard({ tariff }: Props) {
         </div>
 
         <div>
-          <button className="card-btn w-full">Jetzt wechseln</button>
+          <button onClick={handleSwitch} className="card-btn w-full">Jetzt wechseln</button>
           <p className="text-[#085EC4] text-center mt-4 text-lg font-medium underline">
             Tarifdetails
           </p>
