@@ -84,7 +84,7 @@ export const bestProviderData = [
 
 export default function page() {
   return (
-    <div className="pt-[102px] bg-[#F9FAFB]">
+    <div className="">
       <div className="max-w-[1272px] mx-auto grid grid-cols-[320px_1fr] gap-6 p ">
         <FilterSidebar />
 
