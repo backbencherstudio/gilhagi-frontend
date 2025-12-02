@@ -1,7 +1,15 @@
+"use client"
+
+import { useRouter } from "next/navigation";
 import InformationSummary from "./InfoSummary";
 import TariffDetails from "./TariffDetails";
 
 const TariffDetailPage = () => {
+  const router = useRouter();
+
+  const handleSwitch = () => {
+    router.push(`/services/provider/sp-1/details`);
+  };
   return (
     <div className="max-w-[1160px] mx-auto  flex flex-col flex-[1_0_0] border border-[#E2E8EE)] [background:#FFF] backdrop-blur-[7.400000095367432px] p-8 rounded-3xl border-solid  ">
       {/* user details */}
@@ -11,10 +19,10 @@ const TariffDetailPage = () => {
       {/*content 2 div */}
       <div className="grid grid-cols-[280px_1fr] gap-6 w-full max-w-[1160px] mx-auto mb-10">
         <aside className="">
-          <InformationSummary />
+          <InformationSummary  />
         </aside>
         <main className="">
-          <TariffDetails />
+          <TariffDetails handleSwitch={handleSwitch} />
         </main>
       </div>
 

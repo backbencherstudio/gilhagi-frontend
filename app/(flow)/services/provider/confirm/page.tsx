@@ -2,6 +2,8 @@
 "use client"
 import { useRouter } from 'next/navigation'
 import React from 'react'
+import TarrifInfo from './_components/TarrifInfo';
+import ConfirmPage from './_components/ConfirmPage';
 
 export default function page() {
 
@@ -12,8 +14,8 @@ export default function page() {
   }
 
   return (
-    <div className='py-25'>
-     FFFFFFFFFFFFFFFFFFFFFFFinal confirm
+    <div className=''>
+    <ConfirmPage/>
      <br />
      <button onClick={handleConfirm}>ok</button>
     </div>
