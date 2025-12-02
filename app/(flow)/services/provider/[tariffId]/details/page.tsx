@@ -1,6 +1,8 @@
 "use client";
 import { useRouter } from "next/navigation";
 import React from "react";
+import InformationForm from "./_components/CustomerForm";
+
 
 export default function page() {
   const router = useRouter();
@@ -9,13 +11,8 @@ export default function page() {
   };
 
   return (
-    <div className="py-25">
-      From Summary → Personal Info
-      <br />
-      <button onClick={handleConfirm} className="">
-        {" "}
-        final confirm
-      </button>
+    <div className="">
+      <InformationForm />
     </div>
   );
 }
