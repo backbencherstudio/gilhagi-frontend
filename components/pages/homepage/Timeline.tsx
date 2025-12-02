@@ -22,9 +22,9 @@ const steps = [
   },
   {
     id: "04",
-    title: "Wir kümmern uns um den Wechsel",
+    title: " Genießen Sie Jährliche Einsparungen",
     description:
-      "Wählen Sie Ihren bevorzugten Tarif und bestätigen Sie. Wir übernehmen den gesamten Wechselprozess, einschließlich der Kündigung Ihres alten Vertrags.",
+      "Jedes Jahr prüfen wir auf bessere Optionen und wechseln Sie erneut, falls erforderlich – vollautomatisch..",
     icon: "images/timelins/step_4.svg",
   },
 ];
@@ -54,9 +54,7 @@ export default function Timeline() {
                 <div
                   className={`flex justify-center lg:justify-${
                     isLeft ? "end" : "start"
-                  } order-1 ${
-                    isLeft ? "lg:order-1" : "lg:order-2"
-                  }`}
+                  } order-1 ${isLeft ? "lg:order-1" : "lg:order-2"}`}
                 >
                   <img
                     src={step.icon}
@@ -68,7 +66,9 @@ export default function Timeline() {
                 {/* Text side */}
                 <div
                   className={`order-2 ${
-                    isLeft ? "lg:order-2 lg:text-left" : "lg:order-1 lg:text-right"
+                    isLeft
+                      ? "lg:order-2 lg:text-left"
+                      : "lg:order-1 lg:text-right"
                   } text-left`}
                 >
                   <h3 className="mb-3 text-[#F2F9FF] text-[32px] md:text-[40px] font-semibold leading-[130%]">

@@ -13,19 +13,21 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function InformationForm() {
+  const router = useRouter();
+
   const {
     control,
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
   } = useForm();
 
   const onSubmit = (data: any) => {
     console.log("Form data:", data);
-    alert("got ity");
+    // alert("got ity");
   };
 
   return (
@@ -241,6 +243,7 @@ export default function InformationForm() {
       {/* Buttons */}
       <div className="flex justify-between mt-6">
         <Button
+          onClick={() => router.back()}
           type="button"
           variant="outline"
           className="flex justify-center items-center gap-2 border border-[#085EC4] px-6 py-3 rounded-4xl border-solid text-[#085EC4] font-medium leading-[140%] cursor-pointer"
@@ -249,6 +252,7 @@ export default function InformationForm() {
         </Button>
 
         <Button
+          onClick={() => router.push("/services/provider/confirm")}
           type="submit"
           className="flex justify-center items-center gap-3 [background:var(--Primary,#085EC4)] px-6 py-3 rounded-4xl text-white cursor-pointer"
         >
@@ -257,7 +261,7 @@ export default function InformationForm() {
       </div>
 
       <div className="mt-14">
-        <ReqInfo/>
+        <ReqInfo />
       </div>
     </form>
   );

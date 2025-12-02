@@ -36,9 +36,11 @@ export default function Navbar() {
               <Link href="/#contact">Kontakt</Link>
             </li>
           </ul>
-          <button className="px-8 py-4 bg-[#085EC4] rounded-full hover:bg-[#064DA1] transition font-medium text-lg">
-            Jetzt registrieren
-          </button>
+          <Link href={"/register"}>
+            <button className="px-8 py-4 bg-[#085EC4] rounded-full hover:bg-[#064DA1] transition font-medium text-lg cursor-pointer">
+              Jetzt registrieren
+            </button>
+          </Link>
         </div>
 
         {/* Hamburger */}
