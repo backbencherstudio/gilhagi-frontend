@@ -4,7 +4,7 @@ import RegisterForm from "./RegisterForm";
 
 const RegisterPageContent = () => {
   return (
-    <div className="max-w-[1320px] mx-auto py-25 flex  gap-20">
+    <div className="max-w-[1320px] mx-auto  flex  gap-20">
       {/* LEFT */}
       <div className="max-w-[709px] ">
         {/* info */}

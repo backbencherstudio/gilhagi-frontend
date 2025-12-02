@@ -1,9 +1,16 @@
-import React from "react";
+"use client";
 import TarrifInfo from "./TarrifInfo";
 import CustomerInfo from "./CustomerInfo";
 import LightBulbIcon from "@/components/icons/BulbIcon";
+import { useRouter } from "next/navigation";
 
 export default function ConfirmPage() {
+  const router = useRouter();
+
+  const handleConfirm = () => {
+    router.push("/services/provider/success");
+  };
+
   return (
     <div className=" border border-[#E2E8EE] [background:#FFF] backdrop-blur-[7.4px] p-4 md:p-8 rounded-3xl border-solid mx-auto max-w-[1160px]">
       <div className="grid grid-cols-[325px_1fr] gap-6 w-full max-w-[1160px] mx-auto mb-12  ">
@@ -17,7 +24,7 @@ export default function ConfirmPage() {
 
       {/* button */}
       <div className="mb-12">
-        <button className="rounded-btn text-white ml-auto">
+        <button onClick={handleConfirm} className="rounded-btn text-white ml-auto">
           Jetzt bestätigen
         </button>
       </div>

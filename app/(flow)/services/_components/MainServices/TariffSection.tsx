@@ -24,7 +24,7 @@ export default function TariffSection({
 
       {/* Each tariff card */}
 
-   t
+   
    <div className="flex flex-col gap-6">
         {tariffs.map((tariff: any) => {
           return <div key={tariff.id} className="relative">

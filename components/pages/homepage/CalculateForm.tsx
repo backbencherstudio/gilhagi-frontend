@@ -27,7 +27,7 @@ export default function CalculateForm() {
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log("Form Data:", data);
-    alert("Form submitted! Check console for data.");
+    // alert("Form submitted! Check console for data.");
     router.push("/services")
     
   };

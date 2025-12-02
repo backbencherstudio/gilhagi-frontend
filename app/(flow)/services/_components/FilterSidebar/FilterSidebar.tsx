@@ -3,6 +3,7 @@ import Leaf from "@/components/icons/LeafIcon";
 import { PencilLine } from "lucide-react";
 
 import { useState } from "react";
+import MonthSlider from "./MonthlySlider";
 export default function FilterSidebar() {
   const cData = {
     pName: "Ihr aktueller Verbrauch",
@@ -17,7 +18,10 @@ export default function FilterSidebar() {
       </div>
       <div className="border rounded-xl p-5 divide-y  bg-white">
         <PriceToggle />
+        
+        {/* <DurationSlider2 /> */}
         <DurationSlider />
+        
         <GreenSelector />
         <BonusSelector />
         <ResetFiltersButton />
@@ -67,12 +71,14 @@ function PriceToggle() {
 function DurationSlider() {
   const steps = [1, 3, 6, 12, 24];
   const [value, setValue] = useState(12);
+  const [showShorterDurations, setShowShorterDurations] = useState(true);
+  const [priceGuarantee, setPriceGuarantee] = useState(true);
 
   return (
     <div className="py-4">
       <label className="font-medium">Laufzeit in Monaten</label>
 
-      <input
+      {/* <input
         type="range"
         min="1"
         max="24"
@@ -80,9 +86,10 @@ function DurationSlider() {
         value={value}
         onChange={(e) => setValue(Number(e.target.value))}
         className="w-full mt-3 accent-blue-600"
-      />
+        aria-label="Select duration in months"
+      /> */}
 
-      <div className="text-xs text-gray-600 flex justify-between mt-1">
+      {/* <div className="text-xs text-gray-600 flex justify-between mt-1">
         {steps.map((s) => (
           <span
             key={s}
@@ -93,22 +100,37 @@ function DurationSlider() {
             {String(s).padStart(2, "0")}
           </span>
         ))}
-      </div>
+      </div> */}
+
+      <MonthSlider/>
 
       <div className="mt-4 space-y-2 text-sm">
         <label className="flex items-center gap-2">
-          <input type="checkbox" defaultChecked className="accent-blue-600" />
+          <input
+            type="checkbox"
+            checked={showShorterDurations}
+            onChange={(e) => setShowShorterDurations(e.target.checked)}
+            className="accent-blue-600"
+          />
           Kürzere Laufzeiten anzeigen
         </label>
 
         <label className="flex items-center gap-2">
-          <input type="checkbox" defaultChecked className="accent-blue-600" />
+          <input
+            type="checkbox"
+            checked={priceGuarantee}
+            onChange={(e) => setPriceGuarantee(e.target.checked)}
+            className="accent-blue-600"
+          />
           Preisgarantie für Laufzeiten
         </label>
       </div>
     </div>
   );
 }
+
+
+
 
 function GreenSelector() {
   return (
