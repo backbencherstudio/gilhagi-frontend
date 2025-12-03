@@ -13,7 +13,7 @@ import {
 import Link from "next/link";
 import React from "react";
 import { usePathname } from "next/navigation"; // For Next.js 15 (App Router)
-import ThunderIcon from "../icons/ThunderIcon";
+import ThunderIcon from "../../icons/ThunderIcon";
 
 // Navigation items array
 const navItems = [
@@ -23,30 +23,16 @@ const navItems = [
     href: "/admin-dashboard",
   },
   {
-    name: "Dokumente",
+    name: "Verträge",
     icon: <FileText className="w-5 h-5" />,
     href: "/documents",
-  },
-  {
-    name: "Anbieterliste",
-    icon: <Zap className="w-5 h-5" />,
-    href: "/provider-list",
-  },
-  {
-    name: "Bestellverlauf",
-    icon: <ShoppingCart className="w-5 h-5" />,
-    href: "/order-history",
   },
   {
     name: "Benachrichtigungen",
     icon: <Bell className="w-5 h-5" />,
     href: "/notifications",
   },
-  {
-    name: "Unterstützung",
-    icon: <HelpCircle className="w-5 h-5" />,
-    href: "/support",
-  },
+
   {
     name: "Einstellungen",
     icon: <Settings className="w-5 h-5" />,
@@ -57,30 +43,30 @@ const navItems = [
 export default function AdminSidebar({
   isOpen,
   onClose,
-  currentPath = "/admin-dashboard",
 }: {
   isOpen: boolean;
   onClose: () => void;
-  currentPath?: string;
 }) {
   const pathname = usePathname(); // Get the current pathname
 
   return (
     <>
-     {/* Mobile Overlay */}
+      {/* Mobile Overlay */}
       {isOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/50 z-40 lg:hidden"
           onClick={onClose}
         />
       )}
-     <aside className={`
+      <aside
+        className={`
         fixed lg:static inset-y-0 left-0 z-50
         w-70 bg-white border-r border-border
         transform transition-transform duration-300 ease-in-out
-        ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
         flex flex-col
-      `}>
+      `}
+      >
         {/* Close button for mobile */}
         <button
           onClick={onClose}
@@ -88,13 +74,10 @@ export default function AdminSidebar({
         >
           <X className="w-5 h-5" />
         </button>
-        {/* Logo Section */}
-        <div className="px-6 pt-6 pb-6 border-b ">
-          <div className="flex items-center ">
-            <ThunderIcon className="w-[26px] h-[26px] text-[#085EC4]" />
-            <h3 className="text-[#085EC4]  text-[23px] font-semibold leading-[normal]">
-              Switchfy
-            </h3>
+       {/* Logo Section */}
+        <div className="px-6 pb-6 pt-[27px] border-b ">
+          <div>
+            <img src="/switchfy-logo.svg" alt="switchfy-logo" />
           </div>
 
           <p className="text-[#5F728B]  text-sm font-normal leading-[130%] tracking-[0.07px]">

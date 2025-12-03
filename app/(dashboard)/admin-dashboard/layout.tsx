@@ -1,10 +1,6 @@
-import AdminLayout from '@/components/admin/AdminLayout'
-import React from 'react'
+import AdminLayout from "@/components/dashoboard/admin/AdminLayout";
+import React from "react";
 
-export default function layout({children}: {children: React.ReactNode}) {
-  return (
-    <AdminLayout>
-      {children}
-    </AdminLayout>
-  )
+export default function layout({ children }: { children: React.ReactNode }) {
+  return <AdminLayout>{children}</AdminLayout>;
 }
