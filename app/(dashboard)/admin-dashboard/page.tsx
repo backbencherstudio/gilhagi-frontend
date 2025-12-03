@@ -1,9 +1,10 @@
 import React from 'react'
+import OveviewPage from './_components/OverviewPage'
 
 export default function page() {
   return (
-    <div className='text-2xl text-red-500'>
-      this is admain dashboard main page
+    <div className=' '>
+      <OveviewPage/>
     </div>
   )
 }

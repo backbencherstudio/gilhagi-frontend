@@ -16,9 +16,9 @@ export default function AdminLayout({
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
       />
-      <div className="flex-1 flex flex-col">
-        <AdminHeader  onMenuClick={() => setSidebarOpen(true)} />
-        <main className="flex-1 p-6 overflow-hidden">{children}</main>
+      <div className="flex-1 flex flex-col lg:ml-[300px] w-full overflow-x-hidden">
+        <AdminHeader onMenuClick={() => setSidebarOpen(true)} />
+        <main className="flex-1 p-6 overflow-hidden container  mx-auto">{children}</main>
       </div>
     </div>
   );

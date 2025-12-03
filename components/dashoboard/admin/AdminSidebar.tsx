@@ -25,18 +25,18 @@ const navItems = [
   {
     name: "Verträge",
     icon: <FileText className="w-5 h-5" />,
-    href: "/documents",
+    href: "/admin-dashboard/contacts",
   },
   {
     name: "Benachrichtigungen",
     icon: <Bell className="w-5 h-5" />,
-    href: "/notifications",
+    href: "/admin-dashboard/notifications",
   },
 
   {
     name: "Einstellungen",
     icon: <Settings className="w-5 h-5" />,
-    href: "/settings",
+    href: "/admin-dashboard/settings",
   },
 ];
 
@@ -60,11 +60,11 @@ export default function AdminSidebar({
       )}
       <aside
         className={`
-        fixed lg:static inset-y-0 left-0 z-50
-        w-70 bg-white border-r border-border
+        fixed top-0 left-0 z-50
+        w-[300px] h-screen bg-white border-r border-border
         transform transition-transform duration-300 ease-in-out
         ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
-        flex flex-col
+        flex flex-col overflow-y-auto
       `}
       >
         {/* Close button for mobile */}
@@ -74,7 +74,7 @@ export default function AdminSidebar({
         >
           <X className="w-5 h-5" />
         </button>
-       {/* Logo Section */}
+        {/* Logo Section */}
         <div className="px-6 pb-6 pt-[27px] border-b ">
           <div>
             <img src="/switchfy-logo.svg" alt="switchfy-logo" />
