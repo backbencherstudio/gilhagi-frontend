@@ -1,0 +1,216 @@
+'use client'
+
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
+import { DataTable } from "@/components/dashoboard/DataTable"; // Assuming DataTable is reusable
+import TableTitle from "@/components/dashoboard/TableTitle";
+import TariffModal from "./TariffModal"; // Modal to add/edit tariff data
+import DeleteModal from "@/components/dashoboard/DeleteModal";
+
+// Translation Map for German UI Labels (same structure as before)
+const translations = {
+  ID: "ID",
+  Provider: "Provider",
+  Tarifname: "Tariff Name",
+  PricePerkWh: "Price/kWh",
+  BaseFee: "Base Fee",
+  Bonus: "Bonus",
+  PriceGuarantee: "Price Guarantee",
+  Actions: "Actions",
+};
+
+// Tariff columns
+const columns = [
+  {
+    key: "ID",
+    header: translations.ID,
+  },
+  {
+    key: "Provider",
+    header: translations.Provider,
+  },
+  {
+    key: "TariffName",
+    header: translations.Tarifname,
+  },
+  {
+    key: "PricePerkWh",
+    header: translations.PricePerkWh,
+    render: (value: number) => `€${value.toFixed(2)}`,
+  },
+  {
+    key: "BaseFee",
+    header: translations.BaseFee,
+    render: (value: string) => `${value}`,
+  },
+  {
+    key: "Bonus",
+    header: translations.Bonus,
+    render: (value: string) => `${value}`,
+  },
+  {
+    key: "PriceGuarantee",
+    header: translations.PriceGuarantee,
+    render: (value: string) => value,
+  },
+];
+
+// Initial sample tariff data
+const initialData = [
+  {
+    ID: "TAR001",
+    Provider: "Vattenfall",
+    TariffName: "Green Basic",
+    PricePerkWh: 0.32,
+    BaseFee: "€9.90/month",
+    Bonus: "€50",
+    PriceGuarantee: "12 months",
+  },
+  {
+    ID: "TAR002",
+    Provider: "E.ON",
+    TariffName: "Eco Plus",
+    PricePerkWh: 0.29,
+    BaseFee: "€12.90/month",
+    Bonus: "€100",
+    PriceGuarantee: "24 months",
+  },
+  {
+    ID: "TAR003",
+    Provider: "EnBW",
+    TariffName: "Standard",
+    PricePerkWh: 0.34,
+    BaseFee: "€8.90/month",
+    Bonus: "€0",
+    PriceGuarantee: "None",
+  },
+];
+
+export default function TariffTable() {
+  const [tariffs, setTariffs] = useState(initialData);
+  const [modalState, setModalState] = useState<{
+    isOpen: boolean;
+    mode: "add" | "edit" | "view";
+    selectedTariff?: any;
+  }>({
+    isOpen: false,
+    mode: "add",
+  });
+
+  const [deleteModalState, setDeleteModalState] = useState<{
+    isOpen: boolean;
+    tariff?: any;
+  }>({
+    isOpen: false,
+  });
+
+  // Handlers for view, edit, and delete actions
+  const handleView = (row: any) => {
+    setModalState({
+      isOpen: true,
+      mode: "view",
+      selectedTariff: row,
+    });
+  };
+
+  const handleEdit = (row: any) => {
+    setModalState({
+      isOpen: true,
+      mode: "edit",
+      selectedTariff: row,
+    });
+  };
+
+  const handleDelete = (row: any) => {
+    setDeleteModalState({
+      isOpen: true,
+      tariff: row,
+    });
+  };
+
+  const handleAddTariff = () => {
+    setModalState({
+      isOpen: true,
+      mode: "add",
+    });
+  };
+
+  const handleModalSubmit = async (data: any) => {
+    if (modalState.mode === "add") {
+      const newId = `TAR${String(tariffs.length + 1).padStart(3, "0")}`;
+      const newTariff = {
+        ...data,
+        ID: newId,
+      };
+      setTariffs([...tariffs, newTariff]);
+    } else if (modalState.mode === "edit" && modalState.selectedTariff) {
+      const updatedTariffs = tariffs.map((tariff) =>
+        tariff.ID === modalState.selectedTariff.ID
+          ? { ...data, ID: modalState.selectedTariff.ID }
+          : tariff
+      );
+      setTariffs(updatedTariffs);
+    }
+  };
+
+  const handleDeleteConfirm = () => {
+    if (deleteModalState.tariff) {
+      const updatedTariffs = tariffs.filter(
+        (tariff) => tariff.ID !== deleteModalState.tariff.ID
+      );
+      setTariffs(updatedTariffs);
+      setDeleteModalState({ isOpen: false });
+    }
+  };
+
+  return (
+    <div className="mt-4">
+      <div className="flex items-center justify-between mb-6">
+        <TableTitle
+          title="Tariff Table"
+          subtitle="All available energy tariffs at a glance"
+        />
+        <div className="flex items-center gap-2.5">
+          <input
+            type="text"
+            placeholder="Search tariffs..."
+            className="table-search-input"
+          />
+          <Button onClick={handleAddTariff} className="primary-btn">
+            <Plus />
+            <span>Add Tariff</span>
+          </Button>
+        </div>
+      </div>
+
+      <DataTable
+        columns={columns}
+        data={tariffs}
+        onView={handleView}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+      />
+
+      {/* Tariff Modal */}
+      <TariffModal
+        isOpen={modalState.isOpen}
+        onClose={() => setModalState({ ...modalState, isOpen: false })}
+        mode={modalState.mode}
+        initialData={modalState.selectedTariff}
+        onSubmit={handleModalSubmit}
+      />
+
+      {/* Delete Confirmation Modal */}
+      <DeleteModal
+        isOpen={deleteModalState.isOpen}
+        onClose={() => setDeleteModalState({ isOpen: false })}
+        onConfirm={handleDeleteConfirm}
+        title="Delete Tariff"
+        description={`Are you sure you want to delete "${
+          deleteModalState.tariff?.TariffName || "this tariff"
+        }"? This action cannot be undone.`}
+      />
+    </div>
+  );
+}

@@ -18,7 +18,7 @@ export default function page() {
     {
       value: "await-processing",
       label: "Warten auf Bearbeitung",
-      content: <ContactProcessingTable/>,
+      content: <ContactProcessingTable />,
       icon: <FileText />,
     },
   ];
@@ -30,9 +30,10 @@ export default function page() {
           subtitle="Verwalten Sie alle Benutzerverträge und Wechselprozesse"
         />
       </div>
-      <ContactStats />
-
-      <div className="flex flex-col items-start gap-6 self-stretch border border-[#E2E8EE] [background:var(--Background-White,#FFF)] p-5 rounded-2xl border-solid">
+      <div className="mb-6">
+        <ContactStats />
+      </div>
+      <div className="space-y-6">
         {/* title */}
         <TableTitle
           title="Contracts"
@@ -40,7 +41,7 @@ export default function page() {
         />
 
         {/*tabs and table table */}
-        <div className=" space-y-6 border border-[#E2E8EE] [background:var(--BG-soft,#F8FCFD)] p-3 rounded-2xl border-solid w-full">
+        <div className="">
           <CustomTabs tabs={tabs} defaultValue="active-contacts" />
         </div>
       </div>

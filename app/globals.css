@@ -93,10 +93,24 @@
   @apply flex justify-center items-center gap-3 self-stretch [background:var(--Primary,#085EC4)] px-8 py-3 rounded-4xl cursor-pointer hover:bg-[#1A3D67];
 }
 
+.primary-btn {
+  @apply flex justify-center items-center gap-2 [background:var(--Primary,#085EC4)] px-6 py-3 h-12 rounded-lg text-white cursor-pointer;
+}
+
 .content-div {
   @apply border border-[#E9E9EA] bg-white p-5 rounded-2xl border-solid;
 }
 
+.modal-form-label {
+  @apply text-[#1C2022]  text-base font-medium leading-[140%]
+}
+.modal-form-input {
+  @apply flex items-center gap-2.5 self-stretch border border-[#E2E8EE] bg-[#F8FCFD] px-5 py-3.5 h-10 md:h-[50px] rounded-lg border-solid;
+}
+
+.table-search-input{
+  @apply flex w-[239px] items-center gap-[105px] border border-[#E2E8EE] [background:var(--BG-soft,#F8FCFD)] p-3 rounded-md border-solid
+}
 body {
   font-family: var(--font-geist-sans), sans-serif;
 }

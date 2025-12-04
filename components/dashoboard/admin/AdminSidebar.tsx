@@ -28,6 +28,11 @@ const navItems = [
     href: "/admin-dashboard/contacts",
   },
   {
+    name: "Anbieter",
+    icon: <FileText className="w-5 h-5" />,
+    href: "/admin-dashboard/providers",
+  },
+  {
     name: "Benachrichtigungen",
     icon: <Bell className="w-5 h-5" />,
     href: "/admin-dashboard/notifications",
