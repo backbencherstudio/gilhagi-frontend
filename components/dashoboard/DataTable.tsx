@@ -30,7 +30,7 @@ import { cn } from "@/lib/utils";
 interface Column {
   key: string
   header: string
-  render?: (value: unknown, row: Record<string, unknown>) => React.ReactNode
+  render?: (value: any, row: Record<string, unknown>) => React.ReactNode
 }
 
 
@@ -128,18 +128,18 @@ export function DataTable({
 }
 
 export function StatusBadge({ status }: { status: string }) {
-  const variants: Record<string, string> = {
-    active: "bg-success/20 text-success border-success/30",
-    pending: "bg-warning/20 text-warning border-warning/30",
-    inactive: "bg-muted text-muted-foreground border-border",
-    rejected: "bg-destructive/20 text-destructive border-destructive/30",
-    switching: "bg-chart-2/20 text-chart-2 border-chart-2/30",
-    verified: "bg-success/20 text-success border-success/30",
-    incomplete: "bg-warning/20 text-warning border-warning/30",
-    open: "bg-chart-2/20 text-chart-2 border-chart-2/30",
-    resolved: "bg-success/20 text-success border-success/30",
-    escalated: "bg-destructive/20 text-destructive border-destructive/30",
-  };
+const variants: Record<string, string> = {
+  active: "bg-green-500/10 text-green-500 border-green-500/30",         
+  pending: "bg-yellow-500/10 text-yellow-500 border-yellow-500/30",     
+  inactive: "bg-gray-300 text-gray-500 border-gray-400",                
+  rejected: "bg-red-500/10 text-red-500 border-red-500/30",              
+  switching: "bg-blue-500/10 text-blue-500 border-blue-500/30",         
+  verified: "bg-teal-500/10 text-teal-500 border-teal-500/30",          
+  incomplete: "bg-orange-500/10 text-orange-500 border-orange-500/30",  
+  open: "bg-indigo-500/10 text-indigo-500 border-indigo-500/30",        
+  resolved: "bg-green-500/10 text-green-500 border-green-500/30",       
+  escalated: "bg-red-700/10 text-red-700 border-red-700/30",            
+};
 
   return (
     <Badge
