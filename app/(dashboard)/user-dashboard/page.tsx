@@ -1,9 +1,10 @@
 import React from 'react'
+import PageContent from './_components/PageContent'
 
 export default function page() {
   return (
-    <div className='text-2xl text-red-500'>
-      this is User dashboard main page
+    <div className=''>
+      <PageContent/>
     </div>
   )
 }

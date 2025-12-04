@@ -81,7 +81,7 @@ export default function NotificationPage() {
           {notifications.map((notification, index) => (
             <div
               key={index}
-              className="self-stretch border border-[#E2E8EE] [background:var(--BG-soft,#F8FCFD)] p-4 rounded-lg border-solid"
+              className="self-stretch border border-[#E2E8EE] [background:var(--BG-soft,#F8FCFD) ] p-4 rounded-lg border-solid"
             >
               <div className="flex items-start ">
                 <div className="flex shrink-0 items-center gap-2.5 px-0 py-[3px] w-2 h-2 bg-green-500 rounded-full mt-2 mr-2"></div>

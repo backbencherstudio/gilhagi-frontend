@@ -9,6 +9,7 @@ import {
   Settings,
   LogOut,
   X,
+  Building2,
 } from "lucide-react";
 import Link from "next/link";
 import React from "react";
@@ -29,7 +30,7 @@ const navItems = [
   },
   {
     name: "Anbieter",
-    icon: <FileText className="w-5 h-5" />,
+    icon: <Building2 className="w-5 h-5" />,
     href: "/admin-dashboard/providers",
   },
   {
