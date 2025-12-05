@@ -9,6 +9,8 @@ import {
   Settings,
   LogOut,
   X,
+  MessagesSquare,
+  History,
 } from "lucide-react";
 import Link from "next/link";
 import React from "react";
@@ -25,32 +27,28 @@ const navItems = [
   {
     name: "Dokumente",
     icon: <FileText className="w-5 h-5" />,
-    href: "/documents",
+    href: "/user-dashboard/documents",
   },
   {
     name: "Anbieterliste",
     icon: <Zap className="w-5 h-5" />,
-    href: "/provider-list",
+    href: "/user-dashboard/provider-list",
   },
   {
     name: "Bestellverlauf",
-    icon: <ShoppingCart className="w-5 h-5" />,
-    href: "/order-history",
+    icon: <History className="w-5 h-5" />,
+    href: "/user-dashboard/order-history",
   },
-  {
-    name: "Benachrichtigungen",
-    icon: <Bell className="w-5 h-5" />,
-    href: "/notifications",
-  },
+ 
   {
     name: "Unterstützung",
-    icon: <HelpCircle className="w-5 h-5" />,
-    href: "/support",
+    icon:  <MessagesSquare className="w-5 h-5" />,
+    href: "/user-dashboard/support",
   },
   {
     name: "Einstellungen",
     icon: <Settings className="w-5 h-5" />,
-    href: "/settings",
+    href: "/user-dashboard/settings",
   },
 ];
 
