@@ -1,4 +1,5 @@
 "use client";
+
 import TarrifInfo from "./TarrifInfo";
 import CustomerInfo from "./CustomerInfo";
 import LightBulbIcon from "@/components/icons/BulbIcon";
@@ -12,40 +13,72 @@ export default function ConfirmPage() {
   };
 
   return (
-    <div className=" border border-[#E2E8EE] [background:#FFF] backdrop-blur-[7.4px] p-4 md:p-8 rounded-3xl border-solid mx-auto max-w-[1160px]">
-      <div className="grid grid-cols-[325px_1fr] gap-6 w-full max-w-[1160px] mx-auto mb-12  ">
-        <aside className="">
+    <div
+      className="
+        max-w-[1160px] mx-auto 
+        border border-[#E2E8EE] 
+        bg-white 
+        backdrop-blur-[7.4px] 
+        p-4 md:p-8 
+        rounded-3xl
+      "
+    >
+      {/* Main grid */}
+      <div
+        className="
+          grid 
+          grid-cols-1 
+          lg:grid-cols-[325px_1fr] 
+          gap-6 
+          w-full 
+          mb-12
+        "
+      >
+        <aside>
           <TarrifInfo />
         </aside>
-        <main className="">
+        <main>
           <CustomerInfo />
         </main>
       </div>
 
-      {/* button */}
-      <div className="mb-12">
-        <button onClick={handleConfirm} className="rounded-btn text-white ml-auto">
+      {/* Confirm button */}
+      <div className="mb-12 flex justify-end">
+        <button
+          onClick={handleConfirm}
+          className="rounded-btn text-white"
+        >
           Jetzt bestätigen
         </button>
       </div>
 
-      {/* footer info */}
-      <div className="flex items-center gap-4 self-stretch [background:#F1F7FC] p-4 rounded-lg border-l-4 border-t border-solid border-r border-b border-[#2568A1] mb-8">
-        <LightBulbIcon className="w-6 h-6 text-[#2568A1]" />
-        <p className="flex-[1_0_0] self-stretch text-[#5F728B]  text-base font-normal leading-[140%] tracking-[0.08px]">
+      {/* Footer info */}
+      <div
+        className="
+          flex flex-col sm:flex-row 
+          items-start sm:items-center 
+          gap-3 sm:gap-4 
+          bg-[#F1F7FC] 
+          p-4 
+          rounded-lg 
+          border border-[#2568A1] border-l-4 
+          mb-8
+        "
+      >
+        <LightBulbIcon className="w-6 h-6 text-[#2568A1] shrink-0" />
+        <p className="text-[#5F728B] text-sm md:text-base leading-[140%] tracking-[0.08px]">
           Achtung: Sie müssen Ihren Tarif selbst kündigen, wenn Sie Ihr
           Sonderkündigungsrecht (z. B. bei Preiserhöhung) bei Tarifwechseln
           ausüben oder wenn die Kündigungsfrist in weniger als 4 Wochen abläuft.
         </p>
       </div>
 
-      {/* note */}
+      {/* Note */}
       <div>
-        <p className="text-[#1C2022]  text-[10px] font-normal leading-[132%] tracking-[0.05px] mb-2">
+        <p className="text-[#1C2022] text-[10px] font-normal leading-[132%] tracking-[0.05px] mb-2">
           * Pflichtfeld
         </p>
-
-        <p className="self-stretch text-[#5F728B] text-[10px] font-normal leading-[132%] tracking-[0.05px]">
+        <p className="text-[#5F728B] text-[10px] font-normal leading-[132%] tracking-[0.05px]">
           Nachdem Ihre Wechselanfrage erfolgreich bearbeitet wurde, kann
           Switchify Ihnen Informationen über ähnliche Energieprodukte oder
           relevante Service-Updates an die von Ihnen angegebene E-Mail-Adresse
