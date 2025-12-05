@@ -72,13 +72,23 @@ export default function UserSidebar({
           onClick={onClose}
         />
       )}
-      <aside
+      {/* <aside
         className={`
         fixed lg:static inset-y-0 left-0 z-50
         w-70 bg-white border-r border-border
         transform transition-transform duration-300 ease-in-out
         ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
         flex flex-col
+      `}
+      > */}
+
+       <aside
+        className={`
+        fixed top-0 left-0 z-50
+        w-[300px] h-screen bg-white border-r border-border
+        transform transition-transform duration-300 ease-in-out
+        ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
+        flex flex-col overflow-y-auto
       `}
       >
         {/* Close button for mobile */}

@@ -1,16 +1,22 @@
 import { Bell, Menu } from "lucide-react";
 import React from "react";
 
-export default function UserHeader({ onMenuClick }: { onMenuClick: () => void }) {
+export default function UserHeader({
+  onMenuClick,
+}: {
+  onMenuClick: () => void;
+}) {
   return (
-    <header className=" border-b border-border flex items-center justify-between p-6 ">
+    <header className="sticky top-0 z-30 border-b border-border flex items-center justify-between p-6 w-full bg-background backdrop-blur-sm">
       {/* left  */}
-      <div> <button
-        onClick={onMenuClick}
-        className="lg:hidden p-2 hover:bg-gray-100 rounded-md"
-      >
-        <Menu className="w-6 h-6" />
-      </button></div>
+      <div>
+        <button
+          onClick={onMenuClick}
+          className="lg:hidden p-2 hover:bg-gray-100 rounded-md"
+        >
+          <Menu className="w-6 h-6" />
+        </button>
+      </div>
 
       {/* right  */}
       <div className="flex items-stretch gap-4 ">

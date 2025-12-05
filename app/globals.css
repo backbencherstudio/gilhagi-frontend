@@ -111,6 +111,12 @@
 .table-search-input{
   @apply flex w-[239px] items-center gap-[105px] border border-[#E2E8EE] [background:var(--BG-soft,#F8FCFD)] p-3 rounded-md border-solid
 }
+
+
+.section-div{
+  @apply self-stretch border border-[#E9E9EA] [background:#FFF] shadow-[0_1px_2px_0_rgba(10,13,18,0.05)] p-5 rounded-2xl border-solid 
+}
+
 body {
   font-family: var(--font-geist-sans), sans-serif;
 }
