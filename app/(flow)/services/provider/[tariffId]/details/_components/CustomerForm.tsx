@@ -33,7 +33,7 @@ export default function InformationForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="w-full max-w-[1160px] mx-auto border border-[#E2E8EE] [background:#FFF] backdrop-blur-[7.4px] p-4 md:p-8 rounded-3xl"
+      className="w-full max-w-[1160px] mx-auto border border-[#E2E8EE] [background:#FFF] backdrop-blur-[7.4px] p-4 md:p-8 rounded-3xl "
     >
       {/* Title */}
       <h2 className="text-xl font-semibold text-[#1C2022] mb-6">

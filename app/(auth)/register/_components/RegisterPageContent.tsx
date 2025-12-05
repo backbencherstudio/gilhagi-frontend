@@ -4,30 +4,39 @@ import RegisterForm from "./RegisterForm";
 
 const RegisterPageContent = () => {
   return (
-    <div className="max-w-[1320px] mx-auto  flex  gap-20">
+    <div
+      className="
+        max-w-[1320px] mx-auto 
+        flex flex-col lg:flex-row 
+        gap-12 lg:gap-20 
+        px-4 lg:px-0
+      "
+    >
       {/* LEFT */}
-      <div className="max-w-[709px] ">
-        {/* info */}
-        <div className="max-w-[609px] mb-12">
-          <h2 className="self-stretch text-[#1C2022] font-family:Geist] text-5xl font-semibold leading-[130%] mb-4">
+      <div className="w-full lg:max-w-[709px]">
+        {/* Info */}
+        <div className="max-w-[609px] mb-10 lg:mb-12">
+          <h2 className="text-[#1C2022] font-semibold text-3xl md:text-5xl leading-[130%] mb-4">
             Ein Konto erstellen, um Strom zu sparen
           </h2>
-          <p className="w-[511px] text-lg font-normal leading-[160%] text-[#5F728B]">
+          <p className="text-[#5F728B] text-base md:text-lg leading-[160%] max-w-[511px]">
             Jetzt registrieren und von vielen Vorteilen profitieren!
           </p>
         </div>
-        {/* form */}
+
+        {/* Form */}
         <RegisterForm />
       </div>
 
       {/* RIGHT */}
-      <div className="max-w-[542px] max-h-[776px] overflow-hidden rounded-3xl">
+      <div className="w-full lg:max-w-[542px] h-auto rounded-3xl overflow-hidden">
         <Image
           className="w-full h-full object-cover"
           src="/images/register-pic.png"
           alt="register"
-          height={1000}
           width={1000}
+          height={1000}
+          priority
         />
       </div>
     </div>

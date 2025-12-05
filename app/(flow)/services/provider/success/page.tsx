@@ -3,11 +3,11 @@ import React from "react";
 export default function Page() {
   return (
     <>
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center px-4">
         <div className="flex w-[638px] flex-col items-center gap-8 border border-[#E2E8EE] bg-white p-14 rounded-[20px] space-y-14">
           
           {/* Heading */}
-          <h3 className="text-[#1C2022] text-center text-2xl font-semibold leading-[130%] tracking-[0.12px]">
+          <h3 className="text-[#1C2022] text-center text-lg md:text-2xl font-semibold leading-[130%] tracking-[0.12px]">
             Danke!
             <br />
             Ihr Kauf wird vorbereitet...
@@ -24,7 +24,7 @@ export default function Page() {
           />
 
           {/* Loading Text */}
-          <h3 className="text-[#1C2022] text-center text-lg font-medium leading-[160%]">
+          <h3 className="text-[#1C2022] text-center md:text-lg font-medium leading-[160%]">
             Wird vorbereitet <span className="animate-ping">...</span>
           </h3>
         </div>

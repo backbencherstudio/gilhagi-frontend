@@ -84,20 +84,33 @@ export const bestProviderData = [
 
 export default function page() {
   return (
-    <div className="">
-      <div className="max-w-[1272px] mx-auto grid grid-cols-[320px_1fr] gap-6 p ">
-        <FilterSidebar />
-
-        <div className="flex flex-col gap-6">
-          <ComparisonSummaryCard />
-          {/* <SponsorSection/> */}
-          <AllSection
-            sponsorData={sponsorData}
-            topMatchData={topMatchData}
-            bestProviderData={bestProviderData}
-          />
-        </div>
-      </div>
+    <div className="w-full">
+  <div
+    className="
+      max-w-[1272px] mx-auto 
+      grid gap-6 
+      px-4 
+      md:grid-cols-[260px_1fr] 
+      lg:grid-cols-[320px_1fr]
+    "
+  >
+    {/* Sidebar */}
+    <div className="w-full">
+      <FilterSidebar />
     </div>
+
+    {/* Main content */}
+    <div className="flex flex-col gap-6 w-full">
+      <ComparisonSummaryCard />
+
+      <AllSection
+        sponsorData={sponsorData}
+        topMatchData={topMatchData}
+        bestProviderData={bestProviderData}
+      />
+    </div>
+  </div>
+</div>
+
   );
 }

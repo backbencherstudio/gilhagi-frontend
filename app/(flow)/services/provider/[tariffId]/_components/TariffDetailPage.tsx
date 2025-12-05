@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useRouter } from "next/navigation";
 import InformationSummary from "./InfoSummary";
@@ -10,38 +10,61 @@ const TariffDetailPage = () => {
   const handleSwitch = () => {
     router.push(`/services/provider/sp-1/details`);
   };
+
   return (
-    <div className="max-w-[1160px] mx-auto  flex flex-col flex-[1_0_0] border border-[#E2E8EE)] [background:#FFF] backdrop-blur-[7.400000095367432px] p-8 rounded-3xl border-solid  ">
-      {/* user details */}
-      <div className="mb-8 text-[#1C2022]  text-[32px] font-semibold leading-[130%]">
+    <div
+      className="
+        max-w-[1160px] mx-auto 
+        flex flex-col 
+        bg-white 
+        border border-[#E2E8EE] 
+        backdrop-blur-md 
+        p-4 md:p-8 
+        rounded-3xl
+      "
+    >
+      {/* Greeting */}
+      <h1 className="text-[#1C2022] text-2xl md:text-[32px] font-semibold mb-8">
         Hello, Mr. Tawhid
-      </div>
-      {/*content 2 div */}
-      <div className="grid grid-cols-[280px_1fr] gap-6 w-full max-w-[1160px] mx-auto mb-10">
-        <aside className="">
-          <InformationSummary  />
+      </h1>
+
+      {/* Main Content Layout */}
+      <div
+        className="
+          grid 
+          grid-cols-1 
+          lg:grid-cols-[280px_1fr] 
+          gap-6 
+          w-full 
+          mb-10
+        "
+      >
+        {/* Left / Sidebar */}
+        <aside>
+          <InformationSummary />
         </aside>
-        <main className="">
+
+        {/* Right / Main */}
+        <main>
           <TariffDetails handleSwitch={handleSwitch} />
         </main>
       </div>
 
-      {/* req fileld */}
-
+      {/* Required field notice */}
       <div>
-        <h5 className="text-[#1C2022] text-[10px] font-normal leading-[132%] tracking-[0.05px] mb-2">
+        <h5 className="text-[#1C2022] text-xs font-normal tracking-wide mb-2">
           * Required field
         </h5>
 
-        <p className="self-stretch text-[#5F728B]  text-[10px] font-normal leading-[132%] tracking-[0.05px]">
+        <p className="text-[#5F728B] text-xs leading-relaxed tracking-wide">
           After your switching request has been successfully processed,
           Switchify may send you information about similar energy products or
           relevant service updates to the email address you provided. If you no
-          longer wish to receive these emails, you can unsubscribe at any time.{" "}
+          longer wish to receive these emails, you can unsubscribe at any time.
           <br />
-          Simply send a short message to: Switchify Customer Support, [Company
-          Address], or email us at support@switchify.com No additional costs
-          will be incurred other than the standard transmission fees.
+          Simply send a message to: Switchify Customer Support, [Company
+          Address], or email us at support@switchify.com. No additional costs
+          will be incurred other than standard transmission fees.
         </p>
       </div>
     </div>
