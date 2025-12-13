@@ -42,7 +42,7 @@ export default function Footer() {
             </h2>
 
             <p className="text-[#C9D7E2] text-lg leading-relaxed">
-              Immer der beste Strom für Ihre
+              Immer der beste Stromvertrag 
             </p>
 
             {/* Social Icons */}

@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -166,18 +166,22 @@ export default function TariffTable() {
 
   return (
     <div className="mt-4">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col items-start md:flex-row  md:justify-between mb-6 gap-4">
         <TableTitle
           title="Tariff Table"
           subtitle="All available energy tariffs at a glance"
         />
-        <div className="flex items-center gap-2.5">
+
+        <div className="flex  flex-col-reverse md:flex-row items-start jb md:items-center gap-2.5 w-full md:w-auto">
           <input
             type="text"
             placeholder="Search tariffs..."
-            className="table-search-input"
+            className="table-search-input md:w-auto"
           />
-          <Button onClick={handleAddTariff} className="primary-btn">
+          <Button
+            onClick={handleAddTariff}
+            className="primary-btn md:w-auto"
+          >
             <Plus />
             <span>Add Tariff</span>
           </Button>

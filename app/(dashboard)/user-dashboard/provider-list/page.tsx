@@ -1,9 +1,13 @@
 import React from 'react'
+import AllProviderList from './_components/AllProviderList'
 
 export default function page() {
   return (
     <div>
-      this is provider list
+      <div>
+        
+      </div>
+      <AllProviderList/>
     </div>
   )
 }

@@ -43,18 +43,11 @@ export default function TariffCard({ tariff }: Props) {
           </span>
         </div>
 
-        {/* Title + Badge */}
-        <div className="flex flex-wrap items-center gap-3 mb-3">
+        {/* Title */}
+        <div className="mb-3">
           <p className="text-[#1C2022] text-xl md:text-2xl font-semibold">
             {tariff.name}
           </p>
-
-          <div className="flex items-center gap-1.5 border px-3 py-1 rounded-3xl border-[#00B57A]">
-            <Leaf />
-            <span className="text-[#00B57A] text-xs font-medium">
-              Grüne Energie
-            </span>
-          </div>
         </div>
 
         {/* Info */}

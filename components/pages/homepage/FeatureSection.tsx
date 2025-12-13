@@ -6,7 +6,6 @@ interface FeatureCardProps {
   description: string;
 }
 
-// C:\Users\SVA Delta\Desktop\p2\gilhagi-app\public\features\fea_1.svg
 const featuresList: FeatureCardProps[] = [
   {
     icon: "/features/fea_1.svg",
@@ -26,7 +25,6 @@ const featuresList: FeatureCardProps[] = [
     description:
       "Wählen Sie aus umweltfreundlichen Anbietern, um Ihr Zuhause nachhaltig mit Strom zu versorgen.",
   },
-
   {
     icon: "/features/fea_4.svg",
     title: "Schnelle und unkomplizierte Einrichtung",
@@ -49,19 +47,19 @@ const featuresList: FeatureCardProps[] = [
 
 export default function FeatureSection() {
   return (
-    <section className="max-w-[1600px] mx-auto py-10 md:py-16 lg:py-25 space-y-8 md:space-y-14 p-4 md:p-0">
+    <section className="max-w-[1600px] mx-auto py-10 md:py-16 lg:py-24 space-y-8 md:space-y-14 px-4 md:px-8">
       <div>
-        <h2 className="max-w-[754px] text-3xl md:text-5xl font-semibold leading-[130%] mb-4">
+        <h2 className="max-w-full md:max-w-[754px] text-3xl sm:text-4xl md:text-5xl font-semibold leading-[130%] mb-4">
           Wir verändern die Art und Weise, wie Menschen Strom kaufen
         </h2>
 
-        <p className="md:max-w-[559px] text-[#5F728B] text-lg font-medium leading-[160%]">
+        <p className="md:max-w-[559px] text-[#5F728B] text-base sm:text-lg md:text-lg font-medium leading-[160%]">
           Geben Sie einfach Ihre Postleitzahl und Ihren Jahresverbrauch ein, um
           zu sehen, wie viel Sie sparen können
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 lg:gap-10">
         {featuresList.map((feature) => (
           <FeatureCard {...feature} key={feature.title} />
         ))}
@@ -71,11 +69,15 @@ export default function FeatureSection() {
 }
 
 const FeatureCard = ({ icon, title, description }: FeatureCardProps) => (
-  <div className="p-6 rounded-2xl border border-[#D8DEE4] flex flex-col gap-8 md:gap-10 hover:border-gray-300 hover:shadow  transition-all duration-300 hover:scale-101">
-    <img className="md:h-14 md:w-14 w-12 h-12" src={icon} alt="" />
+  <div className="p-6 sm:p-8 rounded-2xl border border-[#D8DEE4] flex flex-col gap-6 md:gap-8 hover:border-gray-300 hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">
+    <img className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16" src={icon} alt={title} />
     <div>
-      <h2 className="text-[#1C2022] text-2xl font-semibold mb-2 md:mb-4">{title}</h2>
-      <p className="text-[#5F728B] text-lg">{description}</p>
+      <h3 className="text-[#1C2022] text-xl sm:text-2xl font-semibold mb-2 md:mb-4">
+        {title}
+      </h3>
+      <p className="text-[#5F728B] text-base sm:text-lg md:text-lg leading-[150%]">
+        {description}
+      </p>
     </div>
   </div>
 );
