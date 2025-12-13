@@ -109,14 +109,14 @@ export default function DocumentUploadPage() {
       )}
 
       {/* footer info */}
-      <div className="mt-6 flex items-center gap-4 self-stretch [background:#F1F7FC] p-4 rounded-lg border-l-4 border-t border-solid border-r border-b border-[#2568A1] mb-8">
+      {/* <div className="mt-6 flex items-center gap-4 self-stretch [background:#F1F7FC] p-4 rounded-lg border-l-4 border-t border-solid border-r border-b border-[#2568A1] mb-8">
         <Info className="w-6 h-6 text-[#2568A1]" />
         <p className="flex-[1_0_0] self-stretch text-[#5F728B]  text-base font-normal leading-[140%] tracking-[0.08px]">
           Achtung: Sie müssen Ihren Tarif selbst kündigen, wenn Sie Ihr
           Sonderkündigungsrecht (z. B. bei Preiserhöhung) bei Tarifwechseln
           ausüben oder wenn die Kündigungsfrist in weniger als 4 Wochen abläuft.
         </p>
-      </div>
+      </div> */}
     </div>
   );
 }

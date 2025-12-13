@@ -1,9 +1,29 @@
 "use client";
+
 import Leaf from "@/components/icons/LeafIcon";
 import { PencilLine } from "lucide-react";
 import { useState } from "react";
 import MonthSlider from "./MonthlySlider";
 
+/* -----------------------------
+   TYPES
+-------------------------------- */
+type PriceView = "yearly" | "monthly";
+type GreenType = "eco" | "eco_plus" | "any";
+type BonusType = "all" | "instant" | "none";
+
+interface Filters {
+  priceView: PriceView;
+  duration: number;
+  showShorter: boolean;
+  priceGuarantee: boolean;
+  green: GreenType;
+  bonus: BonusType;
+}
+
+/* -----------------------------
+   MAIN SIDEBAR
+-------------------------------- */
 export default function FilterSidebar() {
   const cData = {
     pName: "Ihr aktueller Verbrauch",
@@ -12,60 +32,76 @@ export default function FilterSidebar() {
     usage: 3.45,
   };
 
+  const [filters, setFilters] = useState<Filters>({
+    priceView: "yearly",
+    duration: 12,
+    showShorter: true,
+    priceGuarantee: true,
+    green: "any",
+    bonus: "all",
+  });
+
+  const resetFilters = () => {
+    setFilters({
+      priceView: "yearly",
+      duration: 12,
+      showShorter: true,
+      priceGuarantee: true,
+      green: "any",
+      bonus: "all",
+    });
+  };
+
   return (
-    <aside
-      className="
-        rounded-xl flex flex-col gap-6 
-        h-fit 
-        w-full
-        md:w-auto
-      "
-    >
+    <aside className="rounded-xl flex flex-col gap-6 h-fit w-full md:w-auto">
       <div className="bg-white rounded-xl shadow-sm p-4 md:p-5">
         <CurrentUsageBox data={cData} />
       </div>
 
-      <div
-        className="
-          border rounded-xl bg-white shadow-sm 
-          p-4 md:p-5 
-          divide-y
-        "
-      >
-        <PriceToggle />
-        <DurationSlider />
-        <GreenSelector />
-        <BonusSelector />
-        <ResetFiltersButton />
+      <div className="border rounded-xl bg-white shadow-sm p-4 md:p-5 divide-y">
+        <PriceToggle
+          value={filters.priceView}
+          onChange={(priceView: PriceView) => setFilters({ ...filters, priceView })}
+        />
+
+        <DurationSlider filters={filters} setFilters={setFilters} />
+
+        <GreenSelector
+          value={filters.green}
+          onChange={(green: GreenType) => setFilters({ ...filters, green })}
+        />
+
+        <BonusSelector
+          value={filters.bonus}
+          onChange={(bonus: BonusType) => setFilters({ ...filters, bonus })}
+        />
+
+        <ResetFiltersButton onReset={resetFilters} />
       </div>
     </aside>
   );
 }
 
 /* -----------------------------
-   CURRENT USAGE BOX
+   CURRENT USAGE
 -------------------------------- */
-function CurrentUsageBox({ data }:any) {
+function CurrentUsageBox({ data }: any) {
   return (
-    <div className="border border-gray-200 rounded-lg p-4 md:p-5 text-sm md:text-base">
+    <div className="border border-gray-200 rounded-lg p-4 md:p-5">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-[#1C2022] font-semibold">
-          {data?.pName}
-        </h3>
+        <h3 className="font-semibold">{data.pName}</h3>
         <PencilLine className="w-4 h-4 text-[#085EC4]" />
       </div>
 
       <div className="text-[#5F728B] space-y-1">
         <p>
-          <span className="text-[#1C2022] font-medium">Postleitzahl:</span>{" "}
-          {data?.zip}
+          <b>Postleitzahl:</b> {data.zip}
         </p>
         <p>
-          <span className="text-[#1C2022] font-medium">Ort:</span> {data?.city}
+          <b>Ort:</b> {data.city}
         </p>
         <p>
-          <span className="text-[#1C2022] font-medium">Verbrauch:</span>{" "}
-          {data?.usage} kWh/Jahr
+          <b>Verbrauch:</b> {data.usage} kWh/Jahr
         </p>
       </div>
     </div>
@@ -75,16 +111,23 @@ function CurrentUsageBox({ data }:any) {
 /* -----------------------------
    PRICE TOGGLE
 -------------------------------- */
-function PriceToggle() {
+function PriceToggle({ value, onChange }: any) {
   return (
-    <div className="pb-4 text-sm md:text-base">
+    <div className="pb-4">
       <span className="font-medium mb-2 block">Preis anzeigen</span>
 
-      <div className="bg-gray-200 rounded-full p-1.5 flex gap-2 font-medium text-sm md:text-base">
-        <button className="px-3 py-2 rounded-full flex-1 bg-[#085EC4] text-white">
-          jährlich
-        </button>
-        <button className="px-3 py-2 rounded-full flex-1">monatlich</button>
+      <div className="bg-gray-200 rounded-full p-1.5 flex gap-2">
+        {["yearly", "monthly"].map((v) => (
+          <button
+            key={v}
+            onClick={() => onChange(v)}
+            className={`px-3 py-2 rounded-full flex-1 transition ${
+              value === v ? "bg-[#085EC4] text-white" : "bg-transparent"
+            }`}
+          >
+            {v === "yearly" ? "jährlich" : "monatlich"}
+          </button>
+        ))}
       </div>
     </div>
   );
@@ -93,23 +136,24 @@ function PriceToggle() {
 /* -----------------------------
    DURATION SLIDER
 -------------------------------- */
-function DurationSlider() {
-  const [showShorterDurations, setShowShorterDurations] = useState(true);
-  const [priceGuarantee, setPriceGuarantee] = useState(true);
-
+function DurationSlider({ filters, setFilters }: any) {
   return (
-    <div className="py-4 text-sm md:text-base">
+    <div className="py-4">
       <label className="font-medium block mb-2">Laufzeit in Monaten</label>
 
-      <MonthSlider />
+      <MonthSlider
+        value={filters.duration}
+        onChange={(duration: number) => setFilters({ ...filters, duration })}
+      />
 
-      <div className="mt-4 space-y-3 text-sm md:text-base">
+      {/* <div className="mt-4 space-y-3">
         <label className="flex items-center gap-2">
           <input
             type="checkbox"
-            checked={showShorterDurations}
-            onChange={(e) => setShowShorterDurations(e.target.checked)}
-            className="accent-blue-600"
+            checked={filters.showShorter}
+            onChange={(e) =>
+              setFilters({ ...filters, showShorter: e.target.checked })
+            }
           />
           Kürzere Laufzeiten anzeigen
         </label>
@@ -117,13 +161,14 @@ function DurationSlider() {
         <label className="flex items-center gap-2">
           <input
             type="checkbox"
-            checked={priceGuarantee}
-            onChange={(e) => setPriceGuarantee(e.target.checked)}
-            className="accent-blue-600"
+            checked={filters.priceGuarantee}
+            onChange={(e) =>
+              setFilters({ ...filters, priceGuarantee: e.target.checked })
+            }
           />
           Preisgarantie für Laufzeiten
         </label>
-      </div>
+      </div> */}
     </div>
   );
 }
@@ -131,34 +176,24 @@ function DurationSlider() {
 /* -----------------------------
    GREEN SELECTOR
 -------------------------------- */
-function GreenSelector() {
+function GreenSelector({ value, onChange }: any) {
   return (
-    <div className="flex flex-col gap-2 py-4 text-sm md:text-base">
-      <h4 className="font-medium mb-1">Grüne und Klimatarife</h4>
-
-      <SelectorItem>
-        <Leaf />
-        <span className="text-[#5F728B]">Öko (alle grünen Tarife)</span>
+    <div className="py-4 space-y-2">
+      <h4 className="font-medium">Grüne und Klimatarife</h4>
+      <SelectorItem active={value === "any"} onClick={() => onChange("any")}>
+        Egal
       </SelectorItem>
 
-      <SelectorItem>
-        <Leaf />
-        <span className="text-[#5F728B]">
-          Öko <span className="text-[#077A64] font-semibold">PLUS</span> (nur nachhaltig)
-        </span>
+      <SelectorItem active={value === "eco"} onClick={() => onChange("eco")}>
+        <Leaf /> Öko
       </SelectorItem>
 
-      <SelectorItem>
-        <span className="text-[#5F728B]">Egal</span>
+      <SelectorItem
+        active={value === "eco_plus"}
+        onClick={() => onChange("eco_plus")}
+      >
+        <Leaf /> Öko <span className="font-semibold text-[#077A64]">PLUS</span>
       </SelectorItem>
-    </div>
-  );
-}
-
-function SelectorItem({ children }:any) {
-  return (
-    <div className="px-3 py-2 flex items-center gap-2 bg-[#F9F9F9] rounded-md">
-      {children}
     </div>
   );
 }
@@ -166,43 +201,54 @@ function SelectorItem({ children }:any) {
 /* -----------------------------
    BONUS SELECTOR
 -------------------------------- */
-function BonusSelector() {
+function BonusSelector({ value, onChange }: any) {
   return (
-    <div className="flex flex-col gap-2 py-4 text-sm md:text-base">
-      <h4 className="font-medium mb-1">Boni</h4>
+    <div className="py-4 space-y-2">
+      <h4 className="font-medium">Boni</h4>
 
-      <SelectorItem>
-        <span className="text-[#5F728B]">Alle Boni</span>
+      <SelectorItem active={value === "all"} onClick={() => onChange("all")}>
+        Alle Boni
       </SelectorItem>
 
-      <SelectorItem>
-        <span className="text-[#5F728B]">Nur Sofortbonus</span>
+      <SelectorItem
+        active={value === "instant"}
+        onClick={() => onChange("instant")}
+      >
+        Nur Sofortbonus
       </SelectorItem>
 
-      <SelectorItem>
-        <span className="text-[#5F728B]">Kein Sofortbonus</span>
+      <SelectorItem active={value === "none"} onClick={() => onChange("none")}>
+        Kein Sofortbonus
       </SelectorItem>
     </div>
   );
 }
 
 /* -----------------------------
-   RESET BUTTON
+   SHARED SELECTOR ITEM
 -------------------------------- */
-function ResetFiltersButton() {
+function SelectorItem({ children, active, onClick }: any) {
   return (
     <button
-      className="
-        flex justify-center items-center gap-3 
-        border border-[#085EC4] text-[#085EC4]
-        hover:bg-[#085EC5] hover:text-white 
-        transition-all duration-300 
-        px-6 py-3 
-        rounded-3xl 
-        w-full mt-8 
-        font-medium
-        text-sm md:text-base
-      "
+      onClick={onClick}
+      className={`px-3 py-2 rounded-md flex items-center gap-2 w-full transition ${
+        active ? "bg-[#085EC4] text-white" : "bg-[#F9F9F9] text-[#5F728B]"
+      }`}
+    >
+      {children}
+    </button>
+  );
+}
+
+/* -----------------------------
+   RESET BUTTON
+-------------------------------- */
+function ResetFiltersButton({ onReset }: any) {
+  return (
+    <button
+      onClick={onReset}
+      className="mt-8 w-full px-6 py-3 rounded-3xl border border-[#085EC4]
+        text-[#085EC4] hover:bg-[#085EC4] hover:text-white transition"
     >
       Filter zurücksetzen
     </button>

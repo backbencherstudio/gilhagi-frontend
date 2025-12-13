@@ -69,11 +69,11 @@ export default function MonthlyConsumption() {
       {/* 2 cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
         <UsageCard
-          title="Electricity Usage"
-          usage="308kwh"
-          subtitle="This month"
+          title="Stromverbrauch"
+          usage="308 kWh"
+          subtitle="Diesen Monat"
         />
-        <UsageCard title="Water Usage" usage="1200L" subtitle="This week" />
+        <UsageCard title="Stromkosten" usage="€38,00" subtitle="Diesen Monat" />
       </div>
 
       {/* below cards */}
@@ -81,7 +81,9 @@ export default function MonthlyConsumption() {
         <h5 className="self-stretch text-[#1C2022]  text-xl font-medium leading-[130%] tracking-[0.1px] mb-6">
           Total Expenses
         </h5>
-        <h3 className="text-[#0EB580]  text-[32px] font-medium leading-[130%] mb-3">115 kWh lower</h3>
+        <h3 className="text-[#0EB580]  text-[32px] font-medium leading-[130%] mb-3">
+          115 kWh lower
+        </h3>
         <p className="text-[#5F728B]  text-sm font-medium leading-[140%] tracking-[0.07px]">
           This month comared to April
         </p>

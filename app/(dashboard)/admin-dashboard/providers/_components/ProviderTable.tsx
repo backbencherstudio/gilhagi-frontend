@@ -177,20 +177,20 @@ export default function ProviderTable() {
 
   return (
     <div className="mt-4">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col items-start md:flex-row  md:justify-between mb-6 gap-4">
         <TableTitle
           title="ALI-Anbieter"
           subtitle="Alle Ihre Tarifänderungen auf einen Blick"
         />
-        <div className="flex items-center gap-2.5">
+        <div className="flex  flex-col-reverse md:flex-row items-center gap-2.5">
           <input
             type="text"
             placeholder="Anbieter suchen..."
-            className="table-search-input"
+            className="table-search-input w-full"
           />
-          <Button onClick={handleAddProvider} className="primary-btn">
+          <Button onClick={handleAddProvider} className="primary-btn w-full md:w-auto">
             <Plus />
-            <span>Anbieter hinzufügen</span>
+            <span className="text-sm">Anbieter hinzufügen</span>
           </Button>
         </div>
       </div>

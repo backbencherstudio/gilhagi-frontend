@@ -1,11 +1,15 @@
-import { useState } from 'react';
+interface MonthSliderProps {
+  value: number; // duration in months
+  onChange: (duration: number) => void;
+}
 
-export default function MonthSlider() {
+export default function MonthSlider({ value, onChange }: MonthSliderProps) {
   const steps = [1, 3, 6, 12, 24];
-  const [currentStep, setCurrentStep] = useState(3); // Index 3 = 12 months
+  const currentStep = steps.indexOf(value) !== -1 ? steps.indexOf(value) : 3; // Default to 12 months if value not in steps
 
-  const handleSliderChange = (e:any) => {
-    setCurrentStep(parseInt(e.target.value));
+  const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newStepIndex = parseInt(e.target.value, 10);
+    onChange(steps[newStepIndex]);
   };
 
   return (

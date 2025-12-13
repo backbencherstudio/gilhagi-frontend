@@ -1,6 +1,5 @@
 import ComparisonSummaryCard from "./_components/MainServices/ComparisonSummaryCard";
 import FilterSidebar from "./_components/FilterSidebar/FilterSidebar";
-import SponsorSection from "./_components/MainServices/SponsorSection";
 import AllSection from "./_components/MainServices/AllSection";
 
 export const sponsorData = [
@@ -83,6 +82,7 @@ export const bestProviderData = [
 ];
 
 export default function page() {
+  const allTariffs = [...sponsorData, ...topMatchData, ...bestProviderData];
   return (
     <div className="w-full">
   <div
@@ -103,11 +103,7 @@ export default function page() {
     <div className="flex flex-col gap-6 w-full">
       <ComparisonSummaryCard />
 
-      <AllSection
-        sponsorData={sponsorData}
-        topMatchData={topMatchData}
-        bestProviderData={bestProviderData}
-      />
+      <AllSection tariffs={allTariffs} />
     </div>
   </div>
 </div>
