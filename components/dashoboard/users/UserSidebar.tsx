@@ -45,11 +45,11 @@ const navItems = [
     icon:  <MessagesSquare className="w-5 h-5" />,
     href: "/user-dashboard/support",
   },
-  {
-    name: "Einstellungen",
-    icon: <Settings className="w-5 h-5" />,
-    href: "/user-dashboard/settings",
-  },
+  // {
+  //   name: "Einstellungen",
+  //   icon: <Settings className="w-5 h-5" />,
+  //   href: "/user-dashboard/settings",
+  // },
 ];
 
 export default function UserSidebar({

@@ -39,11 +39,11 @@ const navItems = [
     href: "/admin-dashboard/notifications",
   },
 
-  {
-    name: "Einstellungen",
-    icon: <Settings className="w-5 h-5" />,
-    href: "/admin-dashboard/settings",
-  },
+  // {
+  //   name: "Einstellungen",
+  //   icon: <Settings className="w-5 h-5" />,
+  //   href: "/admin-dashboard/settings",
+  // },
 ];
 
 export default function AdminSidebar({
