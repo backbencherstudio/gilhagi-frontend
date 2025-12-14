@@ -31,7 +31,7 @@ export default function ContactSection() {
 
 const ContactInfo = () => {
   return (
-    <div className="w-full space-y-10 lg:space-y-14 max-w-full lg:max-w-[528px] flex-shrink-0">
+    <div className="w-full space-y-10 lg:space-y-14 max-w-full lg:max-w-[528px] shrink-0">
       <div>
         <h2 className="text-[#1C2022] text-3xl sm:text-4xl md:text-5xl font-semibold leading-[130%] mb-4">
           Kontaktieren Sie uns

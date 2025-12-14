@@ -5,7 +5,7 @@ import React from "react";
 
 const TariffDetails = ({ handleSwitch }: { handleSwitch: () => void }) => {
   return (
-    <div className="p-4 md:p-6 border border-[#E2E8EE] bg-[#F8FCFD] rounded-2xl">
+    <div className="p-1 md:p-6 border border-[#E2E8EE] bg-[#F8FCFD] rounded-2xl">
       
       {/* ===================== TOP SECTION ===================== */}
       <div className="divide-y">
@@ -27,26 +27,26 @@ const TariffDetails = ({ handleSwitch }: { handleSwitch: () => void }) => {
 
             {/* Perks */}
             <div className="flex flex-col gap-2">
-              <p className="flex items-center gap-3 text-[#5F728B] text-sm md:text-base leading-snug">
+              <p className="flex items-center gap-3 text-[#5F728B] text-[10px] md:text-base leading-snug">
                 <TickIcon className="text-[#0EB580]" /> Switch online for free
               </p>
-              <p className="flex items-center gap-3 text-[#5F728B] text-sm md:text-base leading-snug">
+              <p className="flex items-center gap-3 text-[#5F728B] text-[10px] md:text-base leading-snug">
                 <TickIcon className="text-[#0EB580]" /> No exchange fee
               </p>
             </div>
           </div>
 
           {/* RIGHT PRICING */}
-          <div className="text-right lg:min-w-[250px]">
+          <div className="text-right lg:min-w-[250px] ">
             <h2 className="text-[#1C2022] text-3xl md:text-[40px] font-semibold">
               €50.60
             </h2>
-            <p className="text-[#5F728B] text-sm md:text-lg">Average per month</p>
-            <p className="text-[#0EB580] text-sm md:text-lg font-medium">
+            <p className="text-[#5F728B] text-[10px] md:text-lg">Average per month</p>
+            <p className="text-[#0EB580] text-[10px] md:text-lg font-medium">
               270€ saved per year
             </p>
 
-            <Button onClick={handleSwitch} className="rounded-btn mt-4 md:mt-6">
+            <Button onClick={handleSwitch} className="rounded-btn mt-4 md:mt-6 ml-auto">
               Switch Now
             </Button>
           </div>
@@ -70,10 +70,10 @@ const TariffDetails = ({ handleSwitch }: { handleSwitch: () => void }) => {
         <div className="border rounded-lg bg-white overflow-hidden">
           
           {/* Table Header */}
-          <div className="bg-[#E4EBF2] px-4 py-3 font-medium">Preis</div>
+          <div className="bg-[#E4EBF2] px-1 md:px-4 py-3 font-medium">Preis</div>
 
           {/* Table Body */}
-          <div className="p-4 divide-y text-sm">
+          <div className="p-0 md:p-4 divide-y text-[10px]">
 
             <InfoRow2 label="Ihre Verbrauchszahl" value="für 2.500 kWh pro Jahr" />
             <InfoRow2 label="Energiepreis pro kWh" value="32,32 Cent pro kWh" />
@@ -111,13 +111,13 @@ const TariffDetails = ({ handleSwitch }: { handleSwitch: () => void }) => {
             />
 
             {/* Monthly payment estimate */}
-            <div className="py-4 space-y-4">
+            <div className="px-1 md:px-0 py-4 space-y-4">
               <div className="flex flex-col md:flex-row md:justify-between gap-2">
-                <p className="text-[#5F728B] text-sm">
+                <p className="text-[#5F728B] text-[10px]">
                   Geschätzte monatliche Zahlung{" "}
                   <span className="text-[10px]">(monatliche Kontobelastung)</span>
                 </p>
-                <p className="text-[#1C2022] text-sm">
+                <p className="text-[#1C2022] text-[10px]">
                   ungefähr 77,67 € pro Monat
                 </p>
               </div>
@@ -132,7 +132,7 @@ const TariffDetails = ({ handleSwitch }: { handleSwitch: () => void }) => {
                 </p>
               </div>
 
-              <p className="text-[#5F728B] text-sm">
+              <p className="text-[#5F728B] text-[10px]">
                 Bruttopreise gültig seit: 5. November 2025
               </p>
             </div>
@@ -147,13 +147,13 @@ const TariffDetails = ({ handleSwitch }: { handleSwitch: () => void }) => {
 export default TariffDetails;
 
 const InfoRow = ({ label, value }: any) => (
-  <div className="flex justify-between py-3 text-sm">
+  <div className="flex justify-between py-3 text-[10px]">
     <span className="text-[#5F728B]">{label}</span>
     <span className="text-[#1C2022] font-medium">{value}</span>
   </div>
 );
 const InfoRow2 = ({ label, value }: any) => (
-  <div className="flex justify-between py-3 text-sm px-1">
+  <div className="flex justify-between py-3 text-[10px] px-1">
     <span className="text-[#5F728B]">{label}</span>
     <span className="text-[#1C2022]">{value}</span>
   </div>
@@ -161,7 +161,7 @@ const InfoRow2 = ({ label, value }: any) => (
 const HighlightBlock = ({ rows }: any) => (
   <div className="p-3 bg-[#F5F9FD] space-y-2">
     {rows.map((row:any, i:number) => (
-      <div key={i} className="flex justify-between items-center text-sm">
+      <div key={i} className="flex justify-between items-center text-[10px]">
         <p className="text-[#1C2022] font-medium">{row.label}</p>
         <p className="text-[#1C2022] font-medium">{row.value}</p>
       </div>
@@ -169,7 +169,7 @@ const HighlightBlock = ({ rows }: any) => (
   </div>
 );
 const GreenEnergyBadge = ({ title }: { title: string }) => (
-  <span className="flex items-center gap-1 bg-[#D2F2E7] px-2.5 py-1.5 rounded-3xl text-[#00B57A] text-sm shrink-0">
+  <span className="flex items-center gap-1 bg-[#D2F2E7] px-2.5 py-1.5 rounded-3xl text-[#00B57A] text-[10px] shrink-0">
     <Leaf className="w-3 h-3" />
     {title}
   </span>

@@ -47,7 +47,7 @@ const featuresList: FeatureCardProps[] = [
 
 export default function FeatureSection() {
   return (
-    <section className="max-w-[1600px] mx-auto py-10 md:py-16 lg:py-24 space-y-8 md:space-y-14 px-4 md:px-8">
+    <section id="#about" className="max-w-[1600px] mx-auto py-10 md:py-16 lg:py-24 space-y-8 md:space-y-14 px-4 md:px-8">
       <div>
         <h2 className="max-w-full md:max-w-[754px] text-3xl sm:text-4xl md:text-5xl font-semibold leading-[130%] mb-4">
           Wir verändern die Art und Weise, wie Menschen Strom kaufen

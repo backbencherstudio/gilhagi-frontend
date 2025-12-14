@@ -10,6 +10,7 @@ type FormValues = {
   userType: "Privat" | "Gewerblich";
   postcode: string;
   city: string;
+  currentProviderName: string;
   annualConsumption: number;
 };
 
@@ -18,6 +19,7 @@ export default function CalculateForm() {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm<FormValues>({
     defaultValues: { userType: "Privat" },
   });
@@ -27,9 +29,12 @@ export default function CalculateForm() {
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log("Form Data:", data);
-    // alert("Form submitted! Check console for data.");
-    router.push("/services")
-    
+    router.push("/services");
+  };
+
+  const handleUserType = (type: "Privat" | "Gewerblich") => {
+    setUserType(type);
+    setValue("userType", type, { shouldValidate: true, shouldDirty: true });
   };
 
   return (
@@ -51,7 +56,7 @@ export default function CalculateForm() {
       <div className="flex gap-2.5 mb-5 md:mb-8 border border-[#D8DEE4] rounded-full p-1.5 md:w-[408px] w-full mx-auto">
         <button
           type="button"
-          onClick={() => setUserType("Privat")}
+          onClick={() => handleUserType("Privat")}
           className={`flex-1 py-2 px-3 rounded-full font-medium leading-[160%] tracking-[0.08px] transition focus:outline-none focus:ring-2 focus:ring-blue-700 cursor-pointer ${
             userType === "Privat"
               ? "bg-[#085EC4] text-white hover:bg-blue-700"
@@ -63,9 +68,10 @@ export default function CalculateForm() {
             Privat
           </span>
         </button>
+
         <button
           type="button"
-          onClick={() => setUserType("Gewerblich")}
+          onClick={() => handleUserType("Gewerblich")}
           className={`flex-1 py-2 px-4 rounded-full font-medium transition focus:outline-none focus:ring-2 focus:ring-blue-400 cursor-pointer ${
             userType === "Gewerblich"
               ? "bg-[#085EC4] text-white hover:bg-blue-700"
@@ -78,11 +84,13 @@ export default function CalculateForm() {
           </span>
         </button>
       </div>
-      {/* Hidden input for userType */}
-      <input type="hidden" value={userType} {...register("userType")} />
+
+      {/* keep it registered */}
+      <input type="hidden" {...register("userType")} />
 
       {/* Form Fields */}
       <div className="space-y-5">
+        {/* Row 1 */}
         <div className="flex flex-col md:flex-row gap-6">
           <div className="flex-1">
             <label
@@ -92,6 +100,7 @@ export default function CalculateForm() {
               Postleitzahl *
             </label>
             <input
+              id="postcode"
               type="text"
               placeholder="Ihre Postleitzahl"
               {...register("postcode", {
@@ -105,6 +114,7 @@ export default function CalculateForm() {
               </p>
             )}
           </div>
+
           <div className="flex-1">
             <label
               className="block text-[#2D2926] text-lg font-semibold leading-[160%]"
@@ -113,6 +123,7 @@ export default function CalculateForm() {
               Stadt *
             </label>
             <input
+              id="city"
               type="text"
               placeholder="Ihre Stadt"
               {...register("city", { required: "Stadt ist erforderlich" })}
@@ -123,39 +134,44 @@ export default function CalculateForm() {
             )}
           </div>
         </div>
+
+        {/* Row 2 */}
         <div className="flex flex-col md:flex-row gap-6">
           <div className="flex-1">
             <label
               className="block text-[#2D2926] text-lg font-semibold leading-[160%]"
-              htmlFor="postcode"
+              htmlFor="currentProviderName"
             >
-              Postleitzahl *
+              Aktueller Anbietername *
             </label>
             <input
+              id="currentProviderName"
               type="text"
-              placeholder="Ihre Postleitzahl"
-              {...register("postcode", {
-                required: "Postleitzahl ist erforderlich",
+              placeholder="Name Ihres aktuellen Anbieters"
+              {...register("currentProviderName", {
+                required: "Anbietername ist erforderlich",
               })}
               className="calculate-input"
             />
-            {errors.postcode && (
+            {errors.currentProviderName && (
               <p className="text-red-500 text-xs mb-2">
-                {errors.postcode.message}
+                {errors.currentProviderName.message}
               </p>
             )}
           </div>
+
           <div className="flex-1">
             <label
               className="block text-[#2D2926] text-lg font-semibold leading-[160%]"
-              htmlFor="city"
+              htmlFor="annualConsumption"
             >
-              Annual household consumption (kWh) *
+              Jährlicher Verbrauch in kWh *
             </label>
             <input
+              id="annualConsumption"
               className="calculate-input"
               type="number"
-              placeholder="z. B. 3500"
+              placeholder="z. B. 3500"
               {...register("annualConsumption", {
                 required: "Stromverbrauch ist erforderlich",
                 valueAsNumber: true,
