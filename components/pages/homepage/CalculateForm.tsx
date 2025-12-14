@@ -40,7 +40,7 @@ export default function CalculateForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="bg-white p-10 flex flex-col border border-[#D8DEE4] shadow-[0_52px_56px_0_rgba(6,23,44,0.30)] rounded-3xl md:w-[874px] gap-10 mx-auto"
+      className="bg-white p-6 md:p-10 flex flex-col border border-[#D8DEE4] shadow-[0_52px_56px_0_rgba(6,23,44,0.30)] rounded-3xl md:w-[874px] gap-10 mx-auto"
     >
       {/* Header */}
       <div>

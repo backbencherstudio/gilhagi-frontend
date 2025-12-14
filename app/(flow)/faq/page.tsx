@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import React from "react";
 
 const faqs = [
@@ -43,19 +44,31 @@ export default function Page() {
   };
 
   return (
-    <div className="mt-24 py-10 md:py-25 px-4 md:px-8 lg:px-0">
+    <div className="mt-24  md:py-25 px-4 md:px-8 lg:px-0">
       <div className="w-full max-w-[1160px] mx-auto border border-[#E2E8EE] bg-white rounded-3xl p-4 md:p-8">
-        <header className="mb-8 md:mb-10">
-          <p className="uppercase text-xs tracking-[0.2em] text-[#5F728B] mb-2">
-            Fragen & Antworten
-          </p>
-          <h1 className="text-2xl md:text-3xl font-semibold text-[#1C2022] mb-2">
-            Häufig gestellte Fragen
-          </h1>
-          <p className="text-sm md:text-base text-[#5F728B] leading-[140%]">
-            Alles, was Sie über den Wechsel zu einem neuen Stromtarif mit Switchify
-            wissen müssen – modern und übersichtlich im Akkordeon-Stil.
-          </p>
+        <header className="mb-8 md:mb-10 flex flex-col-reverse lg:flex-row lg:items-center gap-6">
+          <div>
+            <p className="uppercase text-xs tracking-[0.2em] text-[#5F728B] mb-2">
+              Fragen & Antworten
+            </p>
+            <h1 className="text-2xl md:text-3xl font-semibold text-[#1C2022] mb-2">
+              Häufig gestellte Fragen
+            </h1>
+            <p className="text-sm md:text-base text-[#5F728B] leading-[140%]">
+              Alles, was Sie über den Wechsel zu einem neuen Stromtarif mit Switchify
+              wissen müssen – modern und übersichtlich im Akkordeon-Stil.
+            </p>
+          </div>
+          <div className="w-full lg:w-[320px] shrink-0 flex justify-center lg:justify-end">
+            <Image
+              src="/q&a.png"
+              alt="Illustration für Fragen und Antworten"
+              width={320}
+              height={240}
+              className="w-full h-auto object-contain rounded-2xl"
+              priority
+            />
+          </div>
         </header>
 
         <div className="space-y-4 md:space-y-5">

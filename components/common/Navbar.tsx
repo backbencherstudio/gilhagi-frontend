@@ -20,7 +20,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex gap-1 items-center">
           <ThunderIcon />
-          <h1 className="text-xl font-bold">Switchfy</h1>
+          <h1 className="text-xl font-bold">Wechselsicher</h1>
         </Link>
 
         {/* Desktop Menu */}

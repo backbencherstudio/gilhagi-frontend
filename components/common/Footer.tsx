@@ -49,9 +49,11 @@ export default function Footer() {
           {/* Company Info */}
           <div className="w-full lg:w-[30%]">
             <Link href="/" className="inline-block">
-              <h2 className="text-white text-[32px] md:text-[36px] font-semibold mb-4">
-                Switchfy
-              </h2>
+              {/* <h2 className="text-white text-[32px] md:text-[36px] font-semibold mb-4">
+                Wechselsicher
+              </h2> */}
+              <Image className="w-70 mb-4" src={"Wechselsicher-logo2.svg"} alt="Wechselsicher Logo" width={150} height={40}>
+              </Image>
             </Link>
 
             <p className="text-[#C9D7E2] text-lg leading-relaxed">
@@ -180,7 +182,7 @@ export default function Footer() {
         {/* Copyright */}
         <div className="border-t border-[#5F728B] pt-6">
           <p className="text-[#9AB0C7] text-center text-lg">
-            © 2025-2026 Switchfy. Alle Rechte vorbehalten.
+            © 2025-2026 Wechselsicher. Alle Rechte vorbehalten.
           </p>
         </div>
       </div>

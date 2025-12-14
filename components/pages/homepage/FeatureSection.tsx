@@ -39,7 +39,7 @@ const featuresList: FeatureCardProps[] = [
   },
   {
     icon: "/features/fea_6.svg",
-    title: "Für Deutsche gemacht",
+    title: "Für Österreich gemacht",
     description:
       "Speziell für deutsche Haushalte und Energievorschriften entwickelt.",
   },

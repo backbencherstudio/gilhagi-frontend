@@ -136,7 +136,7 @@ const ContactForm = () => {
         <Checkbox className="w-5 h-5 mt-1 data-[state=checked]:bg-[#085EC4]" />
         <p className="text-[#707070] text-sm sm:text-base font-normal leading-[160%] tracking-[0.08px]">
           Ich stimme der Datenschutzrichtlinie zu und erkläre mich damit
-          einverstanden, von Switchfy kontaktiert zu werden.
+          einverstanden, von Wechselsicher kontaktiert zu werden.
         </p>
       </div>
 
