@@ -31,7 +31,7 @@ export default function ContactSection() {
 
 const ContactInfo = () => {
   return (
-    <div className="w-full space-y-10 lg:space-y-14 max-w-full lg:max-w-[528px] flex-shrink-0">
+    <div className="w-full space-y-10 lg:space-y-14 max-w-full lg:max-w-[528px] shrink-0">
       <div>
         <h2 className="text-[#1C2022] text-3xl sm:text-4xl md:text-5xl font-semibold leading-[130%] mb-4">
           Kontaktieren Sie uns
@@ -136,7 +136,7 @@ const ContactForm = () => {
         <Checkbox className="w-5 h-5 mt-1 data-[state=checked]:bg-[#085EC4]" />
         <p className="text-[#707070] text-sm sm:text-base font-normal leading-[160%] tracking-[0.08px]">
           Ich stimme der Datenschutzrichtlinie zu und erkläre mich damit
-          einverstanden, von Switchfy kontaktiert zu werden.
+          einverstanden, von Wechselsicher kontaktiert zu werden.
         </p>
       </div>
 

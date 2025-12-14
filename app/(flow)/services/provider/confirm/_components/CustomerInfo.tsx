@@ -1,6 +1,6 @@
 export default function CustomerInfo() {
   return (
-    <div className="gap-8 self-stretch border border-[#E2E8EE] [background:var(--BG-soft,#F8FCFD)] p-6 rounded-2xl border-solid space-y-8">
+    <div className="gap-8 self-stretch border border-[#E2E8EE] [background:var(--BG-soft,#F8FCFD)] p-4 sm:p-6 rounded-2xl border-solid space-y-8">
       <div className="pb-4 border-b">
         <h4>Ihre persönlichen Daten</h4>
       </div>
@@ -11,25 +11,16 @@ export default function CustomerInfo() {
         <InfoRow
           label="Die Rechnungsadresse ist identisch mit der Adresse des
             Stromanschlusses."
-          value="Ja, bitte übernehmen."
+          value="Ja, bitte A¬bernehmen."
         />
         <InfoRow label="Ihre E-Mail-Adresse" value="john@example.com" />
         <InfoRow label="Geburtsdatum" value="28. August 2003" />
       </div>
-
- 
     </div>
   );
 }
 
-
-
-
-
-
 // ============================================================
-
-
 
 interface InfoRowProps {
   label: string;
@@ -38,12 +29,12 @@ interface InfoRowProps {
 
 export function InfoRow({ label, value }: InfoRowProps) {
   return (
-    <div className="flex gap-40">
-      <p className="max-w-[230px] w-[230px] text-[#5F728B] text-sm font-medium leading-[140%] tracking-[0.07px]">
+    <div className="flex flex-col gap-1 sm:flex-row sm:gap-10">
+      <p className="w-full sm:max-w-[230px] sm:w-[230px] text-[#5F728B] text-sm font-medium leading-[140%] tracking-[0.07px]">
         {label}
       </p>
 
-      <p className="text-[#1C2022] text-base font-medium leading-[140%]">
+      <p className="text-[#1C2022] text-base font-medium leading-[140%] overflow-wrap">
         {value}
       </p>
     </div>

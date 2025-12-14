@@ -6,7 +6,7 @@ export default function page() {
   
 
   return (
-    <div className="">
+    <div className="p-2 md:p-0">
       <InformationForm />
     </div>
   );

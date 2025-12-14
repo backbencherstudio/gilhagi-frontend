@@ -1,6 +1,5 @@
 "use client";
 
-import Leaf from "@/components/icons/LeafIcon";
 import RatingStar from "@/components/icons/RatingStar";
 import { Info } from "lucide-react";
 import { useRouter } from "next/navigation";

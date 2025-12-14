@@ -33,7 +33,7 @@ export default function InformationForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="w-full max-w-[1160px] mx-auto border border-[#E2E8EE] [background:#FFF] backdrop-blur-[7.4px] p-4 md:p-8 rounded-3xl "
+      className="w-full max-w-[1160px] mx-auto border border-[#E2E8EE] [background:#FFF] backdrop-blur-[7.4px] p-3 md:p-8 rounded-3xl "
     >
       {/* Title */}
       <h2 className="text-xl font-semibold text-[#1C2022] mb-6">
@@ -43,7 +43,7 @@ export default function InformationForm() {
       {/* Grid Layout */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Anrede */}
-        <div className="flex flex-col space-y-2">
+        <div className=" md:col-span-2 flex flex-col space-y-2">
           <Label className="text-sm font-medium">
             Anrede <span className="text-red-500">*</span>
           </Label>
@@ -53,7 +53,11 @@ export default function InformationForm() {
             control={control}
             rules={{ required: "Bitte wählen Sie eine Anrede aus" }}
             render={({ field }) => (
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select
+                value={field.value ?? ""}
+                onValueChange={(val) => field.onChange(val)}
+            
+              >
                 <SelectTrigger className="px-4 py-6 w-full rounded-lg border-[#D6DEE6] bg-white">
                   <SelectValue placeholder="Bitte wählen Sie eine Anrede aus" />
                 </SelectTrigger>
@@ -67,41 +71,14 @@ export default function InformationForm() {
             )}
           />
 
-          {/* ERROR MESSAGE */}
           {errors.anrede && (
             <p className="text-red-500 text-sm">
               {String(errors.anrede.message)}
             </p>
           )}
         </div>
-        {/* Titel */}
 
-        <div className="flex flex-col space-y-2">
-          <Label className="text-sm font-medium">Titel *</Label>
-          <Controller
-            name="titel"
-            control={control}
-            rules={{ required: "title is req" }}
-            render={({ field }) => (
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <SelectTrigger className="px-5 py-6 rounded-lg border-[#D6DEE6] bg-white w-full">
-                  <SelectValue placeholder="Titel (optional)" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="herr">Herr</SelectItem>
-                  <SelectItem value="frau">Frau</SelectItem>
-                  <SelectItem value="divers">Divers</SelectItem>
-                </SelectContent>
-              </Select>
-            )}
-          />
-          {/* ERROR MESSAGE */}
-          {errors.titel && (
-            <p className="text-red-500 text-sm">
-              {String(errors.titel.message)}
-            </p>
-          )}
-        </div>
+      
 
         {/* Vorname */}
         <div className="flex flex-col space-y-2">

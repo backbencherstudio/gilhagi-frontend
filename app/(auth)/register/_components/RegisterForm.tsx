@@ -66,7 +66,7 @@ const RegisterForm = () => {
 
         <p className="text-[#707070] text-sm md:text-base leading-[160%] flex-1">
           Ich stimme der Datenschutzrichtlinie zu und erkläre mich damit
-          einverstanden, von Switchfy kontaktiert zu werden.
+          einverstanden, von Wechselsicher kontaktiert zu werden.
         </p>
       </div>
 

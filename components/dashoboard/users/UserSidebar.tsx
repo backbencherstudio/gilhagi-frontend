@@ -99,7 +99,7 @@ export default function UserSidebar({
         {/* Logo Section */}
         <div className="px-6 pb-6 pt-[27px] border-b ">
           <div>
-            <img src="/switchfy-logo.svg" alt="switchfy-logo" />
+            <img src="/Wechselsicher-logo2.svg" alt="Wechselsicher-logo2" />
           </div>
 
           <p className="text-[#5F728B]  text-sm font-normal leading-[130%] tracking-[0.07px]">
