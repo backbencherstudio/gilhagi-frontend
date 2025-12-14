@@ -105,14 +105,14 @@ export default function Footer() {
                 <li className="text-[#F2F9FF] text-xl font-semibold mb-5">
                   Unternehmen
                 </li>
-                <li className="mb-2">
+                {/* <li className="mb-2">
                   <Link
                     href="/about"
                     className="text-[#C9D7E2] text-lg hover:text-white transition"
                   >
                     Über
                   </Link>
-                </li>
+                </li> */}
                 <li className="mb-2">
                   <Link
                     href="#how-it-works"
@@ -166,7 +166,7 @@ export default function Footer() {
                 </li>
                 <li className="mb-2">
                   <Link
-                    href="/datenschutz"
+                    href="/privacy-policy"
                     className="text-[#C9D7E2] text-lg hover:text-white transition"
                   >
                     Datenschutzrichtlinie

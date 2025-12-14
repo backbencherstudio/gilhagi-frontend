@@ -34,7 +34,7 @@ export function InfoRow({ label, value }: InfoRowProps) {
         {label}
       </p>
 
-      <p className="text-[#1C2022] text-base font-medium leading-[140%] break-words">
+      <p className="text-[#1C2022] text-base font-medium leading-[140%] overflow-wrap">
         {value}
       </p>
     </div>
