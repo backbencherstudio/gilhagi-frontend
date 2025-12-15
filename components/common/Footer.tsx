@@ -182,7 +182,7 @@ export default function Footer() {
         {/* Copyright */}
         <div className="border-t border-[#5F728B] pt-6">
           <p className="text-[#9AB0C7] text-center text-lg">
-            © 2025-2026 Wechselsicher. Alle Rechte vorbehalten.
+            © 2025-2026 Wechselsicher GmbH. Alle Rechte vorbehalten.
           </p>
         </div>
       </div>

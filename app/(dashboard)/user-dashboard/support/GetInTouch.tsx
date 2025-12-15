@@ -18,7 +18,7 @@ export default function GetInTouch() {
       <div className="space-y-4">
         <InfoCard label="Mobil" value="+49 123 456 7890" type="phone" />
         <InfoCard label="E-mail" value="support@yourcompany.com" type="email" />
-        <InfoCard label="Standorte" value="Standorte" type="location" />
+        {/* <InfoCard label="Standorte" value="Standorte" type="location" /> */}
       </div>
     </div>
   );

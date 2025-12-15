@@ -24,7 +24,7 @@ export default function MonthlyConsumption() {
     <div className="section-div">
       {/* title and filter */}
       <div className="flex flex-wrap gap-2 items-center justify-between">
-        <h3>Monthly Consumption</h3>
+        <h3>Jährlicher Verbrauch</h3>
 
         {/* Month Dropdown */}
         <div className="relative">
@@ -77,15 +77,17 @@ export default function MonthlyConsumption() {
       </div>
 
       {/* below cards */}
-      <div className=" border border-[#E9E9EA] [background:var(--Background-White,#FFF)] shadow-[0_1px_2px_0_rgba(10,13,18,0.05)] p-5 rounded-lg border-solid">
-        <h5 className="self-stretch text-[#1C2022]  text-xl font-medium leading-[130%] tracking-[0.1px] mb-6">
-          Total Expenses
+      <div className="border border-[#E9E9EA] bg-white shadow-[0_1px_2px_0_rgba(10,13,18,0.05)] p-5 rounded-lg border-solid">
+        <h5 className="self-stretch text-[#1C2022] text-xl font-medium leading-[130%] tracking-[0.1px] mb-6">
+          Gesamtausgaben
         </h5>
-        <h3 className="text-[#0EB580]  text-[32px] font-medium leading-[130%] mb-3">
-          115 kWh lower
+
+        <h3 className="text-[#0EB580] text-[32px] font-medium leading-[130%] mb-3">
+          115 kWh weniger
         </h3>
-        <p className="text-[#5F728B]  text-sm font-medium leading-[140%] tracking-[0.07px]">
-          This month comared to April
+
+        <p className="text-[#5F728B] text-sm font-medium leading-[140%] tracking-[0.07px]">
+          Diesen Monat im Vergleich zu April
         </p>
       </div>
     </div>

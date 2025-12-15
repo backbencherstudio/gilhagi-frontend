@@ -41,19 +41,19 @@ const featuresList: FeatureCardProps[] = [
     icon: "/features/fea_6.svg",
     title: "Für Österreich gemacht",
     description:
-      "Speziell für deutsche Haushalte und Energievorschriften entwickelt.",
+      "Speziell für österreichische Haushalte und Energievorschriften entwickelt.",
   },
 ];
 
 export default function FeatureSection() {
   return (
-    <section id="#about" className="max-w-[1600px] mx-auto py-10 md:py-16 lg:py-24 space-y-8 md:space-y-14 px-4 md:px-8">
-      <div>
-        <h2 className="max-w-full md:max-w-[754px] text-3xl sm:text-4xl md:text-5xl font-semibold leading-[130%] mb-4">
+    <section id="#about" className="max-w-[1600px] mx-auto py-10 md:py-16 lg:py-24 space-y-8 md:space-y-14 px-4 md:px-8 not-first:">
+      <div className="">
+        <h2 className="max-w-full md:max-w-[754px] text-3xl sm:text-4xl md:text-5xl font-semibold leading-[130%] mb-4 mx-auto text-center">
           Wir verändern die Art und Weise, wie Menschen Strom kaufen
         </h2>
 
-        <p className="md:max-w-[559px] text-[#5F728B] text-base sm:text-lg md:text-lg font-medium leading-[160%]">
+        <p className="md:max-w-[559px] text-[#5F728B] text-base sm:text-lg md:text-lg font-medium leading-[160%] text-center mx-auto">
           Geben Sie einfach Ihre Postleitzahl und Ihren Jahresverbrauch ein, um
           zu sehen, wie viel Sie sparen können
         </p>

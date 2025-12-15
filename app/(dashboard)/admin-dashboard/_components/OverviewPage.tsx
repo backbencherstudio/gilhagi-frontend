@@ -3,6 +3,7 @@ import StatsCards from "./StatsCards";
 import { MonthlyChart } from "./MonthlyGraph";
 import RecentActivity from "./RecentActivityTable";
 import HeadingTitle from "@/components/dashoboard/HeadingTittle";
+import CancellationWindowsTable from "./CancellationWindowsTable";
 
 const OverViewContent = () => {
   return (
@@ -31,6 +32,7 @@ export default function OveviewPage() {
       <OverViewContent />
       <StatsCards />
       <MonthlyChart />
+      <CancellationWindowsTable />
       <RecentActivity />
     </div>
   );
