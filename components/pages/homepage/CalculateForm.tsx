@@ -142,7 +142,7 @@ export default function CalculateForm() {
               className="block text-[#2D2926] text-lg font-semibold leading-[160%]"
               htmlFor="currentProviderName"
             >
-              Aktueller Anbietername *
+              Aktueller anbieter *
             </label>
             <input
               id="currentProviderName"

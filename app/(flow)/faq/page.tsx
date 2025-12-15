@@ -5,14 +5,14 @@ import React from "react";
 
 const faqs = [
   {
-    question: "Was ist Switchify und wie funktioniert es?",
+    question: "Was ist Wechselsicher und wie funktioniert es?",
     answer:
-      "Switchify hilft Ihnen dabei, schnell und unkompliziert den passenden Stromtarif zu finden und zu Ihrem neuen Anbieter zu wechseln. Sie wählen einen Tarif, geben Ihre Daten ein und bestätigen – wir kümmern uns um den Rest des Prozesses mit dem neuen Anbieter.",
+      "Wechselsicher hilft Ihnen dabei, schnell und unkompliziert den passenden Stromtarif zu finden und zu Ihrem neuen Anbieter zu wechseln. Sie wählen einen Tarif, geben Ihre Daten ein und bestätigen – wir kümmern uns um den Rest des Prozesses mit dem neuen Anbieter.",
   },
   {
-    question: "Kostet mich der Wechsel über Switchify etwas?",
+    question: "Kostet mich der Wechsel über Wechselsicher etwas?",
     answer:
-      "Die Nutzung von Switchify ist für Sie als Kundin oder Kunde in der Regel kostenlos. Wir erhalten im Regelfall eine Vergütung vom Energieanbieter. An Ihrem Preis ändert das nichts – Sie zahlen nur den vereinbarten Tarif beim Anbieter.",
+      "Die Nutzung von Wechselsicher ist für Sie als Kundin oder Kunde in der Regel kostenlos. Wir erhalten im Regelfall eine Vergütung vom Energieanbieter. An Ihrem Preis ändert das nichts – Sie zahlen nur den vereinbarten Tarif beim Anbieter.",
   },
   {
     question: "Muss ich meinen alten Stromvertrag selbst kündigen?",
@@ -25,7 +25,7 @@ const faqs = [
       "Der Beginn Ihres neuen Stromtarifs hängt von der Kündigungsfrist Ihres bisherigen Vertrags und der Bestätigung des neuen Anbieters ab. Sobald der Wechsel abgeschlossen ist, erhalten Sie eine schriftliche Bestätigung mit dem genauen Startdatum Ihres neuen Tarifs.",
   },
   {
-    question: "Sind meine persönlichen Daten bei Switchify sicher?",
+    question: "Sind meine persönlichen Daten bei Wechselsicher sicher?",
     answer:
       "Ja. Wir verwenden Ihre Daten ausschließlich zur Abwicklung des Tarifwechsels und – sofern Sie zugestimmt haben – zur Zusendung relevanter Informationen. Ihre Daten werden gemäß unserer Datenschutzrichtlinie verarbeitet und nicht ohne rechtliche Grundlage an Dritte weitergegeben.",
   },
@@ -55,7 +55,7 @@ export default function Page() {
               Häufig gestellte Fragen
             </h1>
             <p className="text-sm md:text-base text-[#5F728B] leading-[140%]">
-              Alles, was Sie über den Wechsel zu einem neuen Stromtarif mit Switchify
+              Alles, was Sie über den Wechsel zu einem neuen Stromtarif mit Wechselsicher
               wissen müssen – modern und übersichtlich im Akkordeon-Stil.
             </p>
           </div>

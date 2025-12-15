@@ -11,7 +11,7 @@ export default function CustomerInfo() {
         <InfoRow
           label="Die Rechnungsadresse ist identisch mit der Adresse des
             Stromanschlusses."
-          value="Ja, bitte A¬bernehmen."
+          value="Ja, bitte übernehmen."
         />
         <InfoRow label="Ihre E-Mail-Adresse" value="john@example.com" />
         <InfoRow label="Geburtsdatum" value="28. August 2003" />
