@@ -6,7 +6,7 @@ import "./ElectricityGauge.css"; // We'll create this CSS file
 const ElectricityGauge = ({
   percentage = 80,
   minLabel = "0kwh",
-  maxLabel = "5000kwh",
+  maxLabel = "4000kwh",
 }) => {
   const progressBarRef = useRef(null);
 
@@ -71,7 +71,7 @@ const ElectricityGauge = ({
 
       <div className="labels">
         <span className="label">{minLabel}</span>
-        <span className="label">{maxLabel}</span>
+        <span className="label"> ~ {maxLabel}</span>
       </div>
     </div>
   );

@@ -29,16 +29,16 @@ const navItems = [
     icon: <FileText className="w-5 h-5" />,
     href: "/user-dashboard/documents",
   },
-  {
-    name: "Anbieterliste",
-    icon: <Zap className="w-5 h-5" />,
-    href: "/user-dashboard/provider-list",
-  },
-  {
-    name: "Bestellverlauf",
-    icon: <History className="w-5 h-5" />,
-    href: "/user-dashboard/order-history",
-  },
+  // {
+  //   name: "Anbieterliste",
+  //   icon: <Zap className="w-5 h-5" />,
+  //   href: "/user-dashboard/provider-list",
+  // },
+  // {
+  //   name: "Bestellverlauf",
+  //   icon: <History className="w-5 h-5" />,
+  //   href: "/user-dashboard/order-history",
+  // },
  
   {
     name: "Unterstützung",
@@ -95,7 +95,7 @@ export default function UserSidebar({
         {/* Logo Section */}
         <div className="px-6 pb-6 pt-[27px] border-b ">
           <div>
-            <img src="/Wechselsicher-logo2.svg" alt="Wechselsicher-logo2" />
+            <img src="/Wechselsicher-logo3.svg" alt="Wechselsicher-logo" />
           </div>
 
           <p className="text-[#5F728B]  text-sm font-normal leading-[130%] tracking-[0.07px]">
