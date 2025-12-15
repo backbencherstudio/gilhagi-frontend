@@ -52,7 +52,7 @@ export default function Footer() {
               {/* <h2 className="text-white text-[32px] md:text-[36px] font-semibold mb-4">
                 Wechselsicher
               </h2> */}
-              <Image className="w-70 mb-4" src={"Wechselsicher-logo2.svg"} alt="Wechselsicher Logo" width={150} height={40}>
+              <Image className="w-70 mb-4" src={"/Wechselsicher-logo2.svg"} alt="Wechselsicher Logo" width={150} height={40}>
               </Image>
             </Link>
 

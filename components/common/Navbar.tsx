@@ -1,19 +1,34 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import ThunderIcon from "../icons/ThunderIcon";
 import { usePathname, useRouter } from "next/navigation";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
   const isHome = pathname === "/";
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 10;
+      if (isScrolled !== scrolled) {
+        setScrolled(isScrolled);
+      }
+    };
+
+    document.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      document.removeEventListener("scroll", handleScroll);
+    };
+  }, [scrolled]);
+
   return (
     <nav
-      className={`absolute top-0 left-0 py-4 z-50 w-full  border-b border-gray-400/50 shadow backdrop-blur-md ${
-        isHome ? "bg-[#F2F6F50D]" : "bg-[#1A3D67]"
+      className={`fixed top-0 left-0 right-0 py-4 z-50 w-full border-b border-gray-400/50 shadow backdrop-blur-md transition-colors duration-300 ${
+        scrolled || !isHome ? "bg-[#0B2839]" : "bg-[#F2F6F50D]"
       }`}
     >
       <div className="w-full flex justify-between items-center max-w-[1320px] mx-auto px-4 text-white">

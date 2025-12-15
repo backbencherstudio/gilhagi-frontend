@@ -1,6 +1,19 @@
-import React from "react";
+"use client";
+
+import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      router.push("/services/provider/order-status");
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [router]);
+
   return (
     <>
       <div className="flex items-center justify-center px-4">
@@ -16,9 +29,7 @@ export default function Page() {
           {/* Plane Animation */}
           <img
             className="inline-block"
-            style={{
-              animation: "planeFloat 1s ease-in-out infinite",
-            }}
+            style={{ animation: "planeFloat 1s ease-in-out infinite" }}
             src="/plane.svg"
             alt=""
           />
@@ -30,7 +41,7 @@ export default function Page() {
         </div>
       </div>
 
-      {/* ---- Animation BELOW Component ---- */}
+      {/* Animation */}
       <style>
         {`
           @keyframes planeFloat {

@@ -53,7 +53,7 @@ const ConfirmationPage = () => {
         <div className="bg-blue-50 border border-blue-100 rounded-2xl p-6 md:p-8 mb-8">
           <div className="flex items-start">
             <svg 
-              className="w-6 h-6 text-blue-600 mt-0.5 mr-3 flex-shrink-0" 
+              className="w-6 h-6 text-blue-600 mt-0.5 mr-3 shrink-0" 
               fill="none" 
               stroke="currentColor" 
               viewBox="0 0 24 24"
@@ -94,7 +94,7 @@ const ConfirmationPage = () => {
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link 
-            href="/dashboard" 
+            href="/user-dashboard" 
             className="inline-flex items-center justify-center px-6 py-3 bg-emerald-600 text-white font-medium rounded-lg hover:bg-emerald-700 transition-colors"
           >
             Zum Dashboard
