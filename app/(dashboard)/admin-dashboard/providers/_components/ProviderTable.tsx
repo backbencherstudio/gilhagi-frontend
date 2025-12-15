@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -86,8 +86,29 @@ const initialData = [
   },
 ];
 
-export default function ProviderTable() {
-  const [providers, setProviders] = useState(initialData);
+type ProviderRow = (typeof initialData)[number];
+
+export default function ProviderTable({ postalCode }: { postalCode: string }) {
+  const [providersByPostal, setProvidersByPostal] = useState<
+    Record<string, ProviderRow[]>
+  >({
+    "1010": initialData,
+    "1020": [
+      {
+        ID: "PRV201",
+        Anbietername: "Wien Energie",
+        Servicegebiete: "Wien 1020",
+        Tarif: 4,
+        AktiveNutzer: 180,
+        Erneuerbar: "Ja",
+        Status: "Aktiv",
+      },
+    ],
+    "1030": [],
+    "1040": [],
+    "1050": [],
+  });
+  const providers = providersByPostal[postalCode] || [];
   const [modalState, setModalState] = useState<{
     isOpen: boolean;
     mode: "add" | "edit" | "view";
@@ -134,43 +155,51 @@ export default function ProviderTable() {
     });
   };
 
- const handleModalSubmit = async (data: ProviderFormData) => {
-  if (modalState.mode === "add") {
-    const newId = `PRV${String(providers.length + 1).padStart(3, "0")}`;
-    
-    // Map form data to table data structure
-    const newProvider = {
-      ...data,
-      ID: newId,
-      Erneuerbar: data.Erneuerbar ? "Ja" : "Nein",
-      Status: data.AktiverProvider ? "Aktiv" : "Inaktiv",
-      Tarif: 0, // Add default values for missing fields
-      AktiveNutzer: 0, // Add default values for missing fields
-    };
-    
-    setProviders([...providers, newProvider]);
-  } else if (modalState.mode === "edit" && modalState.selectedProvider) {
-    // Update existing provider while keeping the original values for missing fields
-    const updatedProviders = providers.map((provider) =>
-      provider.ID === modalState.selectedProvider.ID
-        ? { 
-            ...modalState.selectedProvider, // Keep original data
-            ...data, // Update form fields
-            Erneuerbar: data.Erneuerbar ? "Ja" : "Nein",
-            Status: data.AktiverProvider ? "Aktiv" : "Inaktiv",
-          }
-        : provider
-    );
-    setProviders(updatedProviders);
-  }
-};
+  const handleModalSubmit = async (data: ProviderFormData) => {
+    if (modalState.mode === "add") {
+      const current = providersByPostal[postalCode] || [];
+      const newId = `PRV${String(current.length + 1).padStart(3, "0")}`;
+      const newProvider = {
+        ...data,
+        ID: newId,
+        Erneuerbar: data.Erneuerbar ? "Ja" : "Nein",
+        Status: data.AktiverProvider ? "Aktiv" : "Inaktiv",
+        Tarif: 0,
+        AktiveNutzer: 0,
+      } as ProviderRow;
+      setProvidersByPostal({
+        ...providersByPostal,
+        [postalCode]: [...current, newProvider],
+      });
+    } else if (modalState.mode === "edit" && modalState.selectedProvider) {
+      const current = providersByPostal[postalCode] || [];
+      const updated = current.map((provider) =>
+        provider.ID === modalState.selectedProvider.ID
+          ? {
+              ...modalState.selectedProvider,
+              ...data,
+              Erneuerbar: data.Erneuerbar ? "Ja" : "Nein",
+              Status: data.AktiverProvider ? "Aktiv" : "Inaktiv",
+            }
+          : provider
+      );
+      setProvidersByPostal({
+        ...providersByPostal,
+        [postalCode]: updated,
+      });
+    }
+  };
 
   const handleDeleteConfirm = () => {
     if (deleteModalState.provider) {
-      const updatedProviders = providers.filter(
+      const current = providersByPostal[postalCode] || [];
+      const updated = current.filter(
         (provider) => provider.ID !== deleteModalState.provider.ID
       );
-      setProviders(updatedProviders);
+      setProvidersByPostal({
+        ...providersByPostal,
+        [postalCode]: updated,
+      });
       setDeleteModalState({ isOpen: false });
     }
   };
@@ -180,7 +209,7 @@ export default function ProviderTable() {
       <div className="flex flex-col items-start md:flex-row  md:justify-between mb-6 gap-4">
         <TableTitle
           title="ALI-Anbieter"
-          subtitle="Alle Ihre Tarifänderungen auf einen Blick"
+          subtitle={`PLZ ${postalCode} – Anbieter & Empfehlungen`}
         />
         <div className="flex  flex-col-reverse md:flex-row items-center gap-2.5">
           <input
@@ -188,7 +217,10 @@ export default function ProviderTable() {
             placeholder="Anbieter suchen..."
             className="table-search-input w-full"
           />
-          <Button onClick={handleAddProvider} className="primary-btn w-full md:w-auto">
+          <Button
+            onClick={handleAddProvider}
+            className="primary-btn w-full md:w-auto"
+          >
             <Plus />
             <span className="text-sm">Anbieter hinzufügen</span>
           </Button>

@@ -87,8 +87,27 @@ const initialData = [
   },
 ];
 
-export default function TariffTable() {
-  const [tariffs, setTariffs] = useState(initialData);
+type TariffRow = (typeof initialData)[number]
+
+export default function TariffTable({ postalCode }: { postalCode: string }) {
+  const [tariffsByPostal, setTariffsByPostal] = useState<Record<string, TariffRow[]>>({
+    "1010": initialData,
+    "1020": [
+      {
+        ID: "TAR201",
+        Provider: "Wien Energie",
+        TariffName: "Öko Fair",
+        PricePerkWh: 0.31,
+        BaseFee: "€10.90/month",
+        Bonus: "€60",
+        PriceGuarantee: "12 months",
+      },
+    ],
+    "1030": [],
+    "1040": [],
+    "1050": [],
+  });
+  const tariffs = tariffsByPostal[postalCode] || [];
   const [modalState, setModalState] = useState<{
     isOpen: boolean;
     mode: "add" | "edit" | "view";
@@ -138,28 +157,40 @@ export default function TariffTable() {
 
   const handleModalSubmit = async (data: any) => {
     if (modalState.mode === "add") {
-      const newId = `TAR${String(tariffs.length + 1).padStart(3, "0")}`;
+      const current = tariffsByPostal[postalCode] || [];
+      const newId = `TAR${String(current.length + 1).padStart(3, "0")}`;
       const newTariff = {
         ...data,
         ID: newId,
-      };
-      setTariffs([...tariffs, newTariff]);
+      } as TariffRow;
+      setTariffsByPostal({
+        ...tariffsByPostal,
+        [postalCode]: [...current, newTariff],
+      });
     } else if (modalState.mode === "edit" && modalState.selectedTariff) {
-      const updatedTariffs = tariffs.map((tariff) =>
+      const current = tariffsByPostal[postalCode] || [];
+      const updated = current.map((tariff) =>
         tariff.ID === modalState.selectedTariff.ID
           ? { ...data, ID: modalState.selectedTariff.ID }
           : tariff
       );
-      setTariffs(updatedTariffs);
+      setTariffsByPostal({
+        ...tariffsByPostal,
+        [postalCode]: updated,
+      });
     }
   };
 
   const handleDeleteConfirm = () => {
     if (deleteModalState.tariff) {
-      const updatedTariffs = tariffs.filter(
+      const current = tariffsByPostal[postalCode] || [];
+      const updated = current.filter(
         (tariff) => tariff.ID !== deleteModalState.tariff.ID
       );
-      setTariffs(updatedTariffs);
+      setTariffsByPostal({
+        ...tariffsByPostal,
+        [postalCode]: updated,
+      });
       setDeleteModalState({ isOpen: false });
     }
   };
@@ -168,8 +199,8 @@ export default function TariffTable() {
     <div className="mt-4">
       <div className="flex flex-col items-start md:flex-row  md:justify-between mb-6 gap-4">
         <TableTitle
-          title="Tariff Table"
-          subtitle="All available energy tariffs at a glance"
+          title="Tarifliste"
+          subtitle={`PLZ ${postalCode} – Empfohlene Tarife`}
         />
 
         <div className="flex  flex-col-reverse md:flex-row items-start jb md:items-center gap-2.5 w-full md:w-auto">

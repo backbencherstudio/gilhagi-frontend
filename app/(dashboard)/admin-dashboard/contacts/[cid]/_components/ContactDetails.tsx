@@ -14,6 +14,7 @@ import {
 import ImagePreviewModal from "./ImagePreviewModal";
 import HeadingTitle from "@/components/dashoboard/HeadingTittle";
 import { useRouter } from "next/navigation";
+import { Input } from "@/components/ui/input";
 
 const mockUserData = {
   name: "Peter Weber",
@@ -73,6 +74,10 @@ export default function ContractDetailsPage() {
   const [approvalStatus, setApprovalStatus] = useState<
     "pending" | "approved" | "rejected"
   >("pending");
+  const [windowStart, setWindowStart] = useState<string>("");
+  const [windowEnd, setWindowEnd] = useState<string>("");
+  const [renewalDate, setRenewalDate] = useState<string>("");
+  const [saveStatus, setSaveStatus] = useState<"idle" | "saved">("idle");
 
   const handleApprove = () => {
     setApprovalStatus("approved");
@@ -80,6 +85,10 @@ export default function ContractDetailsPage() {
 
   const handleReject = () => {
     setApprovalStatus("rejected");
+  };
+  const handleSaveDates = () => {
+    setSaveStatus("saved");
+    setTimeout(() => setSaveStatus("idle"), 1500);
   };
 
   return (
@@ -161,6 +170,49 @@ export default function ContractDetailsPage() {
               <p className="text-sm text-muted-foreground mb-1">End Date:</p>
               <p className="font-semibold">{mockUserData.endDate}</p>
             </div>
+          </div>
+        </Card>
+
+        <Card className="mb-8 p-4">
+          <div className="mb-6">
+            <h3 className="text-lg font-semibold">Cancellation Window</h3>
+            <p className="text-sm text-muted-foreground">
+              Set the cancellation period and optional renewal date
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="flex flex-col gap-2">
+              <p className="text-sm text-muted-foreground">Window Start</p>
+              <Input
+                type="date"
+                value={windowStart}
+                onChange={(e) => setWindowStart(e.target.value)}
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <p className="text-sm text-muted-foreground">Window End</p>
+              <Input
+                type="date"
+                value={windowEnd}
+                onChange={(e) => setWindowEnd(e.target.value)}
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <p className="text-sm text-muted-foreground">Renewal Date (optional)</p>
+              <Input
+                type="date"
+                value={renewalDate}
+                onChange={(e) => setRenewalDate(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="mt-6 flex items-center gap-3">
+            <Button onClick={handleSaveDates} className="primary-btn">
+              Save
+            </Button>
+            {saveStatus === "saved" && (
+              <span className="text-green-600 text-sm">Saved</span>
+            )}
           </div>
         </Card>
 

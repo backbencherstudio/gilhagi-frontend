@@ -81,7 +81,7 @@ export default function AdminSidebar({
           <X className="w-5 h-5" />
         </button>
         {/* Logo Section */}
-        <div className="px-6 pb-6 pt-[27px] border-b ">
+        <div className="px-6 pb-6 pt-[27px] border-b bg-[#a8c1e7]">
           <div>
             <img src="/Wechselsicher-logo2.svg" alt="Wechselsicher-logo2" />
           </div>
