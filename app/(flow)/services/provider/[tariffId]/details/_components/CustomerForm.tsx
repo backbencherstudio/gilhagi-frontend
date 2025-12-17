@@ -248,14 +248,14 @@ const ReqInfo = () => {
       </p>
 
       <p className="self-stretch text-[#5F728B]  text-[10px] font-normal leading-[132%] tracking-[0.05px]">
-        Nachdem Ihre Wechselanfrage erfolgreich bearbeitet wurde, kann Switchify
-        Ihnen Informationen über ähnliche Energieprodukte oder relevante
-        Service-Updates an die von Ihnen angegebene E-Mail-Adresse senden. Wenn
-        Sie diese E-Mails nicht mehr erhalten möchten, können Sie sich jederzeit
-        abmelden. <br /> Senden Sie einfach eine kurze Nachricht an: Switchify
-        Kundenservice, [Unternehmensadresse], oder schreiben Sie uns eine E-Mail
-        an support@switchify.com. Es fallen keine zusätzlichen Kosten an, außer
-        den üblichen Übertragungsgebühren.
+        Nachdem Ihre Wechselanfrage erfolgreich bearbeitet wurde, kann
+        Wechselsicher Ihnen Informationen über ähnliche Energieprodukte oder
+        relevante Service-Updates an die von Ihnen angegebene E-Mail-Adresse
+        senden. Wenn Sie diese E-Mails nicht mehr erhalten möchten, können Sie
+        sich jederzeit abmelden. <br /> Senden Sie einfach eine kurze Nachricht
+        an: Wechselsicher Kundenservice, [Unternehmensadresse], oder schreiben
+        Sie uns eine E-Mail an support@wechselsicher.com. Es fallen keine
+        zusätzlichen Kosten an, außer den üblichen Übertragungsgebühren.
       </p>
     </>
   );

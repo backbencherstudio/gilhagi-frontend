@@ -9,9 +9,10 @@ export default function Page() {
             Datenschutzrichtlinie
           </h1>
           <p className="text-sm md:text-base text-[#5F728B] leading-[140%]">
-            Der Schutz Ihrer personenbezogenen Daten ist uns wichtig. Nachfolgend
-            informieren wir Sie darüber, welche Daten wir im Rahmen der Nutzung
-            von Switchify verarbeiten und zu welchen Zwecken dies geschieht.
+            Der Schutz Ihrer personenbezogenen Daten ist uns wichtig.
+            Nachfolgend informieren wir Sie darüber, welche Daten wir im Rahmen
+            der Nutzung von Wechselsicher verarbeiten und zu welchen Zwecken
+            dies geschieht.
           </p>
         </header>
 
@@ -21,15 +22,15 @@ export default function Page() {
           </h2>
           <p className="text-sm md:text-base text-[#5F728B] leading-[140%]">
             Verantwortlich für die Datenverarbeitung im Zusammenhang mit der
-            Nutzung von Switchify ist:
+            Nutzung von Wechselsicher ist:
             <br />
             <span className="font-medium text-[#1C2022]">
-              Switchify – Immer der beste Stromvertrag
+              Wechselsicher – Immer der beste Stromvertrag
             </span>
             <br />
             [Unternehmensname], [Straße, Hausnummer], [PLZ, Ort]
             <br />
-            E-Mail: support@switchify.com
+            E-Mail: support@Wechselsicher.com
           </p>
         </section>
 
@@ -48,7 +49,8 @@ export default function Page() {
             </li>
             <li>
               Vertragsbezogene Daten: z. B. aktuelle und zukünftige
-              Stromtarif-Informationen, Anbieter, Zählernummer (soweit erforderlich).
+              Stromtarif-Informationen, Anbieter, Zählernummer (soweit
+              erforderlich).
             </li>
             <li>
               Nutzungsdaten: z. B. aufgerufene Seiten, Zeitpunkte des Zugriffs,
@@ -97,9 +99,9 @@ export default function Page() {
             Zur Abwicklung des von Ihnen gewünschten Tarifwechsels übermitteln
             wir Ihre Daten an den von Ihnen ausgewählten Energieanbieter und –
             soweit erforderlich – an technische Dienstleister (z. B.
-            Hosting-Anbieter). Eine Weitergabe an weitere Dritte erfolgt nur, wenn
-            hierfür eine gesetzliche Grundlage besteht oder Sie ausdrücklich
-            eingewilligt haben.
+            Hosting-Anbieter). Eine Weitergabe an weitere Dritte erfolgt nur,
+            wenn hierfür eine gesetzliche Grundlage besteht oder Sie
+            ausdrücklich eingewilligt haben.
           </p>
         </section>
 
@@ -109,9 +111,9 @@ export default function Page() {
           </h2>
           <p className="text-sm md:text-base text-[#5F728B] leading-[140%]">
             Wir speichern Ihre personenbezogenen Daten nur so lange, wie es für
-            die Erfüllung der genannten Zwecke erforderlich ist oder wie wir dazu
-            gesetzlich verpflichtet sind. Anschließend werden die Daten gemäß den
-            gesetzlichen Vorgaben anonymisiert oder gelöscht.
+            die Erfüllung der genannten Zwecke erforderlich ist oder wie wir
+            dazu gesetzlich verpflichtet sind. Anschließend werden die Daten
+            gemäß den gesetzlichen Vorgaben anonymisiert oder gelöscht.
           </p>
         </section>
 
@@ -124,12 +126,17 @@ export default function Page() {
             Recht auf:
           </p>
           <ul className="list-disc pl-5 text-sm md:text-base text-[#5F728B] space-y-1">
-            <li>Auskunft über die Verarbeitung Ihrer personenbezogenen Daten,</li>
-            <li>Berichtigung unrichtiger oder unvollständiger Daten,</li>
-            <li>Löschung Ihrer Daten, sofern keine Aufbewahrungspflichten bestehen,</li>
             <li>
-              Einschränkung der Verarbeitung, wenn z. B. die Richtigkeit der Daten
-              bestritten wird,
+              Auskunft über die Verarbeitung Ihrer personenbezogenen Daten,
+            </li>
+            <li>Berichtigung unrichtiger oder unvollständiger Daten,</li>
+            <li>
+              Löschung Ihrer Daten, sofern keine Aufbewahrungspflichten
+              bestehen,
+            </li>
+            <li>
+              Einschränkung der Verarbeitung, wenn z. B. die Richtigkeit der
+              Daten bestritten wird,
             </li>
             <li>
               Widerspruch gegen bestimmte Verarbeitungen sowie

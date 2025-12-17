@@ -12,7 +12,7 @@ const OverViewContent = () => {
       <div className="space-y-2">
         <HeadingTitle
           title="Admin-Übersicht"
-          subtitle="Willkommen zurück! Hier ist, was heute bei Switchify passiert."
+          subtitle="Willkommen zurück! Hier ist, was heute bei Wechselsicher passiert."
         />
       </div>
       {/* right */}
