@@ -4,7 +4,7 @@ export default function TrustedCompany() {
   return (
     <div className="py-10 md:py-20 max-w-[1600px] mx-auto p-4 md:p-0">
       <p className="self-stretch text-[#5F728B] text-center text-xl md:text-2xl font-medium leading-[130%] tracking-[0.12px] mb-8 md:mb-10">
-        Vertrauenswürdige und geprüfte Energieanbieter in Deutschland
+       Vertrauenswürdige und geprüfte Energieanbieter in Österreich
       </p>
 
       {/* Marquee start */}

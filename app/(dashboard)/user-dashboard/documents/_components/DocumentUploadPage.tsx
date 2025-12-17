@@ -17,11 +17,14 @@ const DOCUMENTS: Document[] = [
   { id: "3", title: "Vollmacht", status: "pending" },
   { id: "4", title: "Foto des Stromzählers", status: "pending" },
   { id: "5", title: "Sonstige Unterlagen", status: "pending" },
+  { id: "6", title: "Preiserhöhungen", status: "pending" },
 ];
 
 export default function DocumentUploadPage() {
   const [documents, setDocuments] = useState<Document[]>(DOCUMENTS);
-  const [selectedDocument, setSelectedDocument] = useState<Document | null>(null);
+  const [selectedDocument, setSelectedDocument] = useState<Document | null>(
+    null
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const uploadedCount = documents.filter((d) => d.status !== "pending").length;

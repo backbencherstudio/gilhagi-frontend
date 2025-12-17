@@ -17,10 +17,10 @@ const RegisterPageContent = () => {
         {/* Info */}
         <div className="max-w-[609px] mb-10 lg:mb-12">
           <h2 className="text-[#1C2022] font-semibold text-3xl md:text-5xl leading-[130%] mb-4">
-            Ein Konto erstellen, um Strom zu sparen
+            Ein Konto erstellen
           </h2>
           <p className="text-[#5F728B] text-base md:text-lg leading-[160%] max-w-[511px]">
-            Jetzt registrieren und von vielen Vorteilen profitieren!
+            Jetzt registrieren und Stromanbieter schnell, einfach und kostenlos wechseln!
           </p>
         </div>
 
