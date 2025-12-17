@@ -27,7 +27,7 @@ export default function InformationForm() {
 
   const onSubmit = (data: any) => {
     console.log("Form data:", data);
-    // alert("got ity");
+    router.push("/services/provider/confirm");
   };
 
   return (
@@ -56,7 +56,6 @@ export default function InformationForm() {
               <Select
                 value={field.value ?? ""}
                 onValueChange={(val) => field.onChange(val)}
-            
               >
                 <SelectTrigger className="px-4 py-6 w-full rounded-lg border-[#D6DEE6] bg-white">
                   <SelectValue placeholder="Bitte wählen Sie eine Anrede aus" />
@@ -77,8 +76,6 @@ export default function InformationForm() {
             </p>
           )}
         </div>
-
-      
 
         {/* Vorname */}
         <div className="flex flex-col space-y-2">
@@ -229,7 +226,6 @@ export default function InformationForm() {
         </Button>
 
         <Button
-          onClick={() => router.push("/services/provider/confirm")}
           type="submit"
           className="flex justify-center items-center gap-3 [background:var(--Primary,#085EC4)] px-6 py-3 rounded-4xl text-white cursor-pointer"
         >

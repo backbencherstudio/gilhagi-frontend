@@ -53,7 +53,7 @@ export default function ConfirmPage() {
       </div>
 
       {/* Footer info */}
-      <div
+      {/* <div
         className="
           flex flex-col sm:flex-row 
           items-start sm:items-center 
@@ -71,7 +71,7 @@ export default function ConfirmPage() {
           SonderkA¬ndigungsrecht (z. B. bei PreiserhAhung) bei Tarifwechseln
           ausA¬ben oder wenn die KA¬ndigungsfrist in weniger als 4 Wochen ablAuft.
         </p>
-      </div>
+      </div> */}
 
       {/* Note */}
       <div>

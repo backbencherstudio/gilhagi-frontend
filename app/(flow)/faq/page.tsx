@@ -17,12 +17,12 @@ const faqs = [
   {
     question: "Muss ich meinen alten Stromvertrag selbst kündigen?",
     answer:
-      "In vielen Fällen übernimmt der neue Anbieter die Kündigung Ihres bisherigen Vertrags. Wenn Sie jedoch ein Sonderkündigungsrecht nutzen (zum Beispiel bei einer Preiserhöhung) oder Ihre Kündigungsfrist sehr bald abläuft, müssen Sie in der Regel selbst rechtzeitig kündigen. In der Bestätigung weisen wir Sie darauf hin.",
+      "Wir übernehmen die komplette Kündigung Ihres alten Vertrags für Sie. Sollten Sie von Ihrem Stromanbieter eine Preiserhöhung erhalten, informieren Sie uns bitte, indem Sie die Preiserhöhung im Bereich „Dokumente“ hochladen oder unseren Kundenservice kontaktieren. In diesem Fall prüfen wir, ob ein Wechsel für Sie sinnvoll ist, und führen ihn gegebenenfalls durch.",
   },
   {
     question: "Ab wann gilt mein neuer Stromtarif?",
     answer:
-      "Der Beginn Ihres neuen Stromtarifs hängt von der Kündigungsfrist Ihres bisherigen Vertrags und der Bestätigung des neuen Anbieters ab. Sobald der Wechsel abgeschlossen ist, erhalten Sie eine schriftliche Bestätigung mit dem genauen Startdatum Ihres neuen Tarifs.",
+      "Der Beginn Ihres neuen Stromtarifs hängt von der Kündigungsfrist Ihres bisherigen Vertrags ab. Sobald der Wechsel abgeschlossen ist, erhalten Sie eine schriftliche Bestätigung mit dem genauen Startdatum Ihres neuen Tarifs.",
   },
   {
     question: "Sind meine persönlichen Daten bei Wechselsicher sicher?",

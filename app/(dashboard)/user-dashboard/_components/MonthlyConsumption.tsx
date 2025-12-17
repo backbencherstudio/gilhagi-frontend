@@ -27,7 +27,7 @@ export default function MonthlyConsumption() {
         <h3>Jährlicher Verbrauch</h3>
 
         {/* Month Dropdown */}
-        <div className="relative">
+        {/* <div className="relative">
           <button
             onClick={() => setDropdownOpen(!dropdownOpen)}
             className="flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-background hover:bg-secondary transition-colors w-30"
@@ -59,7 +59,7 @@ export default function MonthlyConsumption() {
               ))}
             </div>
           )}
-        </div>
+        </div> */}
       </div>
 
       {/* chart */}
@@ -71,9 +71,9 @@ export default function MonthlyConsumption() {
         <UsageCard
           title="Stromverbrauch"
           usage="308 kWh"
-          subtitle="Diesen Monat"
+          subtitle="Letztes Jahr"
         />
-        <UsageCard title="Stromkosten" usage="€38,00" subtitle="Diesen Monat" />
+        <UsageCard title="Stromkosten" usage="€38,00" subtitle="Letztes Jahr" />
       </div>
 
       {/* below cards */}
