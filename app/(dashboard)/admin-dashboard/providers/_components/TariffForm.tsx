@@ -20,22 +20,22 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
-// Schema for validation - Use explicit number type
+// Validierungsschema – expliziter Zahlentyp
 const tariffSchema = z.object({
-  Provider: z.string().min(1, "Provider is required"),
-  TariffName: z.string().min(1, "Tariff name is required"),
+  Provider: z.string().min(1, "Anbieter ist erforderlich"),
+  TariffName: z.string().min(1, "Tarifname ist erforderlich"),
   PricePerkWh: z
     .union([z.string(), z.number()])
     .transform((val) => (typeof val === "string" ? parseFloat(val) || 0 : val))
-    .pipe(z.number().min(0, "Price per kWh must be a positive value")),
-  BaseFee: z.string().min(1, "Base fee is required"),
-  Bonus: z.string().min(1, "Bonus is required"),
-  PriceGuarantee: z.string().min(1, "Price Guarantee is required"),
+    .pipe(z.number().min(0, "Preis pro kWh muss positiv sein")),
+  BaseFee: z.string().min(1, "Grundgebühr ist erforderlich"),
+  Bonus: z.string().min(1, "Bonus ist erforderlich"),
+  PriceGuarantee: z.string().min(1, "Preisgarantie ist erforderlich"),
   RenewableEnergy: z.boolean(),
   Recommended: z.boolean(),
 });
 
-// Explicit type definition to match the schema
+// Expliziter Typ passend zum Schema
 export type TariffFormData = {
   Provider: string;
   TariffName: string;
@@ -61,7 +61,7 @@ export default function TariffForm({
   mode = "add",
 }: TariffFormProps) {
   const form = useForm<TariffFormData>({
-    resolver: zodResolver(tariffSchema) as any, // Type assertion to fix the inference issue
+    resolver: zodResolver(tariffSchema) as any,
     defaultValues: {
       Provider: initialData?.Provider || "",
       TariffName: initialData?.TariffName || "",
@@ -79,13 +79,13 @@ export default function TariffForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        {/* Provider */}
+        {/* Anbieter */}
         <FormField
           control={form.control}
           name="Provider"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="modal-form-label">Provider *</FormLabel>
+              <FormLabel className="modal-form-label">Anbieter *</FormLabel>
               <Select
                 onValueChange={field.onChange}
                 value={field.value}
@@ -93,15 +93,15 @@ export default function TariffForm({
               >
                 <FormControl>
                   <SelectTrigger className="modal-form-input w-full">
-                    <SelectValue placeholder="Select provider" />
+                    <SelectValue placeholder="Anbieter auswählen" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="All Provider">All Provider</SelectItem>
-                  <SelectItem value="test1">Provider 1</SelectItem>
-                  <SelectItem value="test2">Provider 2</SelectItem>
-                  <SelectItem value="test3">Provider 3</SelectItem>
-                  <SelectItem value="test4">Provider 4</SelectItem>
+                  <SelectItem value="All Provider">Alle Anbieter</SelectItem>
+                  <SelectItem value="test1">Anbieter 1</SelectItem>
+                  <SelectItem value="test2">Anbieter 2</SelectItem>
+                  <SelectItem value="test3">Anbieter 3</SelectItem>
+                  <SelectItem value="test4">Anbieter 4</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />
@@ -109,18 +109,18 @@ export default function TariffForm({
           )}
         />
 
-        {/* Tariff Name */}
+        {/* Tarifname */}
         <FormField
           control={form.control}
           name="TariffName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="modal-form-label">Tariff Name *</FormLabel>
+              <FormLabel className="modal-form-label">Tarifname *</FormLabel>
               <FormControl>
                 <Input
                   className="modal-form-input"
                   {...field}
-                  placeholder="Enter tariff name"
+                  placeholder="Tarifnamen eingeben"
                   disabled={isViewMode || isLoading}
                 />
               </FormControl>
@@ -130,14 +130,14 @@ export default function TariffForm({
         />
 
         <div className="flex items-start gap-4">
-          {/* Price per kWh */}
+          {/* Preis pro kWh */}
           <FormField
             control={form.control}
             name="PricePerkWh"
             render={({ field }) => (
               <FormItem className="flex-1">
                 <FormLabel className="modal-form-label">
-                  Price per kWh (€) *
+                  Preis pro kWh (€) *
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -145,7 +145,7 @@ export default function TariffForm({
                     type="number"
                     step="0.01"
                     min="0"
-                    placeholder="0.32"
+                    placeholder="0,32"
                     disabled={isViewMode || isLoading}
                     value={field.value}
                     onChange={(e) => {
@@ -160,20 +160,20 @@ export default function TariffForm({
             )}
           />
 
-          {/* Base Fee */}
+          {/* Grundgebühr */}
           <FormField
             control={form.control}
             name="BaseFee"
             render={({ field }) => (
               <FormItem className="flex-1">
                 <FormLabel className="modal-form-label">
-                  Base Fee (€)/month *
+                  Grundgebühr (€)/Monat *
                 </FormLabel>
                 <FormControl>
                   <Input
                     className="modal-form-input"
                     {...field}
-                    placeholder="9.90/month"
+                    placeholder="9,90 / Monat"
                     disabled={isViewMode || isLoading}
                   />
                 </FormControl>
@@ -184,14 +184,14 @@ export default function TariffForm({
         </div>
 
         <div className="flex gap-4 items-start">
-          {/* Sign-up Bonus */}
+          {/* Bonus */}
           <FormField
             control={form.control}
             name="Bonus"
             render={({ field }) => (
               <FormItem className="flex-1">
                 <FormLabel className="modal-form-label">
-                  Sign-up Bonus (€) *
+                  Wechselbonus (€) *
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -206,20 +206,20 @@ export default function TariffForm({
             )}
           />
 
-          {/* Price Guarantee */}
+          {/* Preisgarantie */}
           <FormField
             control={form.control}
             name="PriceGuarantee"
             render={({ field }) => (
               <FormItem className="flex-1">
                 <FormLabel className="modal-form-label">
-                  Price Guarantee *
+                  Preisgarantie *
                 </FormLabel>
                 <FormControl>
                   <Input
                     className="modal-form-input"
                     {...field}
-                    placeholder="12 months"
+                    placeholder="12 Monate"
                     disabled={isViewMode || isLoading}
                   />
                 </FormControl>
@@ -229,7 +229,7 @@ export default function TariffForm({
           />
         </div>
 
-        {/* 100% Renewable Energy */}
+        {/* 100 % erneuerbare Energie */}
         <FormField
           control={form.control}
           name="RenewableEnergy"
@@ -237,10 +237,10 @@ export default function TariffForm({
             <FormItem className="flex items-center justify-between p-4 border rounded-lg">
               <div className="space-y-0.5">
                 <FormLabel className="modal-form-label text-base">
-                  100% Renewable Energy
+                  100 % erneuerbare Energie
                 </FormLabel>
                 <div className="text-sm text-gray-500">
-                  This tariff uses only renewable energy sources
+                  Dieser Tarif nutzt ausschließlich erneuerbare Energiequellen
                 </div>
               </div>
               <FormControl>
@@ -254,7 +254,7 @@ export default function TariffForm({
           )}
         />
 
-        {/* Mark as Recommended */}
+        {/* Als empfohlen markieren */}
         <FormField
           control={form.control}
           name="Recommended"
@@ -262,10 +262,10 @@ export default function TariffForm({
             <FormItem className="flex items-center justify-between p-4 border rounded-lg">
               <div className="space-y-0.5">
                 <FormLabel className="modal-form-label text-base">
-                  Mark as Recommended
+                  Als empfohlen markieren
                 </FormLabel>
                 <div className="text-sm text-gray-500">
-                  Highlight this tariff as recommended for customers
+                  Diesen Tarif als Empfehlung für Kundinnen und Kunden hervorheben
                 </div>
               </div>
               <FormControl>
@@ -279,7 +279,7 @@ export default function TariffForm({
           )}
         />
 
-        {/* Submit Button */}
+        {/* Speichern */}
         <div className="flex justify-end gap-3 pt-4">
           <Button
             className="primary-btn w-full"
@@ -287,10 +287,10 @@ export default function TariffForm({
             disabled={isLoading}
           >
             {isLoading
-              ? "Saving..."
+              ? "Wird gespeichert..."
               : mode === "edit"
-              ? "Update Tariff"
-              : "Add Tariff"}
+              ? "Tarif aktualisieren"
+              : "Tarif hinzufügen"}
           </Button>
         </div>
       </form>

@@ -36,29 +36,30 @@ export default function ProviderModal({
       await onSubmit(data);
       onClose();
     } catch (error) {
-      console.error("Error submitting form:", error);
+      console.error("Fehler beim Absenden des Formulars:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
   const modalTitles = {
-    add: "Add New Provider",
-    edit: "Edit Provider",
-    view: "View Provider Details",
+    add: "Neuen Anbieter hinzufügen",
+    edit: "Anbieter bearbeiten",
+    view: "Anbieterdetails anzeigen",
   };
 
   const modalDescriptions = {
-    add: "Add a new energy provider to your system",
-    edit: "Update the details of this provider",
-    view: "View the details of this provider",
+    add: "Fügen Sie einen neuen Energieanbieter zu Ihrem System hinzu",
+    edit: "Bearbeiten Sie die Details dieses Anbieters",
+    view: "Sehen Sie sich die Details dieses Anbieters an",
   };
 
-  // Convert Erneuerbar from "Ja"/"Nein" to boolean for form
+  // Erneuerbar von "Ja"/"Nein" in Boolean für das Formular umwandeln
   const processedData = initialData
     ? {
         ...initialData,
-        Erneuerbar: initialData.Erneuerbar === "Ja" || initialData.Erneuerbar === true,
+        Erneuerbar:
+          initialData.Erneuerbar === "Ja" || initialData.Erneuerbar === true,
       }
     : undefined;
 
@@ -73,9 +74,10 @@ export default function ProviderModal({
       <div className="py-4">
         {initialData?.ID && (
           <div className="mb-4 text-sm text-gray-500">
-            Provider ID: {initialData.ID}
+            Anbieter-ID: {initialData.ID}
           </div>
         )}
+
         <ProviderForm
           initialData={processedData}
           onSubmit={handleSubmit}

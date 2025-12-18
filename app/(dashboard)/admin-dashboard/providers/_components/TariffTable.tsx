@@ -11,13 +11,13 @@ import DeleteModal from "@/components/dashoboard/DeleteModal";
 // Translation Map for German UI Labels (same structure as before)
 const translations = {
   ID: "ID",
-  Provider: "Provider",
-  Tarifname: "Tariff Name",
-  PricePerkWh: "Price/kWh",
-  BaseFee: "Base Fee",
+  Provider: "Anbieter",
+  Tarifname: "Tarifname",
+  PricePerkWh: "Preis pro kWh",
+  BaseFee: "Grundgebühr",
   Bonus: "Bonus",
-  PriceGuarantee: "Price Guarantee",
-  Actions: "Actions",
+  PriceGuarantee: "Preisgarantie",
+  Actions: "Aktionen",
 };
 
 // Tariff columns
@@ -214,7 +214,7 @@ export default function TariffTable({ postalCode }: { postalCode: string }) {
             className="primary-btn md:w-auto"
           >
             <Plus />
-            <span>Add Tariff</span>
+            <span>Tarif hinzufügen</span>
           </Button>
         </div>
       </div>

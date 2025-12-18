@@ -65,9 +65,9 @@ export default function CurrentContract() {
       </div>
 
       {/* 3rd div */}
-      <Button className="primary-btn">
+      {/* <Button className="primary-btn">
         Jetzt wechseln
-      </Button>
+      </Button> */}
     </div>
   );
 }

@@ -32,7 +32,7 @@ export default function StatsSection() {
   const isBestTariff = true; // Change to true if user is on cheapest tariff
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       <StatCard
         title="Gesamte Einsparungen mit Wechselsicher"
         amount="€598"
@@ -58,11 +58,11 @@ export default function StatsSection() {
         <img className="absolute top-0 right-0" src="/bolt2.svg" alt="Icon" />
       </div>
 
-      <StatCard
+      {/* <StatCard
         title="Ihr Standort"
         amount="4702"
         info="3 Tarifänderungen durchgeführt"
-      />
+      /> */}
     </div>
   );
 }

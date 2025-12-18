@@ -13,12 +13,14 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
-// Schema for validation
+// Validierungsschema
 const providerSchema = z.object({
   Anbietername: z
     .string()
-    .min(2, "Provider name must be at least 2 characters"),
-  Servicegebiete: z.string().min(1, "Service areas are required"),
+    .min(2, "Der Anbietername muss mindestens 2 Zeichen lang sein"),
+  Servicegebiete: z
+    .string()
+    .min(1, "Servicegebiete sind erforderlich"),
   Erneuerbar: z.boolean(),
   AktiverProvider: z.boolean(),
 });
@@ -53,19 +55,19 @@ export default function ProviderForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        {/* Provider Name */}
+        {/* Anbietername */}
         <FormField
           control={form.control}
           name="Anbietername"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="modal-form-label">
-                Provider Name *
+                Anbietername *
               </FormLabel>
               <FormControl>
                 <Input
                   {...field}
-                  placeholder="Enter provider name"
+                  placeholder="Anbieternamen eingeben"
                   disabled={isViewMode || isLoading}
                   className="modal-form-input"
                 />
@@ -75,14 +77,14 @@ export default function ProviderForm({
           )}
         />
 
-        {/* Service Areas (Postcodes) */}
+        {/* Servicegebiete (Postleitzahlen) */}
         <FormField
           control={form.control}
           name="Servicegebiete"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="modal-form-label">
-                Service Areas (Postcodes) *
+                Servicegebiete (Postleitzahlen) *
               </FormLabel>
               <FormControl>
                 <Input
@@ -97,7 +99,7 @@ export default function ProviderForm({
           )}
         />
 
-        {/* Renewable Energy Provider Toggle */}
+        {/* Erneuerbarer Energieanbieter */}
         <FormField
           control={form.control}
           name="Erneuerbar"
@@ -105,13 +107,13 @@ export default function ProviderForm({
             <FormItem className="flex flex-row items-start justify-between space-x-3 space-y-0">
               <div className="space-y-1 leading-none">
                 <FormLabel className="modal-form-label">
-                  Renewable Energy
+                  Erneuerbare Energie
                 </FormLabel>
               </div>
               <FormControl>
                 <Switch
                   checked={field.value}
-                  onCheckedChange={field.onChange} // FIXED: Use onCheckedChange
+                  onCheckedChange={field.onChange}
                   disabled={isViewMode || isLoading}
                 />
               </FormControl>
@@ -119,7 +121,7 @@ export default function ProviderForm({
           )}
         />
 
-        {/* Active Provider Toggle */}
+        {/* Aktiver Anbieter */}
         <FormField
           control={form.control}
           name="AktiverProvider"
@@ -127,20 +129,21 @@ export default function ProviderForm({
             <FormItem className="flex flex-row items-start justify-between space-x-3 space-y-0">
               <div className="space-y-1 leading-none">
                 <FormLabel className="modal-form-label">
-                  Active Provider
+                  Aktiver Anbieter
                 </FormLabel>
               </div>
               <FormControl>
                 <Switch
                   checked={field.value}
-                  onCheckedChange={field.onChange} // FIXED: Use onCheckedChange
+                  onCheckedChange={field.onChange}
                   disabled={isViewMode || isLoading}
                 />
               </FormControl>
             </FormItem>
           )}
         />
-        {/* Submit Button */}
+
+        {/* Speichern-Button */}
         {!isViewMode && (
           <div className="flex justify-end gap-3 md:mt-8">
             <Button
@@ -149,10 +152,10 @@ export default function ProviderForm({
               disabled={isLoading}
             >
               {isLoading
-                ? "Saving..."
+                ? "Wird gespeichert..."
                 : mode === "edit"
-                ? "Update Provider"
-                : "Add Provider"}
+                ? "Anbieter aktualisieren"
+                : "Anbieter hinzufügen"}
             </Button>
           </div>
         )}
