@@ -2,7 +2,6 @@ import { useState } from "react";
 import ModalWrapper from "@/components/dashoboard/ModalWrapper";
 import TariffForm, { TariffFormData } from "./TariffForm";
 
-
 interface TariffModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -36,22 +35,22 @@ export default function TariffModal({
       await onSubmit(data);
       onClose();
     } catch (error) {
-      console.error("Error submitting form:", error);
+      console.error("Fehler beim Absenden des Formulars:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
   const modalTitles = {
-    add: "Add New Tariff",
-    edit: "Edit Tariff",
-    view: "View Tariff Details",
+    add: "Neuen Tarif hinzufügen",
+    edit: "Tarif bearbeiten",
+    view: "Tarifdetails anzeigen",
   };
 
   const modalDescriptions = {
-    add: "Add a new tariff for a provider",
-    edit: "Update the details of this tariff",
-    view: "View the details of this tariff",
+    add: "Fügen Sie einen neuen Tarif für einen Anbieter hinzu",
+    edit: "Bearbeiten Sie die Details dieses Tarifs",
+    view: "Sehen Sie sich die Details dieses Tarifs an",
   };
 
   return (
@@ -65,9 +64,10 @@ export default function TariffModal({
       <div className="py-4">
         {initialData?.ID && (
           <div className="mb-4 text-sm text-gray-500">
-            Tariff ID: {initialData.ID}
+            Tarif-ID: {initialData.ID}
           </div>
         )}
+
         <TariffForm
           initialData={initialData}
           onSubmit={handleSubmit}

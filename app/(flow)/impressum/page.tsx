@@ -15,7 +15,9 @@ export default function Page() {
         </header>
 
         <section className="space-y-2 text-sm md:text-base leading-[150%] text-[#1C2022]">
-          <p className="font-semibold">Switchify – Immer der beste Stromvertrag</p>
+          <p className="font-semibold">
+            Wechselsicher – Immer der beste Stromvertrag
+          </p>
           <p>[Unternehmensname]</p>
           <p>[Straße und Hausnummer]</p>
           <p>[PLZ und Ort]</p>
@@ -27,14 +29,18 @@ export default function Page() {
             Telefon: <span className="text-[#1C2022]">+49 (0) 123 456 789</span>
           </p>
           <p>
-            E-Mail: <span className="text-[#1C2022]">support@switchify.com</span>
+            E-Mail:{" "}
+            <span className="text-[#1C2022]">support@Wechselsicher.com</span>
           </p>
           <p>
             Geschäftsführung:{" "}
-            <span className="text-[#1C2022]">[Name der verantwortlichen Person]</span>
+            <span className="text-[#1C2022]">
+              [Name der verantwortlichen Person]
+            </span>
           </p>
           <p>
-            Registergericht: <span className="text-[#1C2022]">[Amtsgericht XY]</span>
+            Registergericht:{" "}
+            <span className="text-[#1C2022]">[Amtsgericht XY]</span>
           </p>
           <p>
             Handelsregister-Nummer:{" "}
@@ -47,11 +53,14 @@ export default function Page() {
         </section>
 
         <section className="space-y-2">
-          <h2 className="text-xl font-semibold text-[#1C2022]">Haftungshinweis</h2>
+          <h2 className="text-xl font-semibold text-[#1C2022]">
+            Haftungshinweis
+          </h2>
           <p className="text-sm md:text-base leading-[150%] text-[#5F728B]">
-            Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung
-            für die Inhalte externer Links. Für den Inhalt der verlinkten Seiten
-            sind ausschließlich deren Betreiber verantwortlich.
+            Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine
+            Haftung für die Inhalte externer Links. Für den Inhalt der
+            verlinkten Seiten sind ausschließlich deren Betreiber
+            verantwortlich.
           </p>
         </section>
       </div>

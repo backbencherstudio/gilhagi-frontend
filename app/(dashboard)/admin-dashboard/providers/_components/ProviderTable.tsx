@@ -12,13 +12,13 @@ import DeleteModal from "@/components/dashoboard/DeleteModal";
 // Translation Map for German UI Labels
 const translations = {
   ID: "ID",
-  Anbietername: "Provider Name",
-  Servicegebiete: "Service Areas",
-  Tarif: "Rate",
-  AktiveNutzer: "Active Users",
-  Erneuerbar: "Renewable",
+  Anbietername: "Anbietername",
+  Servicegebiete: "Servicegebiete",
+  Tarif: "Tarif",
+  AktiveNutzer: "Aktive Nutzer",
+  Erneuerbar: "Erneuerbar",
   Status: "Status",
-  AktiverProvider: "Active Provider",
+  AktiverProvider: "Aktiver Anbieter",
 };
 
 // Column definitions with German labels

@@ -3,7 +3,8 @@ import { Bell, Menu } from "lucide-react";
 
 export default function AdminHeader({ onMenuClick }: { onMenuClick: () => void }) {
   return (
-    <header className=" border-b border-border flex items-center justify-between p-6 ">
+  <div className="block mb-25">
+      <header className=" border-b border-border flex items-center justify-between p-6 fixed inset-x-0 z-40 bg-white z">
       {/* left  */}
       <div> <button
         onClick={onMenuClick}
@@ -26,5 +27,6 @@ export default function AdminHeader({ onMenuClick }: { onMenuClick: () => void }
         <div className="w-[43px] h-[43px] rounded-full bg-accent"></div>
       </div>
     </header>
+  </div>
   );
 }

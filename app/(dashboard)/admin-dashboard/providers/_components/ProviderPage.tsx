@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
+import React, { useState } from "react";
 import { CustomTabs } from "@/components/dashoboard/CustomTabs";
 import HeadingTitle from "@/components/dashoboard/HeadingTittle";
-import React from "react";
 import ProviderTable from "./ProviderTable";
 import TariffTable from "./TariffTable";
 import {
@@ -12,39 +12,42 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
 
 export default function ProviderPage() {
   const [postalCode, setPostalCode] = useState<string>("1010");
+
   const tabs = [
     {
       value: "provider-table",
-      label: "Aktive Verträge",
+      label: "Anbieterliste",
       content: <ProviderTable postalCode={postalCode} />,
     },
     {
       value: "tariff-table",
-      label: "Warten auf Bearbeitung",
+      label: "Tarifverwaltung",
       content: <TariffTable postalCode={postalCode} />,
     },
   ];
 
   return (
-    <div className="space-y-6 w-full">
-      {/* heading and search */}
-      <div>
-        <HeadingTitle
-          title="Anbieter- & Tarifverwaltung"
-          subtitle="Verwalten Sie Energieanbieter und deren Tarifangebote"
-        />
-      </div>
+    <div className="w-full space-y-6">
+      {/* Überschrift */}
+      <HeadingTitle
+        title="Anbieter- & Tarifverwaltung"
+        subtitle="Verwalten Sie Energieanbieter und deren Tarifangebote"
+      />
 
+      {/* Postleitzahl-Auswahl */}
       <div className="flex items-center gap-3">
-        <p className="text-sm text-muted-foreground">Postleitzahl auswählen</p>
-        <Select value={postalCode} onValueChange={(v) => setPostalCode(v)}>
+        <p className="text-sm text-muted-foreground">
+          Postleitzahl auswählen
+        </p>
+
+        <Select value={postalCode} onValueChange={setPostalCode}>
           <SelectTrigger className="w-40">
             <SelectValue placeholder="PLZ" />
           </SelectTrigger>
+
           <SelectContent>
             <SelectItem value="1010">1010</SelectItem>
             <SelectItem value="1020">1020</SelectItem>
@@ -55,9 +58,8 @@ export default function ProviderPage() {
         </Select>
       </div>
 
-      {/* tabs */}
-
-      <div className="flex items-center gap-2.5 self-stretch  [background:var(--Background-White,#FFF)] p-2 rounded-[10px] border-solid">
+      {/* Tabs */}
+      <div className="flex items-center gap-2.5 self-stretch rounded-[10px] bg-white p-2">
         <CustomTabs defaultValue="provider-table" tabs={tabs} />
       </div>
     </div>

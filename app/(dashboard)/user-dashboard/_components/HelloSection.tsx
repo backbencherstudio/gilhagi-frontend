@@ -7,7 +7,7 @@ export default function HelloSection() {
       <div className="py-3">
         <div className="flex items-center gap-2 mb-3">
           <Sparkles className="text-white w-8 h-8" />
-          <p className="flex-[1_0_0] text-[#FFF] text-base font-normal leading-[140%] tracking-[0.08px]">Switchify-Dashboard</p>
+          <p className="flex-[1_0_0] text-[#FFF] text-base font-normal leading-[140%] tracking-[0.08px]">Wechselsicher-Dashboard</p>
         </div>
         <h1 className="self-stretch text-[#FFF] text-[32px] font-semibold leading-[130%] md:text-[28px] sm:text-[24px]">
           Willkommen zurück, Tawhid

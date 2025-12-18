@@ -58,13 +58,14 @@ const TariffDetailPage = () => {
 
         <p className="text-[#5F728B] text-xs leading-relaxed tracking-wide">
           After your switching request has been successfully processed,
-          Switchify may send you information about similar energy products or
-          relevant service updates to the email address you provided. If you no
-          longer wish to receive these emails, you can unsubscribe at any time.
+          Wechselsicher may send you information about similar energy products
+          or relevant service updates to the email address you provided. If you
+          no longer wish to receive these emails, you can unsubscribe at any
+          time.
           <br />
-          Simply send a message to: Switchify Customer Support, [Company
-          Address], or email us at support@switchify.com. No additional costs
-          will be incurred other than standard transmission fees.
+          Simply send a message to: Wechselsicher Customer Support, [Company
+          Address], or email us at support@Wechselsicher.com. No additional
+          costs will be incurred other than standard transmission fees.
         </p>
       </div>
     </div>

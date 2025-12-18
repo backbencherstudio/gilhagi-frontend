@@ -80,13 +80,13 @@ export default function ConfirmPage() {
         </p>
         <p className="text-[#5F728B] text-[10px] font-normal leading-[132%] tracking-[0.05px]">
           Nachdem Ihre Wechselanfrage erfolgreich bearbeitet wurde, kann
-          Switchify Ihnen Informationen A¬ber Ahnliche Energieprodukte oder
+          Wechselsicher Ihnen Informationen A¬ber Ahnliche Energieprodukte oder
           relevante Service-Updates an die von Ihnen angegebene E-Mail-Adresse
           senden. Wenn Sie diese E-Mails nicht mehr erhalten mAchten, kAnnen Sie
           sich jederzeit abmelden. Senden Sie einfach eine kurze Nachricht an:
-          Switchify Kundenservice, [Unternehmensadresse], oder schreiben Sie uns
-          eine E-Mail an support@switchify.com. Es fallen keine zusAtzlichen
-          Kosten an, auAYer den A¬blichen AobertragungsgebA¬hren.
+          Wechselsicher Kundenservice, [Unternehmensadresse], oder schreiben Sie
+          uns eine E-Mail an support@Wechselsicher.com. Es fallen keine
+          zusAtzlichen Kosten an, auAYer den A¬blichen AobertragungsgebA¬hren.
         </p>
       </div>
     </div>
