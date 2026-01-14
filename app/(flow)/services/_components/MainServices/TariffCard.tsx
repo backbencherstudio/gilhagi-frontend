@@ -3,6 +3,7 @@
 import RatingStar from "@/components/icons/RatingStar";
 import { Info } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useAppSelector } from "@/redux/store/hooks";
 
 interface Props {
   tariff: any;
@@ -10,14 +11,25 @@ interface Props {
 
 export default function TariffCard({ tariff }: Props) {
   const router = useRouter();
-  const isAuthenticated = true;
+  const isAuthenticated = useAppSelector(
+    (state: any) => state.auth.isAuthenticated
+  );
 
-  const handleSwitch = () => {
-    if (!isAuthenticated) {
-      return router.push("/register");
-    }
+  const goToTariffFlow = () => {
     router.push(`/services/provider/${tariff.id}`);
   };
+
+  const handleSwitch = () => {
+    const nextUrl = `/services/provider/${tariff.id}`;
+  
+    if (!isAuthenticated) {
+      sessionStorage.setItem("returnTo", nextUrl); // set here
+      return router.push("/register"); // or "/login"
+    }
+  
+    router.push(nextUrl);
+  };
+  
 
   return (
     <div

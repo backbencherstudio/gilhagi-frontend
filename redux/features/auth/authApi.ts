@@ -33,6 +33,31 @@ interface LoginRequest {
   remember?: boolean;
 }
 
+interface RegisterRequest {
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone_number: string;
+  password: string;
+  password_confirmation: string;
+  privacy_policy: boolean;
+}
+
+interface RegisterResponse {
+  status: boolean;
+  message: string;
+  data: {
+    id: number;
+    first_name: string;
+    last_name: string;
+    email: string;
+    phone_number: string;
+    privacy_policy: boolean;
+    created_at: string;
+    updated_at: string;
+  };
+}
+
 // Helper function to transform admin data to User format
 const transformAdminToUser = (adminData: AdminLoginResponse["admin"]): User => {
   const nameParts = adminData.name.split(" ");
@@ -89,6 +114,15 @@ export const authApi = baseApi.injectEndpoints({
       },
     }),
 
+    // User registration
+    register: builder.mutation<RegisterResponse, RegisterRequest>({
+      query: (userData) => ({
+        url: "/register",
+        method: "POST",
+        body: userData,
+      }),
+    }),
+
     // Admin login
     adminLogin: builder.mutation<AdminLoginResponse, LoginRequest>({
       query: (credentials) => ({
@@ -128,4 +162,5 @@ export const authApi = baseApi.injectEndpoints({
 });
 
 // Export hooks for usage in components
-export const { useLoginMutation, useAdminLoginMutation } = authApi;
+export const { useLoginMutation, useAdminLoginMutation, useRegisterMutation } =
+  authApi;

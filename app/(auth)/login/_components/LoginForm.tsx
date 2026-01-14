@@ -4,7 +4,6 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
-
 import { Checkbox } from "@/components/ui/checkbox";
 import { useAppSelector } from "@/redux/store/hooks";
 import type { RootState } from "@/redux/store";
@@ -27,9 +26,20 @@ const LoginForm = () => {
   const [serverError, setServerError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
-    if (isAuthenticated) router.push("/user-dashboard");
+    if (!isAuthenticated) return;
+  
+    const returnTo = sessionStorage.getItem("returnTo");
+    console.log("returnTo", returnTo);
+  
+    if (returnTo) {
+      sessionStorage.removeItem("returnTo");
+      router.replace(returnTo);
+      return;
+    }
+  
+    router.replace("/user-dashboard");
   }, [isAuthenticated, router]);
-
+  
   const {
     register,
     handleSubmit,
