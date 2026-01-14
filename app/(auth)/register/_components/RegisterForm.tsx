@@ -86,9 +86,10 @@ const RegisterForm = () => {
       {/* login link */}
       {/* Login link */}
       <p className="mt-6 text-center text-sm md:text-base text-[#707070]">
-        Bereits ein Konto?{" "}
+        Bereits ein Konto? {" "}
         <a href="/login" className="text-[#085EC4] font-medium hover:underline">
-          Jetzt anmelden
+          Jetzt anmelden  
+
         </a>
       </p>
     </form>

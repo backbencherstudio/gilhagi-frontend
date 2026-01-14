@@ -9,19 +9,20 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { publicAxios } from "@/lib/api/publicAxios";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import type { RootState } from "@/store";
-import { login, setLoading } from "@/store/slices/authSlice"; // <-- adjust path
+import { login, setLoading } from "@/store/slices/authSlice";
+import type { User } from "@/store/slices/authSlice";
 
-type LoginFormValues = {
+type AdminLoginFormValues = {
   email: string;
   password: string;
   remember: boolean;
 };
 
-const LoginForm = () => {
+const AdminLoginForm = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  const { isAuthenticated, isLoading } = useAppSelector(
+  const { isAuthenticated, isLoading, user } = useAppSelector(
     (state: RootState) => state.auth
   );
 
@@ -29,8 +30,14 @@ const LoginForm = () => {
   const [serverError, setServerError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
-    if (isAuthenticated) router.push("/user-dashboard");
-  }, [isAuthenticated, router]);
+    // Check if user is authenticated and is admin, then redirect
+    if (isAuthenticated && user?.user_type === "admin") {
+      router.push("/admin-dashboard");
+    } else if (isAuthenticated && user?.user_type !== "admin") {
+      // If logged in but not admin, redirect to user dashboard
+      router.push("/user-dashboard");
+    }
+  }, [isAuthenticated, user, router]);
 
   const {
     register,
@@ -38,9 +45,9 @@ const LoginForm = () => {
     formState: { errors, isSubmitting },
     setValue,
     watch,
-  } = useForm<LoginFormValues>({
+  } = useForm<AdminLoginFormValues>({
     defaultValues: {
-      email: "habiburrahman5114@gmail.com",
+      email: "super@gmail.com",
       password: "12345678",
       remember: false,
     },
@@ -48,26 +55,45 @@ const LoginForm = () => {
 
   const remember = watch("remember");
 
-  const onSubmit = async (values: LoginFormValues) => {
+  const onSubmit = async (values: AdminLoginFormValues) => {
     try {
       setServerError(null);
       dispatch(setLoading(true));
 
-      const res = await publicAxios.post("/login", {
+      // Call admin login endpoint
+      const res = await publicAxios.post("/admin/login", {
         email: values.email,
         password: values.password,
         remember: values.remember,
       });
 
-      // ✅ adapt these to your real API response keys
-      const user = res.data.user;
+      // Admin response has 'admin' key, not 'user'
+      const adminData = res.data.admin;
       const token = res.data.token;
 
-      if (!user || !token) {
-        throw new Error("Invalid login response: user/token missing");
+      if (!adminData || !token) {
+        throw new Error("Invalid login response: admin/token missing");
       }
 
-      // ✅ if you want remember-me (optional)
+      // Transform admin data to match User interface
+      const nameParts = adminData.name.split(" ");
+      const user: User = {
+        id: adminData.id,
+        first_name: nameParts[0] || adminData.name,
+        last_name: nameParts.slice(1).join(" ") || "",
+        email: adminData.email,
+        email_verified_at: null,
+        phone_number: null,
+        user_type: "admin", // Set user_type to "admin" for admin users
+        postal_code: null,
+        city: null,
+        current_provider: null,
+        annual_consumption: null,
+        created_at: adminData.created_at,
+        updated_at: adminData.updated_at,
+      };
+
+      // Store token if remember me is checked
       if (values.remember) {
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(user));
@@ -77,12 +103,13 @@ const LoginForm = () => {
       }
 
       dispatch(login({ user, token }));
-      // redirect will happen from useEffect
+      // Redirect will happen from useEffect
     } catch (err: any) {
-      setServerError(err?.response?.data?.message ?? err?.message ?? "Login failed");
-      console.error(err);
-    } finally {
       dispatch(setLoading(false));
+      setServerError(
+        err?.response?.data?.message ?? err?.message ?? "Login failed"
+      );
+      console.error(err);
     }
   };
 
@@ -104,8 +131,10 @@ const LoginForm = () => {
           <label className="form-label">E-Mail *</label>
           <input
             type="email"
-            placeholder="john@example.com"
-            className={`form-input w-full ${errors.email ? "border border-red-500" : ""}`}
+            placeholder="admin@example.com"
+            className={`form-input w-full ${
+              errors.email ? "border border-red-500" : ""
+            }`}
             {...register("email", {
               required: "E-Mail is required",
               pattern: {
@@ -127,10 +156,15 @@ const LoginForm = () => {
             <input
               type={showPassword ? "text" : "password"}
               placeholder="Passwort eingeben"
-              className={`form-input w-full pr-12 ${errors.password ? "border border-red-500" : ""}`}
+              className={`form-input w-full pr-12 ${
+                errors.password ? "border border-red-500" : ""
+              }`}
               {...register("password", {
                 required: "Password is required",
-                minLength: { value: 8, message: "Password must be at least 8 characters" },
+                minLength: {
+                  value: 8,
+                  message: "Password must be at least 8 characters",
+                },
               })}
             />
 
@@ -145,7 +179,9 @@ const LoginForm = () => {
           </div>
 
           {errors.password?.message && (
-            <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
+            <p className="mt-1 text-sm text-red-600">
+              {errors.password.message}
+            </p>
           )}
         </div>
       </div>
@@ -186,13 +222,13 @@ const LoginForm = () => {
       </button>
 
       <p className="mt-6 text-center text-sm md:text-base text-[#707070]">
-        Noch kein Konto?{" "}
-        <a href="/register" className="text-[#085EC4] font-medium hover:underline">
-          Jetzt registrieren
+        Benutzer-Login?{" "}
+        <a href="/login" className="text-[#085EC4] font-medium hover:underline">
+          Zur Benutzer-Anmeldung
         </a>
       </p>
     </form>
   );
 };
 
-export default LoginForm;
+export default AdminLoginForm;
