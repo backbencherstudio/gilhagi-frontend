@@ -6,11 +6,9 @@ import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { Checkbox } from "@/components/ui/checkbox";
-import { publicAxios } from "@/lib/api/publicAxios";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import type { RootState } from "@/store";
-import { login, setLoading } from "@/store/slices/authSlice";
-import type { User } from "@/store/slices/authSlice";
+import { useAppSelector } from "@/redux/store/hooks";
+import type { RootState } from "@/redux/store";
+import { useAdminLoginMutation } from "@/redux/features/auth/authApi";
 
 type AdminLoginFormValues = {
   email: string;
@@ -20,9 +18,10 @@ type AdminLoginFormValues = {
 
 const AdminLoginForm = () => {
   const router = useRouter();
-  const dispatch = useAppDispatch();
+  const [adminLogin, { isLoading: isLoginLoading, error: loginError }] =
+    useAdminLoginMutation();
 
-  const { isAuthenticated, isLoading, user } = useAppSelector(
+  const { isAuthenticated, user } = useAppSelector(
     (state: RootState) => state.auth
   );
 
@@ -58,57 +57,16 @@ const AdminLoginForm = () => {
   const onSubmit = async (values: AdminLoginFormValues) => {
     try {
       setServerError(null);
-      dispatch(setLoading(true));
 
-      // Call admin login endpoint
-      const res = await publicAxios.post("/admin/login", {
+      await adminLogin({
         email: values.email,
         password: values.password,
         remember: values.remember,
-      });
+      }).unwrap();
 
-      // Admin response has 'admin' key, not 'user'
-      const adminData = res.data.admin;
-      const token = res.data.token;
-
-      if (!adminData || !token) {
-        throw new Error("Invalid login response: admin/token missing");
-      }
-
-      // Transform admin data to match User interface
-      const nameParts = adminData.name.split(" ");
-      const user: User = {
-        id: adminData.id,
-        first_name: nameParts[0] || adminData.name,
-        last_name: nameParts.slice(1).join(" ") || "",
-        email: adminData.email,
-        email_verified_at: null,
-        phone_number: null,
-        user_type: "admin", // Set user_type to "admin" for admin users
-        postal_code: null,
-        city: null,
-        current_provider: null,
-        annual_consumption: null,
-        created_at: adminData.created_at,
-        updated_at: adminData.updated_at,
-      };
-
-      // Store token if remember me is checked
-      if (values.remember) {
-        localStorage.setItem("token", token);
-        localStorage.setItem("user", JSON.stringify(user));
-      } else {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-      }
-
-      dispatch(login({ user, token }));
-      // Redirect will happen from useEffect
+      // Redirect will happen from useEffect when isAuthenticated changes
     } catch (err: any) {
-      dispatch(setLoading(false));
-      setServerError(
-        err?.response?.data?.message ?? err?.message ?? "Login failed"
-      );
+      setServerError(err?.data?.message ?? err?.message ?? "Login failed");
       console.error(err);
     }
   };
@@ -209,7 +167,7 @@ const AdminLoginForm = () => {
 
       <button
         type="submit"
-        disabled={isSubmitting || isLoading}
+        disabled={isSubmitting || isLoginLoading}
         className="
           bg-[#085EC4] text-white font-semibold
           py-3.5 px-6 rounded-full
@@ -218,7 +176,7 @@ const AdminLoginForm = () => {
           disabled:opacity-60 disabled:cursor-not-allowed
         "
       >
-        {isSubmitting || isLoading ? "Logging in..." : "Anmelden"}
+        {isSubmitting || isLoginLoading ? "Logging in..." : "Anmelden"}
       </button>
 
       <p className="mt-6 text-center text-sm md:text-base text-[#707070]">

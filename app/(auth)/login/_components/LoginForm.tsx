@@ -6,10 +6,9 @@ import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { Checkbox } from "@/components/ui/checkbox";
-import { publicAxios } from "@/lib/api/publicAxios";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import type { RootState } from "@/store";
-import { login, setLoading } from "@/store/slices/authSlice"; // <-- adjust path
+import { useAppSelector } from "@/redux/store/hooks";
+import type { RootState } from "@/redux/store";
+import { useLoginMutation } from "@/redux/features/auth/authApi";
 
 type LoginFormValues = {
   email: string;
@@ -19,11 +18,10 @@ type LoginFormValues = {
 
 const LoginForm = () => {
   const router = useRouter();
-  const dispatch = useAppDispatch();
+  const [login, { isLoading: isLoginLoading, error: loginError }] =
+    useLoginMutation();
 
-  const { isAuthenticated, isLoading } = useAppSelector(
-    (state: RootState) => state.auth
-  );
+  const { isAuthenticated } = useAppSelector((state: RootState) => state.auth);
 
   const [showPassword, setShowPassword] = React.useState(false);
   const [serverError, setServerError] = React.useState<string | null>(null);
@@ -51,38 +49,17 @@ const LoginForm = () => {
   const onSubmit = async (values: LoginFormValues) => {
     try {
       setServerError(null);
-      dispatch(setLoading(true));
 
-      const res = await publicAxios.post("/login", {
+      await login({
         email: values.email,
         password: values.password,
         remember: values.remember,
-      });
+      }).unwrap();
 
-      // ✅ adapt these to your real API response keys
-      const user = res.data.user;
-      const token = res.data.token;
-
-      if (!user || !token) {
-        throw new Error("Invalid login response: user/token missing");
-      }
-
-      // ✅ if you want remember-me (optional)
-      if (values.remember) {
-        localStorage.setItem("token", token);
-        localStorage.setItem("user", JSON.stringify(user));
-      } else {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-      }
-
-      dispatch(login({ user, token }));
-      // redirect will happen from useEffect
+      // Redirect will happen from useEffect when isAuthenticated changes
     } catch (err: any) {
-      setServerError(err?.response?.data?.message ?? err?.message ?? "Login failed");
+      setServerError(err?.data?.message ?? err?.message ?? "Login failed");
       console.error(err);
-    } finally {
-      dispatch(setLoading(false));
     }
   };
 
@@ -105,7 +82,9 @@ const LoginForm = () => {
           <input
             type="email"
             placeholder="john@example.com"
-            className={`form-input w-full ${errors.email ? "border border-red-500" : ""}`}
+            className={`form-input w-full ${
+              errors.email ? "border border-red-500" : ""
+            }`}
             {...register("email", {
               required: "E-Mail is required",
               pattern: {
@@ -127,10 +106,15 @@ const LoginForm = () => {
             <input
               type={showPassword ? "text" : "password"}
               placeholder="Passwort eingeben"
-              className={`form-input w-full pr-12 ${errors.password ? "border border-red-500" : ""}`}
+              className={`form-input w-full pr-12 ${
+                errors.password ? "border border-red-500" : ""
+              }`}
               {...register("password", {
                 required: "Password is required",
-                minLength: { value: 8, message: "Password must be at least 8 characters" },
+                minLength: {
+                  value: 8,
+                  message: "Password must be at least 8 characters",
+                },
               })}
             />
 
@@ -145,7 +129,9 @@ const LoginForm = () => {
           </div>
 
           {errors.password?.message && (
-            <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
+            <p className="mt-1 text-sm text-red-600">
+              {errors.password.message}
+            </p>
           )}
         </div>
       </div>
@@ -173,7 +159,7 @@ const LoginForm = () => {
 
       <button
         type="submit"
-        disabled={isSubmitting || isLoading}
+        disabled={isSubmitting || isLoginLoading}
         className="
           bg-[#085EC4] text-white font-semibold
           py-3.5 px-6 rounded-full
@@ -182,12 +168,15 @@ const LoginForm = () => {
           disabled:opacity-60 disabled:cursor-not-allowed
         "
       >
-        {isSubmitting || isLoading ? "Logging in..." : "Anmelden"}
+        {isSubmitting || isLoginLoading ? "Logging in..." : "Anmelden"}
       </button>
 
       <p className="mt-6 text-center text-sm md:text-base text-[#707070]">
         Noch kein Konto?{" "}
-        <a href="/register" className="text-[#085EC4] font-medium hover:underline">
+        <a
+          href="/register"
+          className="text-[#085EC4] font-medium hover:underline"
+        >
           Jetzt registrieren
         </a>
       </p>

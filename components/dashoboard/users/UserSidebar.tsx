@@ -18,8 +18,8 @@ import Link from "next/link";
 import React from "react";
 import { usePathname } from "next/navigation"; // For Next.js 15 (App Router)
 import ThunderIcon from "../../icons/ThunderIcon";
-import { logout } from "@/store/slices/authSlice";
-import { useAppDispatch } from "@/store/hooks";
+import { logout } from "@/redux/features/auth/authSlice";
+import { useAppDispatch } from "@/redux/store/hooks";
 
 // Navigation items array
 const navItems = [
@@ -36,10 +36,9 @@ const navItems = [
 
   {
     name: "Unterstützung",
-    icon:  <MessagesSquare className="w-5 h-5" />,
+    icon: <MessagesSquare className="w-5 h-5" />,
     href: "/user-dashboard/support",
   },
- 
 ];
 
 export default function UserSidebar({
@@ -70,7 +69,7 @@ export default function UserSidebar({
       `}
       > */}
 
-       <aside
+      <aside
         className={`
         fixed top-0 left-0 z-50
         w-[300px] h-screen bg-white border-r border-border

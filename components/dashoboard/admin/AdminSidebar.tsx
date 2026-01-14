@@ -17,8 +17,8 @@ import Link from "next/link";
 import React from "react";
 import { usePathname } from "next/navigation"; // For Next.js 15 (App Router)
 import ThunderIcon from "../../icons/ThunderIcon";
-import { logout } from "@/store/slices/authSlice";
-import { useAppDispatch } from "@/store/hooks";
+import { logout } from "@/redux/features/auth/authSlice";
+import { useAppDispatch } from "@/redux/store/hooks";
 
 // Navigation items array
 const navItems = [
@@ -121,7 +121,7 @@ export default function AdminSidebar({
         {/* Logout Button */}
         <div className="absolute w-full bottom-0  p-6 border-t space-y-2">
           <button
-              onClick={() => dispatch(logout())}
+            onClick={() => dispatch(logout())}
             className="flex items-center gap-3 p-3 rounded-md text-red-500 text-base font-medium leading-[140%] hover:bg-gray-100 transition-colors bg-[#EDF3F7] border border-[#E2E8EE] "
           >
             <LogOut className="w-5 h-5" />

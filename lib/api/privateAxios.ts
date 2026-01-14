@@ -1,6 +1,6 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
-import { store } from "@/store";
-import { logout, selectToken } from "@/store/slices/authSlice";
+import { store } from "@/redux/store";
+import { logout, selectToken } from "@/redux/features/auth/authSlice";
 
 export const privateAxios = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,

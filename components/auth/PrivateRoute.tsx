@@ -2,12 +2,12 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useAppSelector } from "@/store/hooks";
+import { useAppSelector } from "@/redux/store/hooks";
 import {
   selectIsAuthenticated,
   selectIsLoading,
   selectUser,
-} from "@/store/slices/authSlice";
+} from "@/redux/features/auth/authSlice";
 
 interface PrivateRouteProps {
   children: React.ReactNode;
