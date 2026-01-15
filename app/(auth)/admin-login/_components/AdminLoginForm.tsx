@@ -129,7 +129,7 @@ const AdminLoginForm = () => {
             <button
               type="button"
               onClick={() => setShowPassword((p) => !p)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#707070] hover:text-black"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#707070] hover:text-black cursor-pointer"
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
               {showPassword ? <EyeOff size={22} /> : <Eye size={22} />}
@@ -159,7 +159,7 @@ const AdminLoginForm = () => {
 
         <button
           type="button"
-          className="text-sm md:text-base text-[#085EC4] hover:underline"
+          className="text-sm md:text-base text-[#085EC4] hover:underline cursor-pointer"
         >
           Passwort vergessen?
         </button>
@@ -173,7 +173,7 @@ const AdminLoginForm = () => {
           py-3.5 px-6 rounded-full
           hover:bg-blue-700 transition
           w-full md:w-auto
-          disabled:opacity-60 disabled:cursor-not-allowed
+          disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer
         "
       >
         {isSubmitting || isLoginLoading ? "Logging in..." : "Anmelden"}

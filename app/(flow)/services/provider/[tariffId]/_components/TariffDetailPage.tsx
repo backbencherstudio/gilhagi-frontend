@@ -3,9 +3,22 @@
 import { useRouter } from "next/navigation";
 import InformationSummary from "./InfoSummary";
 import TariffDetails from "./TariffDetails";
+import { useAppSelector } from "@/redux/store/hooks";
+import { use } from "react";
+import { useParams } from "next/navigation";
+import { CloudCog } from "lucide-react";
+import {  useGetTariffByIdUserQuery } from "@/redux/features/terrif/teriffApi";
 
 const TariffDetailPage = () => {
   const router = useRouter();
+  const user = useAppSelector((state: any) => state.auth.user);
+  const params = useParams();
+  const tariffId = params.tariffId;
+
+  console.log("THis is tariffId", tariffId);
+
+  const { data: tariff } = useGetTariffByIdUserQuery(tariffId as string) as any;
+  console.log("THis is tariff", tariff);
 
   const handleSwitch = () => {
     router.push(`/services/provider/sp-1/details`);
@@ -25,7 +38,7 @@ const TariffDetailPage = () => {
     >
       {/* Greeting */}
       <h1 className="text-[#1C2022] text-2xl md:text-[32px] font-semibold mb-8">
-        Hello, Mr. Tawhid
+        Hello, {user?.first_name} {user?.last_name}
       </h1>
 
       {/* Main Content Layout */}

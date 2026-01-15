@@ -1,130 +1,128 @@
-
 .card {
-    /* background: white; */
-    padding: 30px;
-    border-radius: 30px;
-    /* box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05); */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* width: 320px; */
-    position: relative;
+  /* background: white; */
+  padding: 30px;
+  border-radius: 30px;
+  /* box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05); */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* width: 320px; */
+  position: relative;
 }
 
 /* Gauge Container */
 .gauge-wrapper {
-    position: relative;
-    width: 260px;
-    height: 200px; /* Cropped height to hide bottom empty space */
-    display: flex;
-    justify-content: center;
-    margin-bottom: 10px;
+  position: relative;
+  width: 260px;
+  height: 200px; /* Cropped height to hide bottom empty space */
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
 }
 
 /* SVG Styles */
 .gauge-svg {
-    width: 100%;
-    height: 100%; /* Allows svg to scale */
-    overflow: visible;
+  width: 100%;
+  height: 100%; /* Allows svg to scale */
+  overflow: visible;
 }
 
 /* The background track */
 .gauge-bg {
-    fill: none;
-    stroke: #edf1f5;
-    stroke-width: 24;
-    stroke-linecap: round;
+  fill: none;
+  stroke: #edf1f5;
+  strokewidth: 24;
+  strokelinecap: round;
 }
 
 /* The Inner Dotted Line */
 .gauge-ticks {
-    fill: none;
-    stroke: #e2e6ea;
-    stroke-width: 2;
-    stroke-dasharray: 2 5; /* Dots spacing */
-    stroke-linecap: round;
+  fill: none;
+  stroke: #e2e6ea;
+  strokewidth: 2;
+  stroke-dasharray: 2 5; /* Dots spacing */
+  strokelinecap: round;
 }
 
 /* The Progress Bar */
 .gauge-progress {
-    fill: none;
-    stroke: #0b63ce;
-    stroke-width: 24;
-    stroke-linecap: round;
-    
-    /* Logic for animation */
-    stroke-dasharray: 100; /* We set pathLength="100" in HTML for easy % calc */
-    stroke-dashoffset: 100; /* Start hidden (100% offset) */
-    transition: stroke-dashoffset 1.5s cubic-bezier(0.2, 0, 0.2, 1);
+  fill: none;
+  stroke: #0b63ce;
+  strokewidth: 24;
+  strokelinecap: round;
+
+  /* Logic for animation */
+  stroke-dasharray: 100; /* We set pathLength="100" in HTML for easy % calc */
+  stroke-dashoffset: 100; /* Start hidden (100% offset) */
+  transition: stroke-dashoffset 1.5s cubic-bezier(0.2, 0, 0.2, 1);
 }
 
 /* Center Content - Lightning */
 .gauge-center {
-    position: absolute;
-    top: 55%; 
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 80px;
-    height: 80px;
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 80px;
 }
 
 /* Lightning Icon & Effects */
 .lightning-icon {
-    width: 45px;
-    height: 75px;
-    position: relative;
-    z-index: 2;
+  width: 45px;
+  height: 75px;
+  position: relative;
+  z-index: 2;
 }
 
 .bolt {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 /* Main sharp bolt */
 .bolt-layer-1 {
-    fill: #0b63ce;
-    z-index: 3;
-    filter: drop-shadow(0 4px 6px rgba(11, 99, 206, 0.3));
+  fill: #0b63ce;
+  z-index: 3;
+  filter: drop-shadow(0 4px 6px rgba(11, 99, 206, 0.3));
 }
 
 /* Middle ghost bolt */
 .bolt-layer-2 {
-    transform: translate(-8px, -2px) scale(0.95);
-    opacity: 0.5;
-    filter: blur(2px);
-    fill: #4dabf7;
-    z-index: 2;
+  transform: translate(-8px, -2px) scale(0.95);
+  opacity: 0.5;
+  filter: blur(2px);
+  fill: #4dabf7;
+  z-index: 2;
 }
 
 /* Back ghost bolt */
 .bolt-layer-3 {
-    transform: translate(-16px, -4px) scale(0.9);
-    opacity: 0.25;
-    filter: blur(4px);
-    fill: #a5d8ff;
-    z-index: 1;
+  transform: translate(-16px, -4px) scale(0.9);
+  opacity: 0.25;
+  filter: blur(4px);
+  fill: #a5d8ff;
+  z-index: 1;
 }
 
 /* Labels at bottom */
 .labels {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    padding: 0 15px;
-    box-sizing: border-box;
-    margin-top: -10px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 15px;
+  box-sizing: border-box;
+  margin-top: -10px;
 }
 
 .label {
-    color: #5d6b82;
-    font-size: 18px;
-    font-weight: 500;
+  color: #5d6b82;
+  font-size: 18px;
+  font-weight: 500;
 }
-

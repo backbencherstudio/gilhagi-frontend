@@ -12,7 +12,7 @@ export default function UserHeader({
       <div>
         <button
           onClick={onMenuClick}
-          className="lg:hidden p-2 hover:bg-gray-100 rounded-md"
+          className="lg:hidden p-2 hover:bg-gray-100 rounded-md cursor-pointer"
         >
           <Menu className="w-6 h-6" />
         </button>
@@ -21,7 +21,7 @@ export default function UserHeader({
       {/* right  */}
       <div className="flex items-stretch gap-4 ">
         {/* Notification */}
-        <button className="flex items-center gap-[105px] border border-[#CCDAE4] bg-[#EDF3F7] p-3 rounded-md border-solid">
+        <button className="flex items-center gap-[105px] border border-[#CCDAE4] bg-[#EDF3F7] p-3 rounded-md border-solid cursor-pointer">
           <Bell />
         </button>
 

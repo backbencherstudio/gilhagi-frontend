@@ -26,7 +26,6 @@ export default function Navbar() {
   const dashboardHref = useMemo(() => {
     if (!isAuthenticated) return "/register";
     return userType === "admin" ? "/admin-dashboard" : "/user-dashboard";
-
   }, [isAuthenticated, userType]);
 
   const ctaLabel = isAuthenticated ? "Dashboard" : "Jetzt registrieren";
@@ -43,8 +42,7 @@ export default function Navbar() {
     setOpen(false);
   }, [pathname]);
 
-  const navBgClass =
-    scrolled || !isHome ? "bg-[#0B2839]" : "bg-[#F2F6F50D]";
+  const navBgClass = scrolled || !isHome ? "bg-[#0B2839]" : "bg-[#F2F6F50D]";
 
   const toggleOpen = () => setOpen((v) => !v);
   const closeMenu = () => setOpen(false);
@@ -85,7 +83,7 @@ export default function Navbar() {
           </ul>
 
           <Link href={dashboardHref}>
-            <button className="rounded-full bg-[#085EC4] px-8 py-4 text-lg font-medium transition hover:bg-[#064DA1]">
+            <button className="rounded-full bg-[#085EC4] px-8 py-4 text-lg font-medium transition hover:bg-[#064DA1] cursor-pointer">
               {ctaLabel}
             </button>
           </Link>
@@ -138,7 +136,7 @@ export default function Navbar() {
           ))}
 
           <Link href={dashboardHref} onClick={closeMenu}>
-            <button className="rounded-full bg-[#085EC4] px-8 py-4 text-lg font-medium transition hover:bg-[#064DA1]">
+            <button className="rounded-full bg-[#085EC4] px-8 py-4 text-lg font-medium transition hover:bg-[#064DA1] cursor-pointer">
               {ctaLabel}
             </button>
           </Link>

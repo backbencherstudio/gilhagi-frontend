@@ -1,6 +1,7 @@
 import { Pencil } from "lucide-react";
 
 export default function ComparisonSummaryCard() {
+
   return (
     <div className="bg-white rounded-xl p-6 shadow-sm flex flex-col gap-6">
       
@@ -17,6 +18,8 @@ export default function ComparisonSummaryCard() {
             </p>
             <Pencil className="w-4 h-4 text-[#085EC4]" />
           </div>
+
+          
 
           {/* Provider Information */}
           <div className="flex flex-col sm:flex-row gap-6 text-sm md:text-base">

@@ -86,7 +86,9 @@ export default function DocumentCard({
   return (
     <div className="border border-border rounded-lg p-6 bg-card hover:shadow-sm transition-shadow">
       <div className="flex items-start justify-between gap-3 mb-4">
-        <h3 className="text-lg font-semibold text-foreground">{document.title}</h3>
+        <h3 className="text-lg font-semibold text-foreground">
+          {document.title}
+        </h3>
 
         <div
           className={`flex items-center gap-2 px-3 py-1 ${statusConfig.bgColor} rounded-full`}
@@ -107,7 +109,7 @@ export default function DocumentCard({
           className={`inline-flex items-center gap-2 text-sm font-medium ${
             !sampleUrl || sampleUrl === "#"
               ? "text-muted-foreground cursor-not-allowed"
-              : "text-primary hover:underline"
+              : "text-primary hover:underline cursor-pointer"
           }`}
         >
           <ExternalLink className="w-4 h-4" />
@@ -120,7 +122,7 @@ export default function DocumentCard({
           disabled={!explanation}
           className={`inline-flex items-center gap-2 text-sm font-medium px-3 py-1 rounded-full border ${
             explanation
-              ? "border-border hover:bg-secondary/50"
+              ? "border-border hover:bg-secondary/50 cursor-pointer"
               : "border-border text-muted-foreground cursor-not-allowed"
           }`}
         >
@@ -171,7 +173,7 @@ export default function DocumentCard({
               <button
                 type="button"
                 onClick={() => setIsExplainOpen(false)}
-                className="p-2 rounded-lg hover:bg-secondary/50"
+                className="p-2 rounded-lg hover:bg-secondary/50 cursor-pointer"
                 aria-label="Close"
               >
                 <X className="w-4 h-4" />

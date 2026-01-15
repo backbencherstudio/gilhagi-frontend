@@ -82,7 +82,7 @@ export const bestProviderData = [
 ];
 
 export default function page() {
-  const allTariffs = [...sponsorData, ...topMatchData, ...bestProviderData];
+ 
   return (
     <div className="w-full">
   <div
@@ -102,8 +102,7 @@ export default function page() {
     {/* Main content */}
     <div className="flex flex-col gap-6 w-full">
       <ComparisonSummaryCard />
-
-      <AllSection tariffs={allTariffs} />
+      <AllSection />
     </div>
   </div>
 </div>

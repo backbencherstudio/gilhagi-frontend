@@ -207,7 +207,7 @@ const RegisterForm = () => {
             <button
               type="button"
               onClick={() => setShowPassword((p) => !p)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#707070] hover:text-black"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#707070] hover:text-black cursor-pointer"
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
               {showPassword ? <EyeOff size={22} /> : <Eye size={22} />}
@@ -241,7 +241,7 @@ const RegisterForm = () => {
             <button
               type="button"
               onClick={() => setShowPasswordConfirmation((p) => !p)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#707070] hover:text-black"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#707070] hover:text-black cursor-pointer"
               aria-label={
                 showPasswordConfirmation ? "Hide password" : "Show password"
               }
@@ -292,7 +292,7 @@ const RegisterForm = () => {
           rounded-full 
           hover:bg-blue-700 transition 
           w-full md:w-auto
-          disabled:opacity-60 disabled:cursor-not-allowed
+          disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer
         "
       >
         {isSubmitting || isRegisterLoading ? "Registrieren..." : "Registrieren"}

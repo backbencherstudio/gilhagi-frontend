@@ -81,7 +81,7 @@ export default function UserSidebar({
         {/* Close button for mobile */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 lg:hidden p-2 hover:bg-gray-100 rounded-md"
+          className="absolute top-4 right-4 lg:hidden p-2 hover:bg-gray-100 rounded-md cursor-pointer"
         >
           <X className="w-5 h-5" />
         </button>

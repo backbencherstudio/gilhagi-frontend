@@ -30,7 +30,8 @@ const faqs = [
       "Ja. Wir verwenden Ihre Daten ausschließlich zur Abwicklung des Tarifwechsels und – sofern Sie zugestimmt haben – zur Zusendung relevanter Informationen. Ihre Daten werden gemäß unserer Datenschutzrichtlinie verarbeitet und nicht ohne rechtliche Grundlage an Dritte weitergegeben.",
   },
   {
-    question: "Kann ich meine Einwilligung für Informationen jederzeit widerrufen?",
+    question:
+      "Kann ich meine Einwilligung für Informationen jederzeit widerrufen?",
     answer:
       "Ja, Sie können Ihre Einwilligung zur Zusendung von Informationen jederzeit widerrufen. Nutzen Sie dafür einfach den Abmeldelink in unseren E-Mails oder kontaktieren Sie unseren Kundenservice. Weitere Details finden Sie in unserer Datenschutzrichtlinie.",
   },
@@ -55,8 +56,9 @@ export default function Page() {
               Häufig gestellte Fragen
             </h1>
             <p className="text-sm md:text-base text-[#5F728B] leading-[140%]">
-              Alles, was Sie über den Wechsel zu einem neuen Stromtarif mit Wechselsicher
-              wissen müssen – modern und übersichtlich im Akkordeon-Stil.
+              Alles, was Sie über den Wechsel zu einem neuen Stromtarif mit
+              Wechselsicher wissen müssen – modern und übersichtlich im
+              Akkordeon-Stil.
             </p>
           </div>
           <div className="w-full lg:w-[320px] shrink-0 flex justify-center lg:justify-end">
@@ -78,16 +80,14 @@ export default function Page() {
               <div
                 key={item.question}
                 className={`border rounded-2xl bg-[#F8FCFD] transition-shadow duration-300 ${
-                  isOpen
-                    ? "border-[#085EC4]/40 shadow-lg"
-                    : "border-[#E2E8EE]"
+                  isOpen ? "border-[#085EC4]/40 shadow-lg" : "border-[#E2E8EE]"
                 }`}
               >
                 <button
                   type="button"
                   onClick={() => handleToggle(index)}
                   aria-expanded={isOpen}
-                  className="flex w-full items-center justify-between gap-4 p-4 md:p-5 text-left"
+                  className="flex w-full items-center justify-between gap-4 p-4 md:p-5 text-left cursor-pointer"
                 >
                   <h2 className="text-base md:text-lg font-semibold text-[#1C2022]">
                     {item.question}
