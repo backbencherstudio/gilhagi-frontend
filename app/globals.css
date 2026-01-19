@@ -198,3 +198,78 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+
+/* Completely hide the Google Translate banner */
+#goog-gt-tt,
+.goog-te-banner-frame,
+.goog-te-menu-frame,
+.goog-te-ftab-frame,
+.goog-te-banner,
+.skiptranslate {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+/* Hide the top banner that pushes content down */
+body {
+  top: 0 !important;
+  position: static !important;
+}
+
+
+/* Hide the gadget visually but keep it functional for the select element */
+/* Hide the Google Translate gadget but keep the dropdown functional */
+.goog-te-gadget {
+  display: none !important;
+  visibility: hidden !important;
+}
+/* Style the select dropdown if you want to make it visible for debugging */
+.goog-te-combo {
+  /* Uncomment for debugging */
+  /* position: absolute !important;
+  left: 0 !important;
+  top: 0 !important;
+  width: 100px !important;
+  height: 30px !important;
+  opacity: 0.5 !important;
+  z-index: 9999 !important; */
+  
+  /* Keep it hidden in production */
+  display: none !important;
+  visibility: hidden !important;
+}
+
+body {
+  top: 0 !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Hide the Google Translate tooltip on hover */
+.goog-tooltip {
+  display: none !important;
+}
+
+.goog-tooltip:hover {
+  display: none !important;
+}
+
+.goog-text-highlight {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Optional: Hide the "Powered by Google" branding if it slips through */
+.goog-logo-link {
+  display: none !important;
+}
+
+.goog-te-gadget {
+  height: 0 !important;
+  overflow: hidden;
+}

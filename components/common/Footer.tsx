@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Footer() {
   return (
@@ -173,6 +174,11 @@ export default function Footer() {
                   >
                     Datenschutzrichtlinie
                   </Link>
+                </li>
+
+                <li className="mb-2">
+                  <LanguageSwitcher />
+                  
                 </li>
               </ul>
             </div>
