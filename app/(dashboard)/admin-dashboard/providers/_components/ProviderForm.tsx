@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 import * as z from "zod";
 
 // Validierungsschema
@@ -50,11 +51,43 @@ export default function ProviderForm({
     },
   });
 
+  // Reset form when initialData changes (modal opens/closes)
+  useEffect(() => {
+    if (mode === "add") {
+      form.reset({
+        Anbietername: "",
+        Servicegebiete: "",
+        Erneuerbar: false,
+        AktiverProvider: false,
+      });
+    } else if (initialData) {
+      form.reset({
+        Anbietername: initialData.Anbietername || "",
+        Servicegebiete: initialData.Servicegebiete || "",
+        Erneuerbar: initialData.Erneuerbar || false,
+        AktiverProvider: initialData.AktiverProvider || false,
+      });
+    }
+  }, [initialData, mode, form]);
+
   const isViewMode = mode === "view";
+
+  const handleFormSubmit = async (data: ProviderFormData) => {
+    await onSubmit(data);
+    // Reset form after successful submission in add mode
+    if (mode === "add") {
+      form.reset({
+        Anbietername: "",
+        Servicegebiete: "",
+        Erneuerbar: false,
+        AktiverProvider: false,
+      });
+    }
+  };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-6">
         {/* Anbietername */}
         <FormField
           control={form.control}
@@ -154,8 +187,8 @@ export default function ProviderForm({
               {isLoading
                 ? "Wird gespeichert..."
                 : mode === "edit"
-                ? "Anbieter aktualisieren"
-                : "Anbieter hinzufügen"}
+                  ? "Anbieter aktualisieren"
+                  : "Anbieter hinzufügen"}
             </Button>
           </div>
         )}

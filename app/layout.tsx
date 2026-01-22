@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ReduxProvider from "./providers/ReduxProvider";
-import Script from "next/script";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,32 +26,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      {/* Load Google Translate */}
-      <Script
-        src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-        strategy="afterInteractive"
-      />
-
-      {/* Init function for Google Translate */}
-      <Script id="google-translate-init" strategy="afterInteractive">
-        {`
-            window.googleTranslateElementInit = function () {
-              new window.google.translate.TranslateElement({
-                pageLanguage: 'de',            // GERMAN IS DEFAULT
-                includedLanguages: 'de,en',   // German + English
-                autoDisplay: false
-              }, 'google_translate_element');
-            };
-          `}
-      </Script>
-
-
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {/* Hidden div for Google widget */}
-        <div id="google_translate_element" style={{ display: "none" }} />
-        <ReduxProvider>{children}</ReduxProvider>
+        <ReduxProvider>
+          {children}
+          <Toaster position="top-center" richColors />
+        </ReduxProvider>
       </body>
     </html>
   );

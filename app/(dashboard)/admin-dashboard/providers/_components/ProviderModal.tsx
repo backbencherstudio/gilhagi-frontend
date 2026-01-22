@@ -60,6 +60,7 @@ export default function ProviderModal({
         ...initialData,
         Erneuerbar:
           initialData.Erneuerbar === "Ja" || initialData.Erneuerbar === true,
+        AktiverProvider: initialData.Status === "Aktiv" ? true : false,
       }
     : undefined;
 

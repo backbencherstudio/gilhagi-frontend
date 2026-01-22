@@ -4,7 +4,6 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
-import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Footer() {
   return (
@@ -124,7 +123,7 @@ export default function Footer() {
                     Wie es funktioniert
                   </Link>
                 </li>
-                
+
               </ul>
             </div>
 
@@ -176,10 +175,7 @@ export default function Footer() {
                   </Link>
                 </li>
 
-                <li className="mb-2">
-                  <LanguageSwitcher />
-                  
-                </li>
+                {/* Language Switcher will be added later */}
               </ul>
             </div>
           </div>

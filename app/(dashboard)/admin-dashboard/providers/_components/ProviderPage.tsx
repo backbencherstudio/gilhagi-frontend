@@ -12,15 +12,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useGetPostalCodesQuery } from "@/redux/features/providers/providersApi";
 
 export default function ProviderPage() {
-  const [postalCode, setPostalCode] = useState<string>("1010");
 
+  const { data: postalCodes } = useGetPostalCodesQuery(null);
+
+  const [postalCode, setPostalCode] = useState<string>("");
+  console.log("select postal codes", postalCode);
   const tabs = [
     {
       value: "provider-table",
       label: "Anbieterliste",
-      content: <ProviderTable postalCode={postalCode} />,
+      content: <ProviderTable postalCode={postalCode} />, // todo: add postal code
     },
     {
       value: "tariff-table",
@@ -38,22 +42,22 @@ export default function ProviderPage() {
       />
 
       {/* Postleitzahl-Auswahl */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3" translate="no">
         <p className="text-sm text-muted-foreground">
           Postleitzahl auswählen
         </p>
 
         <Select value={postalCode} onValueChange={setPostalCode}>
-          <SelectTrigger className="w-40">
-            <SelectValue placeholder="PLZ" />
+          <SelectTrigger className="w-42">
+            <SelectValue placeholder="Bereich auswählen" />
           </SelectTrigger>
 
           <SelectContent>
-            <SelectItem value="1010">1010</SelectItem>
-            <SelectItem value="1020">1020</SelectItem>
-            <SelectItem value="1030">1030</SelectItem>
-            <SelectItem value="1040">1040</SelectItem>
-            <SelectItem value="1050">1050</SelectItem>
+
+            <SelectItem value=" ">Alle</SelectItem>
+            {postalCodes?.data?.map((code: any) => (
+              <SelectItem key={code} value={code}>{code}</SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>

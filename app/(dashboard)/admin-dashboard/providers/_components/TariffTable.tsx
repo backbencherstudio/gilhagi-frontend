@@ -7,6 +7,7 @@ import { DataTable } from "@/components/dashoboard/DataTable"; // Assuming DataT
 import TableTitle from "@/components/dashoboard/TableTitle";
 import TariffModal from "./TariffModal"; // Modal to add/edit tariff data
 import DeleteModal from "@/components/dashoboard/DeleteModal";
+import { useGetProvidersAdminQuery } from "@/redux/features/providers/providersApi";
 
 // Translation Map for German UI Labels (same structure as before)
 const translations = {
@@ -124,6 +125,10 @@ export default function TariffTable({ postalCode }: { postalCode: string }) {
     isOpen: false,
   });
 
+  // api call to get tariffs
+  const {data: providersData} = useGetProvidersAdminQuery(postalCode);
+  console.log("providersData", providersData);
+
   // Handlers for view, edit, and delete actions
   const handleView = (row: any) => {
     setModalState({
@@ -167,6 +172,8 @@ export default function TariffTable({ postalCode }: { postalCode: string }) {
         ...tariffsByPostal,
         [postalCode]: [...current, newTariff],
       });
+
+      console.log("newTariff", newTariff);
     } else if (modalState.mode === "edit" && modalState.selectedTariff) {
       const current = tariffsByPostal[postalCode] || [];
       const updated = current.map((tariff) =>
