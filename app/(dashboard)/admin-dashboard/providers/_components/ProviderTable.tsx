@@ -131,7 +131,7 @@ export default function ProviderTable({ postalCode }: { postalCode: string }) {
 
 
   // api call to get providers
-  const { data: providersData } = useGetProvidersAdminQuery(postalCode);
+  const { data: providersData, isLoading: isLoadingProviders } = useGetProvidersAdminQuery(postalCode);
   const [createProviderAdmin] = useCreateProviderAdminMutation();
   const [updateProviderAdmin] = useUpdateProviderAdminMutation();
   const [deleteProviderAdmin] = useDeleteProviderAdminMutation();
@@ -310,6 +310,7 @@ export default function ProviderTable({ postalCode }: { postalCode: string }) {
       <DataTable
         columns={columns}
         data={providers}
+        loading={isLoadingProviders}
         onView={handleView}
         onEdit={handleEdit}
         onDelete={handleDelete}

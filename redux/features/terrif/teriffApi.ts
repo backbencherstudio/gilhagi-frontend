@@ -1,4 +1,5 @@
 import { baseApi } from "../api/baseApi";
+import { CreateAndEditTariffType } from "./teriff.type";
 
 const teriffApi = baseApi.injectEndpoints({
   // User endpoints
@@ -14,8 +15,8 @@ const teriffApi = baseApi.injectEndpoints({
     }),
 
     // Admin endpoints
-    getAllTariffs: builder.query({
-      query: () => "/admin/tariff/index",
+    getAllTariffsAdmin: builder.query({
+      query: (serviceArea: string) => `/admin/tariff/index?service_areas=${serviceArea}`,
       providesTags: ["Tariff"],
     }),
 
@@ -25,7 +26,7 @@ const teriffApi = baseApi.injectEndpoints({
     }),
 
     createTariff: builder.mutation({
-      query: (tariff: any) => ({
+      query: (tariff: CreateAndEditTariffType) => ({
         url: "/admin/tariff/store",
         method: "POST",
         body: tariff,
@@ -34,9 +35,9 @@ const teriffApi = baseApi.injectEndpoints({
     }),
 
     updateTariff: builder.mutation({
-      query: (tariff: any) => ({
-        url: "/admin/tariff/update/${id}",
-        method: "PUT",
+      query: ({ id, ...tariff }: { id: string } & CreateAndEditTariffType) => ({
+        url: `/admin/tariff/update/${id}`,
+        method: "POST",
         body: tariff,
       }),
       invalidatesTags: ["Tariff"],
@@ -58,4 +59,6 @@ export const {
   useUpdateTariffMutation,
   useDeleteTariffMutation,
   useGetTariffByIdQuery,
+  useGetAllTariffsAdminQuery,
 } = teriffApi;
+  

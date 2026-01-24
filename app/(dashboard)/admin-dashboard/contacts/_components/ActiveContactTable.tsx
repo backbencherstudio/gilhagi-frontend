@@ -2,8 +2,10 @@
 
 import { DataTable, StatusBadge } from "@/components/dashoboard/DataTable";
 import { Button } from "@/components/ui/button";
-import { Eye, Edit, Trash2, View, EyeIcon, icons } from "lucide-react";
+import { useGetApprovedContractsQuery } from "@/redux/features/contracts/contractsApi";
+import {  EyeIcon, } from "lucide-react";
 import Link from "next/link";
+
 
 // Define columns for the table
 // Define columns for the table
@@ -77,6 +79,11 @@ const data = [
 ];
 
 export function ContactTable() {
+
+
+  
+  const { data: approvedContracts } = useGetApprovedContractsQuery(null);
+  console.log("approved contracts", approvedContracts);
   return (
     <>
       <DataTable

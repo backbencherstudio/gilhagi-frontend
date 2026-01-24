@@ -14,3 +14,17 @@ export interface GetTariffsResponseType {
     }[];
 }
 
+
+
+export interface CreateAndEditTariffType {
+    vendor_id: number;
+    tariff_name: string;
+    price_kwh: number;
+    basic_fee: number;
+    exchange_bonus: number;
+    rates: number;
+    price_guarantee: string;
+    renewable: number;
+    status: number;
+}
+

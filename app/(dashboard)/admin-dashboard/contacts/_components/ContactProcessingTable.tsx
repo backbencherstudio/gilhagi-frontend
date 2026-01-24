@@ -2,8 +2,9 @@
 
 import { DataTable, StatusBadge } from "@/components/dashoboard/DataTable";
 import { Button } from "@/components/ui/button";
-import { Eye, Edit, Trash2, View, EyeIcon, icons } from "lucide-react";
+import { Eye, Edit, Trash2, View, EyeIcon,  } from "lucide-react";
 import Link from "next/link";
+import { useGetWaitingContractsQuery } from "@/redux/features/contracts/contractsApi";
 
 // Define columns for the table
 // Define columns for the table
@@ -85,7 +86,11 @@ const data = [
   // Add more data as needed
 ];
 
+
+
 export function ContactProcessingTable() {
+  const { data: waitingContracts } = useGetWaitingContractsQuery(null);
+  console.log("waiting contracts", waitingContracts);
   return (
     <>
       <DataTable
