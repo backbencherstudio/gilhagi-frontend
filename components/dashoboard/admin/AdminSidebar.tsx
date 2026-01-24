@@ -12,6 +12,7 @@ import {
   LogOut,
   X,
   Building2,
+  MessageCircle,
 } from "lucide-react";
 import Link from "next/link";
 import React from "react";
@@ -41,6 +42,11 @@ const navItems = [
     name: "Benachrichtigungen",
     icon: <Bell className="w-5 h-5" />,
     href: "/admin-dashboard/notifications",
+  },
+  {
+    name: "Kontaktnachricht",
+    icon: <MessageCircle className="w-5 h-5" />,
+    href: "/admin-dashboard/contact-message",
   },
 
   // {
@@ -122,7 +128,7 @@ export default function AdminSidebar({
         <div className="absolute w-full bottom-0  p-6 border-t space-y-2">
           <button
             onClick={() => dispatch(logout())}
-            className="flex items-center gap-3 p-3 rounded-md text-red-500 text-base font-medium leading-[140%] hover:bg-gray-100 transition-colors bg-[#EDF3F7] border border-[#E2E8EE] "
+            className="flex items-center gap-3 p-3 rounded-md text-red-500 text-base font-medium leading-[140%] hover:bg-gray-100 transition-colors bg-[#EDF3F7] border border-[#E2E8EE] w-full"
           >
             <LogOut className="w-5 h-5" />
             <span>Abmelden</span>

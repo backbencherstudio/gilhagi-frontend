@@ -3,14 +3,21 @@ import {
   fetchBaseQuery,
   BaseQueryFn,
 } from "@reduxjs/toolkit/query/react";
-import { store } from "../../store";
-import { logout, selectToken } from "../auth/authSlice";
+import { logout, selectToken, type User } from "../auth/authSlice";
+
+// Define AuthState type locally to avoid circular dependency
+interface AuthState {
+  user: User | null;
+  token: string | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+}
 
 // Base query with token injection
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_API_URL,
   prepareHeaders: (headers, { getState }) => {
-    const state = store.getState();
+    const state = getState() as { auth: AuthState };
     const token = selectToken(state);
     if (token) {
       headers.set("authorization", `Bearer ${token}`);
@@ -31,7 +38,7 @@ const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
     result.error.status === 401
   ) {
     // Dispatch logout action to clear auth state
-    store.dispatch(logout());
+    api.dispatch(logout());
 
     // Redirect to login page (only on client side)
     if (typeof window !== "undefined") {
@@ -46,6 +53,6 @@ const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
 export const baseApi = createApi({
   reducerPath: "api",
   baseQuery: baseQueryWithReauth,
-  tagTypes: ["User", "Admin", "Tariff", "Provider", "Contracts"],
+  tagTypes: ["User", "Admin", "Tariff", "Provider", "Contracts", "ContactMessage"],
   endpoints: () => ({}),
 });

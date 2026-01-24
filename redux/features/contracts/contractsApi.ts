@@ -2,6 +2,12 @@ import { baseApi } from "../api/baseApi";
 
 const contractsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+
+    upComingContracts: builder.query({
+      query: () => "/admin/order/upcoming",
+      providesTags: ["Contracts"],
+    }),
+
     getWaitingContracts: builder.query({
       query: () => "/admin/order/waiting",
       providesTags: ["Contracts"],

@@ -122,23 +122,7 @@ type TariffRow = (typeof initialData)[number]
 
 // main component
 export default function TariffTable({ postalCode }: { postalCode: string }) {
-  const [tariffsByPostal, setTariffsByPostal] = useState<Record<string, TariffRow[]>>({
-    "1010": initialData,
-    "1020": [
-      {
-        ID: "TAR201",
-        Provider: "Wien Energie",
-        TariffName: "Öko Fair",
-        PricePerkWh: 0.31,
-        BaseFee: "€10.90/month",
-        Bonus: "€60",
-        PriceGuarantee: "12 months",
-      },
-    ],
-    "1030": [],
-    "1040": [],
-    "1050": [],
-  });
+ 
 
   const [modalState, setModalState] = useState<{
     isOpen: boolean;
