@@ -34,7 +34,7 @@ const contactMsgApi = baseApi.injectEndpoints({
         // create contact message FOR USER
         createContactMessageUser: builder.mutation<ContactMessageResponseType, any>({
             query: (contactMessage: ContactMessageUserType) => ({
-                url: "/user/contact-message",
+                url: "/contactus/store",
                 method: "POST",
                 body: contactMessage,
             }),

@@ -59,7 +59,7 @@ const columns = [
 
 
 export default function ContactMessageTable() {
-    const { data: contactMessages } = useGetContactMessagesAdminQuery();
+    const { data: contactMessages, isLoading: isLoadingContactMessages, isError: isErrorContactMessages } = useGetContactMessagesAdminQuery();
 
     const [isContactMessageOpen, setIsContactMessageOpen] = useState(false);
     const [selectedContactMessage, setSelectedContactMessage] = useState<ContactMessageAdminType | null>(null);
@@ -84,7 +84,7 @@ export default function ContactMessageTable() {
             <div className="mb-4">
                 <TableTitle title="All Contact Messages" subtitle="All your contact messages at a glance" />
             </div>
-            <DataTable columns={columns} data={contactMessages?.data ?? []} onView={(row) => handleView(row)} />
+            <DataTable columns={columns} data={contactMessages?.data ?? []} onView={(row) => handleView(row)} loading={isLoadingContactMessages} isError={isErrorContactMessages} />
 
             <ModalWrapper
                 isOpen={isContactMessageOpen}

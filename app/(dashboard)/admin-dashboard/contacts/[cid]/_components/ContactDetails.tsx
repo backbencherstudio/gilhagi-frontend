@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
-  FileIcon,
   Eye,
   CheckCircle2,
   XCircle,
@@ -13,23 +12,10 @@ import {
 } from "lucide-react";
 import ImagePreviewModal from "./ImagePreviewModal";
 import HeadingTitle from "@/components/dashoboard/HeadingTittle";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
-
-const mockUserData = {
-  name: "Peter Weber",
-  city: "Berlin",
-  status: "Active",
-  avatar: "/diverse-user-avatars.png",
-  userId: "USR001",
-  phone: "+46 123 4567 89",
-  provider: "Vattenfall",
-  email: "peter.weber@email.de",
-  tariff: "Green Basic",
-  location: "Musterstraße 10, 10115, Berlin",
-  monthlyCost: "€89/month",
-  endDate: "2025-01-01",
-};
+import { useGetContractByIdQuery, useUpdateContractWindowMutation, useApproveContractMutation, useRejectContractMutation } from "@/redux/features/contracts/contractsApi";
+import { toast } from "sonner";
 
 const documentSections = [
   {
@@ -71,24 +57,134 @@ export default function ContractDetailsPage() {
     url: string;
     name: string;
   } | null>(null);
-  const [approvalStatus, setApprovalStatus] = useState<
-    "pending" | "approved" | "rejected"
-  >("pending");
+  const { cid: contractId } = useParams() as { cid: string };
+  const id = contractId?.split("-")[1];
+  const { data: contract } = useGetContractByIdQuery(id as string) as any;
+
+  const userData = {
+    name: contract?.data?.user?.first_name + " " + contract?.data?.user?.last_name,
+    city: contract?.data?.location,
+    status: contract?.data?.status === "approved" ? "Active" : "Pending",
+    avatar: "/diverse-user-avatars.png",
+    userId: `USR${String(contract?.data?.user_id).padStart(3, '0')}`,
+    phone: contract?.data?.phone_number,
+    email: contract?.data?.email,
+    provider: contract?.data?.vendor?.provider_name || "N/A",
+    tariff: contract?.data?.tariff?.tariff_name,
+    location: contract?.data?.location,
+    monthlyCost: contract?.data?.tariff?.price_kwh,
+    endDate: contract?.data?.created_at?.split("T")[0],
+  };
+
+ 
   const [windowStart, setWindowStart] = useState<string>("");
   const [windowEnd, setWindowEnd] = useState<string>("");
   const [renewalDate, setRenewalDate] = useState<string>("");
-  const [saveStatus, setSaveStatus] = useState<"idle" | "saved">("idle");
+  const [updateContractWindow, { isLoading: isUpdateContractWindowLoading }] = useUpdateContractWindowMutation();
+  const [approveContract, { isLoading: isApproveContractLoading }] = useApproveContractMutation();
+  const [rejectContract, { isLoading: isRejectContractLoading }] = useRejectContractMutation();
+  // Store original dates to track changes
+  const originalDatesRef = useRef<{
+    windowStart: string;
+    windowEnd: string;
+    renewalDate: string;
+  }>({
+    windowStart: "",
+    windowEnd: "",
+    renewalDate: "",
+  });
+
+  // Helper function to convert ISO date string to YYYY-MM-DD format (for input)
+  const formatDateForInput = (isoDateString: string | undefined): string => {
+    if (!isoDateString) return "";
+    try {
+      return new Date(isoDateString).toISOString().split("T")[0];
+    } catch {
+      return "";
+    }
+  };
+
+  // Helper function to convert YYYY-MM-DD to MM/DD/YYYY format (for API)
+  const formatDateForAPI = (dateString: string): string => {
+    if (!dateString) return "";
+    try {
+      const [year, month, day] = dateString.split("-");
+      return `${month}/${day}/${year}`;
+    } catch {
+      return "";
+    }
+  };
+
+  // Check if dates have changed (isDirty)
+  const isDirty =
+    windowStart !== originalDatesRef.current.windowStart ||
+    windowEnd !== originalDatesRef.current.windowEnd ||
+    renewalDate !== originalDatesRef.current.renewalDate;
+
+  // Update state when contract data loads
+  useEffect(() => {
+    if (contract?.data) {
+      const formattedWindowStart = formatDateForInput(contract.data.window_start);
+      const formattedWindowEnd = formatDateForInput(contract.data.window_end);
+      const formattedRenewalDate = formatDateForInput(contract.data.renewal_date);
+
+      setWindowStart(formattedWindowStart);
+      setWindowEnd(formattedWindowEnd);
+      setRenewalDate(formattedRenewalDate);
+
+      // Store original values for comparison
+      originalDatesRef.current = {
+        windowStart: formattedWindowStart,
+        windowEnd: formattedWindowEnd,
+        renewalDate: formattedRenewalDate,
+      };
+
+     
+    }
+  }, [contract?.data]);
 
   const handleApprove = () => {
-    setApprovalStatus("approved");
+    approveContract(id as string).unwrap().then((res: any) => {
+      toast.success(res.message || "Contract approved successfully");
+
+    }).catch((err: any) => {
+      toast.error(err.message || "Failed to approve contract");
+    });
   };
 
   const handleReject = () => {
-    setApprovalStatus("rejected");
+    rejectContract(id as string).unwrap().then((res: any) => {
+      toast.success(res.message || "Contract rejected successfully");
+    }).catch((err: any) => {
+      toast.error(err.message || "Failed to reject contract");
+    });
   };
-  const handleSaveDates = () => {
-    setSaveStatus("saved");
-    setTimeout(() => setSaveStatus("idle"), 1500);
+
+  const handleSaveDates = async () => {
+    try {
+      const formattedWindowStart = formatDateForAPI(windowStart);
+      const formattedWindowEnd = formatDateForAPI(windowEnd);
+      const formattedRenewalDate = formatDateForAPI(renewalDate);
+
+      const response = await updateContractWindow({
+        id: id as string,
+        windowStart: formattedWindowStart,
+        windowEnd: formattedWindowEnd,
+        renewalDate: formattedRenewalDate,
+      });
+
+      if (response.data) {
+        toast.success("Contract window updated successfully");
+        // Update original dates after successful save
+        originalDatesRef.current = {
+          windowStart,
+          windowEnd,
+          renewalDate,
+        };
+      }
+    } catch (error) {
+      toast.error("Failed to update contract window");
+    }
   };
 
   return (
@@ -115,60 +211,59 @@ export default function ContractDetailsPage() {
           <div className="flex items-start justify-between mb-6">
             <div className="flex items-start gap-4">
               <img
-                src={mockUserData.avatar || "/placeholder.svg"}
-                alt={mockUserData.name}
+                src={userData.avatar || "/placeholder.svg"}
+                alt={userData.name}
                 className="w-16 h-16 rounded-full"
               />
               <div>
-                <h2 className="text-2xl font-bold">{mockUserData.name}</h2>
-                <p className="text-muted-foreground">{mockUserData.city}</p>
+                <h2 className="text-2xl font-bold">{userData.name}</h2>
+                <p className="text-muted-foreground">{userData.city}</p>
               </div>
             </div>
             <div
-              className={`px-3 py-1 rounded-full text-sm font-medium border ${
-                mockUserData.status === "Active"
-                  ? "bg-green-50 text-green-700 border-green-200"
-                  : "bg-gray-50 text-gray-700 border-gray-200"
-              }`}
+              className={`px-3 py-1 rounded-full text-sm font-medium border ${userData.status === "Active"
+                ? "bg-green-50 text-green-700 border-green-200"
+                : "bg-gray-50 text-gray-700 border-gray-200"
+                }`}
             >
-              {mockUserData.status}
+              {userData.status}
             </div>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div>
               <p className="text-sm text-muted-foreground mb-1">User ID:</p>
-              <p className="font-semibold">{mockUserData.userId}</p>
+              <p className="font-semibold">{userData.userId}</p>
             </div>
             <div>
               <p className="text-sm text-muted-foreground mb-1">Phone:</p>
-              <p className="font-semibold">{mockUserData.phone}</p>
+              <p className="font-semibold">{userData.phone}</p>
             </div>
             <div>
               <p className="text-sm text-muted-foreground mb-1">Provider:</p>
-              <p className="font-semibold">{mockUserData.provider}</p>
+              <p className="font-semibold">{userData.provider}</p>
             </div>
             <div>
               <p className="text-sm text-muted-foreground mb-1">Email:</p>
-              <p className="font-semibold">{mockUserData.email}</p>
+              <p className="font-semibold">{userData.email}</p>
             </div>
             <div>
               <p className="text-sm text-muted-foreground mb-1">Tariff:</p>
-              <p className="font-semibold">{mockUserData.tariff}</p>
+              <p className="font-semibold">{userData.tariff}</p>
             </div>
             <div>
               <p className="text-sm text-muted-foreground mb-1">Location:</p>
-              <p className="font-semibold">{mockUserData.location}</p>
+              <p className="font-semibold">{userData.location}</p>
             </div>
             <div>
               <p className="text-sm text-muted-foreground mb-1">
                 Monthly Cost:
               </p>
-              <p className="font-semibold">{mockUserData.monthlyCost}</p>
+              <p className="font-semibold">{userData.monthlyCost}</p>
             </div>
             <div>
               <p className="text-sm text-muted-foreground mb-1">End Date:</p>
-              <p className="font-semibold">{mockUserData.endDate}</p>
+              <p className="font-semibold">{userData.endDate}</p>
             </div>
           </div>
         </Card>
@@ -207,12 +302,13 @@ export default function ContractDetailsPage() {
             </div>
           </div>
           <div className="mt-6 flex items-center gap-3">
-            <Button onClick={handleSaveDates} className="primary-btn">
-              Save
+            <Button
+              onClick={handleSaveDates}
+              className="primary-btn"
+              disabled={!isDirty || isUpdateContractWindowLoading}
+            >
+              {isUpdateContractWindowLoading ? "Saving..." : "Save"}
             </Button>
-            {saveStatus === "saved" && (
-              <span className="text-green-600 text-sm">Saved</span>
-            )}
           </div>
         </Card>
 
@@ -264,35 +360,36 @@ export default function ContractDetailsPage() {
 
         {/* Action Buttons */}
         <div className="flex gap-4 justify-end">
-          {approvalStatus === "pending" ? (
+          {contract?.data?.status === "pending" ? (
             <>
               <Button
                 onClick={handleReject}
                 variant="outline"
                 size="lg"
                 className="gap-2 bg-transparent"
+                disabled={isRejectContractLoading}
               >
                 <XCircle className="w-5 h-5" />
-                Reject
+                {isRejectContractLoading ? "Rejecting..." : "Reject"}
               </Button>
               <Button
                 onClick={handleApprove}
                 size="lg"
                 className="gap-2 bg-green-600 hover:bg-green-700 text-white"
+                disabled={isApproveContractLoading}
               >
                 <CheckCircle2 className="w-5 h-5" />
-                Approve
+                {isApproveContractLoading ? "Approving..." : "Approve"}
               </Button>
             </>
           ) : (
             <div
-              className={`px-4 py-3 rounded-lg text-sm font-medium ${
-                approvalStatus === "approved"
-                  ? "bg-green-50 text-green-700 border border-green-200"
-                  : "bg-red-50 text-red-700 border border-red-200"
-              }`}
+              className={`px-4 py-3 rounded-lg text-sm font-medium ${contract?.data?.status === "approved"
+                ? "bg-green-50 text-green-700 border border-green-200"
+                : "bg-red-50 text-red-700 border border-red-200"
+                }`}
             >
-              {approvalStatus === "approved"
+              {contract?.data?.status === "approved"
                 ? "✓ Contract Approved"
                 : "✗ Contract Rejected"}
             </div>

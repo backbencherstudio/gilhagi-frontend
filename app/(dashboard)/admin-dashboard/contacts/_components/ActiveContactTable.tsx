@@ -2,6 +2,8 @@
 
 import { DataTable, StatusBadge } from "@/components/dashoboard/DataTable";
 import { Button } from "@/components/ui/button";
+import { mapToTable } from "@/lib/helpers/mapToTable";
+import { formatValue } from "@/lib/utils";
 import { useGetApprovedContractsQuery } from "@/redux/features/contracts/contractsApi";
 import {  EyeIcon, } from "lucide-react";
 import Link from "next/link";
@@ -55,40 +57,33 @@ const columns = [
   },
 ];
 
-// Sample data to display in the table
-const data = [
-  {
-    vertragsId: "USROOI",
-    benutzer: "Max Müller",
-    anbieter: "Vattenfall",
-    tarif: "Grün Basis",
-    monatsKosten: "89 €/Monat",
-    enddatum: "2025-01-01",
-    status: "active",
-  },
-  {
-    vertragsId: "USROO2",
-    benutzer: "Max Müller",
-    anbieter: "Vattenfall",
-    tarif: "Grün Basis",
-    monatsKosten: "89 €/Monat",
-    enddatum: "2025-01-01",
-    status: "active",
-  },
-  // Add more data as needed
-];
+
 
 export function ContactTable() {
 
 
   
-  const { data: approvedContracts } = useGetApprovedContractsQuery(null);
-  console.log("approved contracts", approvedContracts);
+  const { data: approvedContracts, isLoading: isLoadingApprovedContracts, isError: isErrorApprovedContracts} = useGetApprovedContractsQuery(null);
+ 
+
+  const tableData = mapToTable(approvedContracts?.data ?? [], (item: any) => ({
+    vertragsId: `USR-${item.id}`,
+    benutzer: formatValue(item?.user, (u) => `${u.first_name} ${u.last_name}`),
+    anbieter: formatValue(item.vendor?.provider_name),
+    tarif: formatValue(item?.tariff?.tariff_name),
+    monatsKosten: formatValue(item?.tariff?.price_kwh, (p) => `${p} €/kWh`),
+    enddatum: formatValue(item?.created_at?.split("T")[0]),
+    status: item?.tariff?.status === 1 ? "Aktiv" : "Pending",
+  }));
+  console.log("tableDataa", tableData);
   return (
     <>
       <DataTable
         columns={columns}
-        data={data}
+        data={tableData}
+        loading={isLoadingApprovedContracts}
+        emptyStateMessage="Keine Verträge gefunden"
+        isError={isErrorApprovedContracts}
         // onView={(row) => console.log("View", row)}
         // onEdit={(row) => console.log("Edit", row)}
         // onDelete={(row) => console.log("Delete", row)}

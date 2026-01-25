@@ -39,6 +39,7 @@ interface DataTableProps {
   data: Record<string, any>[];
   loading?: boolean;
   emptyStateMessage?: string;
+  isError?: boolean;
   onView?: (row: Record<string, any>) => void;
   onEdit?: (row: Record<string, any>) => void;
   onDelete?: (row: Record<string, any>) => void;
@@ -50,6 +51,7 @@ export function DataTable({
   data,
   loading = false,
   emptyStateMessage = "No data found!",
+  isError = false,
   onView,
   onEdit,
   onDelete,
@@ -90,8 +92,16 @@ export function DataTable({
             </TableRow>
           </TableHeader>
 
-          {loading ? (
+          {loading || isError ? (
             <LoadingSkeleton columns={columns} hasActions={hasActions || false} />
+          ) : isError ? (
+            <TableBody>
+              <TableRow className="border-none hover:bg-transparent">
+                <TableCell colSpan={columns.length + (hasActions ? 1 : 0)} className="py-20 text-center">
+                  <p className="text-sm text-gray-500 font-medium">Error loading data</p>
+                </TableCell>
+              </TableRow>
+            </TableBody>
           ) : paginatedData.length > 0 ? (
             <TableBody>
               {paginatedData.map((row, rowIndex) => (
