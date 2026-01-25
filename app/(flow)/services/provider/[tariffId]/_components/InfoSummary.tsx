@@ -1,30 +1,44 @@
-export default function InformationSummary() {
+interface InformationSummaryProps {
+  tariffData?: {
+    vendor?: {
+      provider_name?: string;
+      service_areas?: string;
+    };
+    tariff_name?: string;
+  };
+}
+
+export default function InformationSummary({ tariffData }: InformationSummaryProps) {
+  const providerName = tariffData?.vendor?.provider_name || "N/A";
+  const serviceAreas = tariffData?.vendor?.service_areas || "N/A";
+  const tariffName = tariffData?.tariff_name || "N/A";
+
   return (
     <div className="w-full rounded-2xl border border-gray-200 overflow-hidden ">
       {/* Header */}
       <div className=" p-6  border-b bg-[#F8FCFD] ">
         <h2 className="text-lg font-semibold ">Information Summary</h2>
-    
+
       </div>
       {/* Content */}
       <div className="space-y-4 p-6">
         {/* Row */}
         <InfoItem
           label="Comparison providers:"
-          value="Vattenfall Europe Sales GmbH"
+          value={providerName}
         />
 
         {/* 2 columns */}
         <div className="grid grid-cols-2 gap-4">
-          <InfoItem label="Postal code:" value="10115 Mitte" />
-          <InfoItem label="Consumption:" value="44,39 kWh" />
+          <InfoItem label="Postal code:" value={serviceAreas} />
+          <InfoItem label="Consumption:" value="N/A" />
         </div>
 
         {/* Row */}
 
         <InfoItem
           label="Comparison tariff:"
-          value="Berlin Basic Private Electricity"
+          value={tariffName}
         />
       </div>
     </div>

@@ -1,151 +1,127 @@
 "use client";
 
 import RatingStar from "@/components/icons/RatingStar";
-import { Info } from "lucide-react";
+import { Info, Leaf } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/redux/store/hooks";
 
 interface Props {
-  tariff: any;
+  tariff: any; // ← consider typing this properly later (Tariff interface)
 }
 
 export default function TariffCard({ tariff }: Props) {
   const router = useRouter();
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
 
-  const isAuthenticated = useAppSelector(
-    (state: any) => state.auth.isAuthenticated
-  );
-
-  // Extract data from API response structure
-  const tariffName = tariff?.tariff_name || tariff?.name || "_";
-  const energyPrice = tariff?.price_kwh
-    ? parseFloat(tariff.price_kwh).toFixed(2)
-    : tariff?.energyPrice || "_";
-  const basePrice = tariff?.basic_fee
-    ? (parseFloat(tariff.basic_fee) / 12).toFixed(2) // Convert annual to monthly
-    : tariff?.basePrice || "_";
-  const newCustomerBonus = tariff?.exchange_bonus
-    ? parseFloat(tariff.exchange_bonus).toFixed(2)
-    : tariff?.newCustomerBonus || "_";
-  const instantBonus = tariff?.instantBonus || "_";
-
-  // Extract number from price_guarantee string (e.g., "Fixed for 10 months" -> 10)
-  const getGuaranteeMonths = () => {
-    if (tariff?.price_guarantee) {
-      const match = tariff.price_guarantee.match(/(\d+)/);
-      return match ? match[1] : "_";
-    }
-    return tariff?.guarantee || "_";
+  // ── Helper formatters ────────────────────────────────────────
+  const formatPrice = (value: string | number | null | undefined, decimals = 2): string => {
+    if (value == null || value === "" || value === "_") return "n/a";
+    const num = typeof value === "string" ? parseFloat(value) : value;
+    return isNaN(num) ? "n/a" : num.toFixed(decimals);
   };
-  const guarantee = getGuaranteeMonths();
 
-  const duration = tariff?.duration || "_";
-  const rating = tariff?.rating || "4.5";
-  const monthlyPrice = tariff?.price || "_";
-  const savings = tariff?.savings || "_";
-  const providerName = tariff?.vendor?.provider_name || "_";
+  const formatMonths = (value: string | null | undefined): string => {
+    if (!value) return "n/a";
+    const match = value.match(/(\d+)/);
+    return match ? match[1] : "n/a";
+  };
+
+  // ── Derived / formatted values ───────────────────────────────
+  const values = {
+    name:          tariff?.tariff_name           ?? "n/a",
+    provider:      tariff?.vendor?.provider_name ?? "n/a",
+    energyPrice:   formatPrice(tariff?.price_kwh),
+    basePrice:     formatPrice(tariff?.basic_fee ? Number(tariff.basic_fee) / 12 : null),
+    bonus:         formatPrice(tariff?.exchange_bonus),
+    rating:        tariff?.rates ? Number(tariff.rates).toFixed(1) : "n/a",
+    guarantee:     formatMonths(tariff?.price_guarantee),
+    duration:      formatValue(tariff?.duration, " Monate"),
+    monthlyPrice:  formatPrice(tariff?.price ?? (tariff?.basic_fee ? Number(tariff.basic_fee)/12 : null)),
+    savings:       tariff?.savings ? `${tariff.savings} €` : null,
+    isEco:         tariff?.renewable === 1,
+  };
 
   const handleSwitch = () => {
     const nextUrl = `/services/provider/${tariff.id}`;
-
     if (!isAuthenticated) {
       sessionStorage.setItem("returnTo", nextUrl);
-      return router.push("/register");
+      router.push("/register");
+      return;
     }
-
     router.push(nextUrl);
   };
 
   return (
-    <div
-      className="
-        p-6 md:p-8 
-        rounded-[14px] border border-[#D8DEE4] bg-[#F0F6FA]
-        flex flex-col gap-6
-        lg:flex-row lg:justify-between lg:items-start
-      "
-    >
-      {/* LEFT SIDE */}
+    <div className="p-6 md:p-8 rounded-[14px] border border-[#D8DEE4] bg-[#F0F6FA] flex flex-col gap-6 lg:flex-row lg:justify-between lg:items-start">
+      {/* LEFT */}
       <div className="flex-1">
-        {/* Rating */}
         <div className="flex items-center gap-2 mb-3">
           <div className="flex items-center gap-0.5">
-            {[...Array(5)].map((_, i) => (
-              <RatingStar key={i} />
+            {Array.from({ length: 5 }).map((_, i) => (
+              <RatingStar key={i} filled={Number(values.rating) > i} /> 
             ))}
           </div>
           <span className="text-[#5F728B] font-medium text-sm md:text-base">
-            {rating}
+            {values.rating}
           </span>
-        </div>
 
-        {/* Title */}
-        <div className="mb-3">
-          <p className="text-[#1C2022] text-xl md:text-2xl font-semibold">
-            {tariffName}
-          </p>
-          {providerName !== "_" && (
-            <p className="text-[#5F728B] text-sm mt-1">von {providerName}</p>
+          {values.isEco && (
+            <span className="ml-2 flex items-center gap-1 text-xs font-bold text-green-600 bg-green-100 px-2 py-0.5 rounded-full">
+              <Leaf className="w-3 h-3" /> Ökostrom
+            </span>
           )}
         </div>
 
-        {/* Info */}
-        <div className="text-[#5F728B] text-sm md:text-base space-y-2 max-w-[500px]">
+        <div className="mb-4">
+          <h3 className="text-[#1C2022] text-xl md:text-2xl font-semibold">
+            {values.name}
+          </h3>
+          <p className="text-[#5F728B] text-sm mt-1">von {values.provider}</p>
+        </div>
+
+        <div className="text-[#5F728B] text-sm md:text-base space-y-2 max-w-[520px]">
           <p className="leading-relaxed">
-            Arbeitspreis: {energyPrice} ct/kWh | Grundpreis: {basePrice} €/Monat
-            | Neukundenbonus: {newCustomerBonus} €{" "}
-            {instantBonus !== "_" && `| Sofortbonus: ${instantBonus} €`}
+            Arbeitspreis: {values.energyPrice} ct/kWh&nbsp; | &nbsp;
+            Grundpreis: {values.basePrice} €/Monat&nbsp; | &nbsp;
+            Bonus: {values.bonus} €
           </p>
 
-          {guarantee !== "_" && (
-            <p className="flex gap-1 items-center">
+          <div className="flex flex-wrap gap-x-6 gap-y-1">
+            <p className="flex items-center gap-1.5">
               <Info className="w-4 h-4" />
-              Preisgarantie: {guarantee} Monate
+              Preisgarantie: {values.guarantee} Monate
             </p>
-          )}
-          {duration !== "_" && (
-            <p className="flex gap-1 items-center">
+            <p className="flex items-center gap-1.5">
               <Info className="w-4 h-4" />
-              Mindestlaufzeit: {duration} Monate
+              Laufzeit: {values.duration}
             </p>
-          )}
+          </div>
         </div>
       </div>
 
-      {/* RIGHT SIDE */}
-      <div
-        className="
-          lg:text-right 
-          flex flex-col gap-4 
-          items-center lg:items-end
-          w-full lg:w-auto
-        "
-      >
+      {/* RIGHT */}
+      <div className="lg:text-right flex flex-col gap-5 items-center lg:items-end w-full lg:w-auto">
         <div>
-          {monthlyPrice !== "_" ? (
-            <h2 className="text-[#1C2022] text-3xl md:text-[40px] font-semibold">
-              {monthlyPrice} €/Monat
-            </h2>
-          ) : (
-            <h2 className="text-[#1C2022] text-3xl md:text-[40px] font-semibold">
-              {basePrice !== "_" ? `${basePrice} €/Monat` : "_"}
-            </h2>
-          )}
-          {savings !== "_" && (
-            <p className="text-[#5F728B] text-sm md:text-lg font-medium">
-              {savings} € jährliche Einsparungen
+          <div className="text-[#1C2022] text-3xl md:text-[40px] font-semibold leading-tight">
+            {values.monthlyPrice} €<span className="text-xl md:text-2xl">/Monat</span>
+          </div>
+
+          {values.savings && (
+            <p className="text-[#5F728B] text-sm md:text-base mt-1 font-medium">
+              {values.savings} jährliche Einsparungen
             </p>
           )}
         </div>
 
-        <div className="w-full lg:w-auto">
+        <div className="w-full lg:w-auto min-w-[180px]">
           <button
             onClick={handleSwitch}
-            className="card-btn w-full cursor-pointer"
+            className="card-btn w-full py-3 px-6 text-base font-semibold cursor-pointer"
           >
             Jetzt wechseln
           </button>
-          <p className="text-[#085EC4] text-center mt-3 text-sm md:text-lg font-medium underline cursor-pointer">
+
+          <p className="text-[#085EC4] text-center mt-3 text-sm md:text-base font-medium underline cursor-pointer hover:text-blue-700 transition-colors">
             Tarifdetails
           </p>
         </div>
@@ -153,10 +129,9 @@ export default function TariffCard({ tariff }: Props) {
     </div>
   );
 }
-// API has but not displayed: vendor_id, renewable, status, vendor.service_areas
-// Component expects but API doesn't provide: instantBonus, duration, rating, price, savings
-// Recommendations:
-// Display vendor.service_areas if relevant
-// Show a renewable energy indicator if renewable === 1
-// Consider showing status if needed for active/inactive
-// The missing duration, rating, price, and savings may need to come from another endpoint or be calculated
+
+// Optional tiny helper (if you want to keep using it sometimes)
+function formatValue(value: any, suffix = ""): string {
+  if (value == null || value === "" || value === "_") return "n/a";
+  return `${value}${suffix}`;
+}

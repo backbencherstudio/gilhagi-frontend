@@ -1,13 +1,10 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import InformationSummary from "./InfoSummary";
 import TariffDetails from "./TariffDetails";
 import { useAppSelector } from "@/redux/store/hooks";
-import { use } from "react";
-import { useParams } from "next/navigation";
-import { CloudCog } from "lucide-react";
-import {  useGetTariffByIdUserQuery } from "@/redux/features/terrif/teriffApi";
+import { useGetTariffDetailsQuery } from "@/redux/features/order/orderApi";
 
 const TariffDetailPage = () => {
   const router = useRouter();
@@ -15,13 +12,12 @@ const TariffDetailPage = () => {
   const params = useParams();
   const tariffId = params.tariffId;
 
-  console.log("THis is tariffId", tariffId);
 
-  const { data: tariff } = useGetTariffByIdUserQuery(tariffId as string) as any;
-  console.log("THis is tariff", tariff);
+  const { data: tariff } = useGetTariffDetailsQuery(tariffId as string) as any;
+  const tariffData = tariff?.data;
 
   const handleSwitch = () => {
-    router.push(`/services/provider/sp-1/details`);
+    router.push(`/services/provider/${tariffId}/details`);
   };
 
   return (
@@ -54,12 +50,12 @@ const TariffDetailPage = () => {
       >
         {/* Left / Sidebar */}
         <aside>
-          <InformationSummary />
+          <InformationSummary tariffData={tariffData} />
         </aside>
 
         {/* Right / Main */}
         <main>
-          <TariffDetails handleSwitch={handleSwitch} />
+          <TariffDetails handleSwitch={handleSwitch} tariffData={tariffData} />
         </main>
       </div>
 

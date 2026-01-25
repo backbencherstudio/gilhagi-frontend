@@ -1,6 +1,43 @@
 import { Pencil } from "lucide-react";
+// {
+//   "id": 35,
+//   "user_type": "private",
+//   "postal_code": "asdfasd",
+//   "city": "asdfasdf",
+//   "tariff_id": 25,
+//   "annual_consumption": 458,
+//   "created_at": "2026-01-25T09:24:24.000000Z",
+//   "updated_at": "2026-01-25T09:24:24.000000Z",
+//   "tariff": {
+//       "id": 25,
+//       "vendor_id": 16,
+//       "tariff_name": "SolarWind",
+//       "price_kwh": "15.50",
+//       "basic_fee": "1000.00",
+//       "exchange_bonus": "100.00",
+//       "rates": "5.50",
+//       "price_guarantee": "Fixed for 10 months 12",
+//       "renewable": 1,
+//       "status": 1,
+//       "created_at": "2026-01-24T10:43:40.000000Z",
+//       "updated_at": "2026-01-24T10:43:40.000000Z",
+//       "vendor": {
+//           "id": 16,
+//           "provider_name": "Bangladesh Europe Sales GmbH",
+//           "service_areas": "1260",
+//           "renewable": 1,
+//           "status": 1,
+//           "created_at": "2026-01-24T10:15:47.000000Z",
+//           "updated_at": "2026-01-24T10:15:47.000000Z"
+//       }
+//   }
+// }
+export default function ComparisonSummaryCard({ calculationDetails }: { calculationDetails: any }) {
 
-export default function ComparisonSummaryCard() {
+  console.log("THis is calculationDetails", calculationDetails);
+
+  const { tariff } = calculationDetails || {};
+  const { vendor: provider } = tariff || {};
 
   return (
     <div className="bg-white rounded-xl p-6 shadow-sm flex flex-col gap-6">
@@ -26,11 +63,11 @@ export default function ComparisonSummaryCard() {
             <div className="space-y-1">
               <p className="text-[#5F728B] leading-relaxed">
                 <span className="text-[#1C2022] font-medium">Anbieter:</span>{" "}
-                Vattenfall Europe Sales GmbH
+                  {provider?.provider_name}
               </p>
               <p className="text-[#5F728B] leading-relaxed">
                 <span className="text-[#1C2022] font-medium">Tarif:</span>{" "}
-                Berlin Basis Privatstrom
+                  {tariff?.tariff_name}
               </p>
             </div>
 
@@ -39,13 +76,13 @@ export default function ComparisonSummaryCard() {
                 <span className="text-[#1C2022] font-medium">
                   Arbeitspreis:
                 </span>{" "}
-                44,39 ct/kWh
+                {tariff?.price_kwh} ct/kWh
               </p>
               <p className="text-[#5F728B] leading-relaxed">
                 <span className="text-[#1C2022] font-medium">
                   Grundpreis:
                 </span>{" "}
-                11,60 €/Monat
+                {tariff?.basic_fee} €/Monat
               </p>
             </div>
           </div>

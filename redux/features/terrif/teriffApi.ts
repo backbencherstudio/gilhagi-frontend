@@ -2,8 +2,14 @@ import { baseApi } from "../api/baseApi";
 import { CreateAndEditTariffType } from "./teriff.type";
 
 const teriffApi = baseApi.injectEndpoints({
+// PUBLIC ENDPOINTS
+
   // User endpoints
   endpoints: (builder) => ({
+
+
+
+    
     getAllTariffsUsers: builder.query({
       query: () => "/tariff/index",
       providesTags: ["Tariff"],
