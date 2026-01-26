@@ -17,13 +17,15 @@ export default function ImagePreviewModal({
 
   if (!image) return null;
 
+  console.log(image);
+
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-lg shadow-lg max-w-4xl w-full max-h-[90vh] flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b">
           <div>
-            <h3 className="font-semibold text-lg">{image.name}</h3>
+            <h3 className="font-semibold text-lg text-nowrap">{image.name}</h3>
             <p className="text-sm text-muted-foreground">
               Zoom: {Math.round(zoom * 100)}%
             </p>
@@ -40,7 +42,7 @@ export default function ImagePreviewModal({
         <div className="flex-1 overflow-auto flex items-center justify-center bg-muted/30 p-4">
           <img
             src={image.url || "/placeholder.svg"}
-            alt={image.name}
+            alt={image.name.split('.')[0]}
             style={{ transform: `scale(${zoom})` }}
             className="transition-transform"
           />

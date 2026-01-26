@@ -16,8 +16,10 @@ import { useParams, useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { useGetContractByIdQuery, useUpdateContractWindowMutation, useApproveContractMutation, useRejectContractMutation } from "@/redux/features/contracts/contractsApi";
 import { toast } from "sonner";
+import { useGetUserDocumentByIdQuery } from "@/lib/api/documentApi";
+import { convertApiResponseToDocumentSections } from "./convertApiResponseToDocumentSections";
 
-const documentSections = [
+const defaultDocumentSections = [
   {
     title: "Old Contract",
     subtitle: "SEPA Direct Debit Mandate",
@@ -61,6 +63,42 @@ export default function ContractDetailsPage() {
   const id = contractId?.split("-")[1];
   const { data: contract } = useGetContractByIdQuery(id as string) as any;
 
+  const [windowStart, setWindowStart] = useState<string>("");
+  const [windowEnd, setWindowEnd] = useState<string>("");
+  const [renewalDate, setRenewalDate] = useState<string>("");
+  const [updateContractWindow, { isLoading: isUpdateContractWindowLoading }] = useUpdateContractWindowMutation();
+  const [approveContract, { isLoading: isApproveContractLoading }] = useApproveContractMutation();
+  const [rejectContract, { isLoading: isRejectContractLoading }] = useRejectContractMutation();
+  const [documentSections, setDocumentSections] = useState<any[]>(defaultDocumentSections);
+  
+  // Store original dates to track changes
+  const originalDatesRef = useRef<{
+    windowStart: string;
+    windowEnd: string;
+    renewalDate: string;
+  }>({
+    windowStart: "",
+    windowEnd: "",
+    renewalDate: "",
+  });
+
+  // Get user documents query
+  const userId = contract?.data?.user_id;
+  const { data: documentData } = useGetUserDocumentByIdQuery(userId  ?? "", {
+    skip: !userId, // Skip the query if userId is not available
+  }) as any;
+
+  // Log document data when available
+  useEffect(() => {
+    if (documentData) {
+      const documentSections = convertApiResponseToDocumentSections(documentData);
+      setDocumentSections(documentSections);
+    }
+  }, [documentData]);
+
+
+  console.log(documentSections);
+
   const userData = {
     name: contract?.data?.user?.first_name + " " + contract?.data?.user?.last_name,
     city: contract?.data?.location,
@@ -75,24 +113,6 @@ export default function ContractDetailsPage() {
     monthlyCost: contract?.data?.tariff?.price_kwh,
     endDate: contract?.data?.created_at?.split("T")[0],
   };
-
- 
-  const [windowStart, setWindowStart] = useState<string>("");
-  const [windowEnd, setWindowEnd] = useState<string>("");
-  const [renewalDate, setRenewalDate] = useState<string>("");
-  const [updateContractWindow, { isLoading: isUpdateContractWindowLoading }] = useUpdateContractWindowMutation();
-  const [approveContract, { isLoading: isApproveContractLoading }] = useApproveContractMutation();
-  const [rejectContract, { isLoading: isRejectContractLoading }] = useRejectContractMutation();
-  // Store original dates to track changes
-  const originalDatesRef = useRef<{
-    windowStart: string;
-    windowEnd: string;
-    renewalDate: string;
-  }>({
-    windowStart: "",
-    windowEnd: "",
-    renewalDate: "",
-  });
 
   // Helper function to convert ISO date string to YYYY-MM-DD format (for input)
   const formatDateForInput = (isoDateString: string | undefined): string => {
@@ -138,15 +158,12 @@ export default function ContractDetailsPage() {
         windowEnd: formattedWindowEnd,
         renewalDate: formattedRenewalDate,
       };
-
-     
     }
   }, [contract?.data]);
 
   const handleApprove = () => {
     approveContract(id as string).unwrap().then((res: any) => {
       toast.success(res.message || "Contract approved successfully");
-
     }).catch((err: any) => {
       toast.error(err.message || "Failed to approve contract");
     });
@@ -331,7 +348,7 @@ export default function ContractDetailsPage() {
               </div>
 
               <div className="space-y-3">
-                {section.files.map((file, fileIdx) => (
+                {section.files.map((file: any, fileIdx: number) => (
                   <div
                     key={fileIdx}
                     className="flex flex-wrap gap-2 items-center justify-between p-3 bg-muted/50 rounded-lg border border-border"
@@ -390,8 +407,8 @@ export default function ContractDetailsPage() {
                 }`}
             >
               {contract?.data?.status === "approved"
-                ? "✓ Contract Approved"
-                : "✗ Contract Rejected"}
+                ? "Contract Approved"
+                : "Contract Rejected"}
             </div>
           )}
         </div>

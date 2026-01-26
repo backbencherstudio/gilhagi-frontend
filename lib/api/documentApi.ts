@@ -8,6 +8,7 @@
 import { privateAxios } from "./privateAxios";
 import { store } from "@/redux/store";
 import { selectToken } from "@/redux/features/auth/authSlice";
+import { baseApi } from "@/redux/features/api/baseApi";
 
 // Document field names as defined by backend
 export type DocumentField =
@@ -163,4 +164,23 @@ export async function removeDocument(
     const placeholderFile = createPlaceholderFile(fieldName);
     return uploadDocument(fieldName, placeholderFile, options);
 }
+
+// =============for Admin Dashboard=============
+
+const getUserDocumentByIdApi = baseApi.injectEndpoints({
+    endpoints: (builder) => ({
+        getUserDocumentById: builder.query<any, string>({
+            query: (id:string) => `/admin/document/edit/${id}`, 
+        }),
+    }),
+});
+
+export const { useGetUserDocumentByIdQuery } = getUserDocumentByIdApi;
+
+
+
+
+
+
+
 
