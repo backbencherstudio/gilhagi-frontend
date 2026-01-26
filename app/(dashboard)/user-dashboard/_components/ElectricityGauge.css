@@ -1,3 +1,4 @@
+
 .card {
   /* background: white; */
   padding: 30px;
@@ -31,26 +32,26 @@
 .gauge-bg {
   fill: none;
   stroke: #edf1f5;
-  strokewidth: 24;
-  strokelinecap: round;
+  stroke-width: 24;
+  stroke-linecap: round;
 }
 
 /* The Inner Dotted Line */
 .gauge-ticks {
   fill: none;
   stroke: #e2e6ea;
-  strokewidth: 2;
+  stroke-width: 2;
   stroke-dasharray: 2 5; /* Dots spacing */
-  strokelinecap: round;
+  stroke-linecap: round;
 }
 
 /* The Progress Bar */
 .gauge-progress {
   fill: none;
   stroke: #0b63ce;
-  strokewidth: 24;
-  strokelinecap: round;
-
+  stroke-width: 24;
+  stroke-linecap: round;
+  
   /* Logic for animation */
   stroke-dasharray: 100; /* We set pathLength="100" in HTML for easy % calc */
   stroke-dashoffset: 100; /* Start hidden (100% offset) */
@@ -60,7 +61,7 @@
 /* Center Content - Lightning */
 .gauge-center {
   position: absolute;
-  top: 55%;
+  top: 55%; 
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
