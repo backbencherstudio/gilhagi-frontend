@@ -1,7 +1,7 @@
 "use client";
 
 import { useGetAllTariffsUsersQuery } from "@/redux/features/terrif/teriffApi";
-import { bestProviderData, sponsorData, topMatchData } from "../../page";
+
 import TariffSection from "./TariffSection";
 import { CloudCog } from "lucide-react";
 

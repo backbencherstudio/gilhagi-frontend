@@ -108,6 +108,12 @@ export default function DocumentUploadPage() {
     setSelectedDocument(null);
   };
 
+  const handleRemoveDocument = (documentId: string) => {
+    setDocuments((prev) =>
+      prev.map((d) => (d.id === documentId ? { ...d, status: "pending" } : d))
+    );
+  };
+
   return (
     <div className="rounded-xl p-6">
       <div className="mx-auto">
@@ -128,9 +134,8 @@ export default function DocumentUploadPage() {
               {documents.map((doc, index) => (
                 <div
                   key={doc.id}
-                  className={`flex-1 h-2 rounded-full transition-all duration-500 ${
-                    index < uploadedCount ? "bg-[#085EC4]" : "bg-[#CCDAE4]"
-                  }`}
+                  className={`flex-1 h-2 rounded-full transition-all duration-500 ${index < uploadedCount ? "bg-[#085EC4]" : "bg-[#CCDAE4]"
+                    }`}
                 />
               ))}
             </div>
@@ -148,7 +153,7 @@ export default function DocumentUploadPage() {
               key={doc.id}
               document={doc}
               onUpload={() => handleUpload(doc.id)}
-              // NEW props (DocumentCard should render these)
+              onRemove={() => handleRemoveDocument(doc.id)}
               sampleUrl={doc.sampleUrl}
               explanation={doc.explanation}
             />

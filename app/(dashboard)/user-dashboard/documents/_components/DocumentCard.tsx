@@ -9,7 +9,14 @@ import {
   Info,
   ExternalLink,
   X,
+  Trash2,
 } from "lucide-react";
+import { toast } from "sonner";
+import {
+  removeDocument,
+  DOCUMENT_FIELD_MAP,
+  type DocumentField,
+} from "@/lib/api/documentApi";
 
 interface Document {
   id: string;
@@ -25,8 +32,7 @@ type Explanation = {
 interface DocumentCardProps {
   document: Document;
   onUpload: () => void;
-
-  // NEW
+  onRemove?: () => void;
   sampleUrl?: string;
   explanation?: Explanation;
 }
@@ -34,10 +40,12 @@ interface DocumentCardProps {
 export default function DocumentCard({
   document,
   onUpload,
+  onRemove,
   sampleUrl,
   explanation,
 }: DocumentCardProps) {
   const [isExplainOpen, setIsExplainOpen] = useState(false);
+  const [isRemoving, setIsRemoving] = useState(false);
 
   const statusConfig = useMemo(() => {
     switch (document.status) {
@@ -77,6 +85,37 @@ export default function DocumentCard({
   }, [document.status]);
 
   const canUpload = document.status === "pending";
+  const canRemove = document.status === "uploaded" || document.status === "approved";
+
+  const handleRemove = async () => {
+    if (!canRemove || isRemoving) return;
+
+    const fieldName = DOCUMENT_FIELD_MAP[document.id] as DocumentField;
+    if (!fieldName) {
+      toast.error("Invalid document type");
+      return;
+    }
+
+    const confirmed = window.confirm(
+      "Are you sure you want to remove this document? It will be deleted from the server."
+    );
+
+    if (!confirmed) return;
+
+    setIsRemoving(true);
+
+    try {
+      await removeDocument(fieldName);
+      toast.success("Document removed successfully");
+      if (onRemove) {
+        onRemove();
+      }
+    } catch (error: any) {
+      toast.error(error?.message || "Failed to remove document");
+    } finally {
+      setIsRemoving(false);
+    }
+  };
 
   const handleOpenSample = () => {
     if (!sampleUrl || sampleUrl === "#") return;
@@ -106,11 +145,10 @@ export default function DocumentCard({
           type="button"
           onClick={handleOpenSample}
           disabled={!sampleUrl || sampleUrl === "#"}
-          className={`inline-flex items-center gap-2 text-sm font-medium ${
-            !sampleUrl || sampleUrl === "#"
-              ? "text-muted-foreground cursor-not-allowed"
-              : "text-primary hover:underline cursor-pointer"
-          }`}
+          className={`inline-flex items-center gap-2 text-sm font-medium ${!sampleUrl || sampleUrl === "#"
+            ? "text-muted-foreground cursor-not-allowed"
+            : "text-primary hover:underline cursor-pointer"
+            }`}
         >
           <ExternalLink className="w-4 h-4" />
           Beispieldokument
@@ -120,31 +158,49 @@ export default function DocumentCard({
           type="button"
           onClick={() => setIsExplainOpen(true)}
           disabled={!explanation}
-          className={`inline-flex items-center gap-2 text-sm font-medium px-3 py-1 rounded-full border ${
-            explanation
-              ? "border-border hover:bg-secondary/50 cursor-pointer"
-              : "border-border text-muted-foreground cursor-not-allowed"
-          }`}
+          className={`inline-flex items-center gap-2 text-sm font-medium px-3 py-1 rounded-full border ${explanation
+            ? "border-border hover:bg-secondary/50 cursor-pointer"
+            : "border-border text-muted-foreground cursor-not-allowed"
+            }`}
         >
           <Info className="w-4 h-4" />
           Erklärung
         </button>
       </div>
 
-      {/* Upload button */}
-      <button
-        type="button"
-        onClick={onUpload}
-        disabled={!canUpload}
-        className={`w-full flex items-center justify-center gap-2 py-4 px-4 border-2 border-dashed rounded-lg transition-colors font-medium ${
-          canUpload
-            ? "border-border hover:bg-secondary/50 hover:border-primary cursor-pointer text-foreground"
-            : "border-green-200 bg-green-50 text-green-700 cursor-not-allowed"
-        }`}
-      >
-        <Upload className="w-5 h-5" />
-        {canUpload ? "Datei hochladen" : "Datei hochgeladen"}
-      </button>
+      {/* Upload/Remove button */}
+      <div className="space-y-2">
+        {canUpload ? (
+          <button
+            type="button"
+            onClick={onUpload}
+            className="w-full flex items-center justify-center gap-2 py-4 px-4 border-2 border-dashed rounded-lg transition-colors font-medium border-border hover:bg-secondary/50 hover:border-primary cursor-pointer text-foreground"
+          >
+            <Upload className="w-5 h-5" />
+            Datei hochladen
+          </button>
+        ) : (
+          <>
+            <button
+              type="button"
+              onClick={onUpload}
+              className="w-full flex items-center justify-center gap-2 py-4 px-4 border-2 border-dashed rounded-lg transition-colors font-medium border-green-200 bg-green-50 text-green-700 cursor-pointer hover:bg-green-100"
+            >
+              <Upload className="w-5 h-5" />
+              Ersetzen
+            </button>
+            <button
+              type="button"
+              onClick={handleRemove}
+              disabled={isRemoving}
+              className="w-full flex items-center justify-center gap-2 py-3 px-4 border border-red-200 rounded-lg transition-colors font-medium bg-red-50 text-red-700 cursor-pointer hover:bg-red-100 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <Trash2 className="w-4 h-4" />
+              {isRemoving ? "Wird entfernt..." : "Entfernen"}
+            </button>
+          </>
+        )}
+      </div>
 
       <p className="text-center text-sm text-muted-foreground mt-3">
         {canUpload ? "PDF, JPG oder PNG" : "Upload abgeschlossen"}
