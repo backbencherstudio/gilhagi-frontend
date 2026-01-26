@@ -28,6 +28,16 @@ export const DOCUMENT_FIELD_MAP: Record<string, DocumentField> = {
     "6": "price_increases",
 };
 
+// Reverse map: field name to document ID
+export const FIELD_TO_DOCUMENT_ID_MAP: Record<DocumentField, string> = {
+    "electricity_provider": "1",
+    "debit_mandate": "2",
+    "power_attorney": "3",
+    "electricity_meter": "4",
+    "other_document": "5",
+    "price_increases": "6",
+};
+
 export interface UploadProgress {
     loaded: number;
     total: number;

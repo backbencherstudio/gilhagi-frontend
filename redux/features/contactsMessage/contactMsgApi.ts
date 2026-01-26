@@ -29,12 +29,27 @@ type ContactMessageResponseType = {
     data: ContactMessageAdminType[];
 }
 
+type SendMessageResponseType = {
+    status: string;
+    message: string;
+}
+
 const contactMsgApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         // create contact message FOR USER
         createContactMessageUser: builder.mutation<ContactMessageResponseType, any>({
             query: (contactMessage: ContactMessageUserType) => ({
                 url: "/contactus/store",
+                method: "POST",
+                body: contactMessage,
+            }),
+            invalidatesTags: ["ContactMessage"],
+        }),
+
+        // send message to admin
+        sendMessageUser: builder.mutation<SendMessageResponseType, any>({
+            query: (contactMessage: ContactMessageAdminType) => ({
+                url: "/user/support/store",
                 method: "POST",
                 body: contactMessage,
             }),
@@ -51,5 +66,6 @@ const contactMsgApi = baseApi.injectEndpoints({
 
 export const {
     useCreateContactMessageUserMutation,
-    useGetContactMessagesAdminQuery
+    useGetContactMessagesAdminQuery,
+    useSendMessageUserMutation
 } = contactMsgApi;

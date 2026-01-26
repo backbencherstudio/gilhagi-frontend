@@ -1,8 +1,11 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import UploadModal from "./UploadDocModal";
 import DocumentCard from "./DocumentCard";
+import { useGetUserDocumentsQuery } from "@/redux/features/documents/documentApi";
+import { DOCUMENT_FIELD_MAP, type DocumentField } from "@/lib/api/documentApi";
+import type { DocumentResponse } from "@/redux/features/documents/documentApi";
 
 interface Document {
   id: string;
@@ -85,6 +88,42 @@ export default function DocumentUploadPage() {
   const [selectedDocument, setSelectedDocument] = useState<Document | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // Fetch existing documents from API
+  const { data: documentsData, isLoading, refetch } = useGetUserDocumentsQuery();
+
+  // Sync document statuses with API response
+  useEffect(() => {
+    if (!documentsData?.data || documentsData.data.length === 0) {
+      // No documents found, keep default pending status
+      return;
+    }
+
+    // Get the first document record (assuming one record per user)
+    const apiDocument = documentsData.data[0];
+
+    // Update document statuses based on API response
+    setDocuments((prevDocs) =>
+      prevDocs.map((doc) => {
+        // Get the field name from document ID
+        const fieldName = DOCUMENT_FIELD_MAP[doc.id] as DocumentField;
+        if (!fieldName) return doc;
+
+        // Check if the field has a value in the API response
+        const fieldValue = apiDocument[fieldName];
+
+        // If field is null, document is pending
+        if (!fieldValue) {
+          return { ...doc, status: "pending" as const };
+        }
+
+        // If field has a value, check the overall status
+        // If API status is "approved", use "approved", otherwise "uploaded"
+        const status = apiDocument.status === "approved" ? "approved" : "uploaded";
+        return { ...doc, status: status as "pending" | "uploaded" | "approved" };
+      })
+    );
+  }, [documentsData]);
+
   const uploadedCount = useMemo(
     () => documents.filter((d) => d.status !== "pending").length,
     [documents]
@@ -106,13 +145,27 @@ export default function DocumentUploadPage() {
     );
     setIsModalOpen(false);
     setSelectedDocument(null);
+    // Refetch documents to sync with backend
+    refetch();
   };
 
   const handleRemoveDocument = (documentId: string) => {
     setDocuments((prev) =>
       prev.map((d) => (d.id === documentId ? { ...d, status: "pending" } : d))
     );
+    // Refetch documents to sync with backend
+    refetch();
   };
+
+  if (isLoading) {
+    return (
+      <div className="rounded-xl p-6">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <p className="text-muted-foreground">Loading documents...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="rounded-xl p-6">
