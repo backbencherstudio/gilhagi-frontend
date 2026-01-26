@@ -1,88 +1,20 @@
+"use client";
+
 import ComparisonSummaryCard from "./_components/MainServices/ComparisonSummaryCard";
 import FilterSidebar from "./_components/FilterSidebar/FilterSidebar";
 import AllSection from "./_components/MainServices/AllSection";
+import { useGetCalculationDetailsQuery, useGetSuggestedTariffsQuery } from "@/redux/features/order/orderApi";
+import TariffSection from "./_components/MainServices/TariffSection";
 
-export const sponsorData = [
-  {
-    id: "sp-1",
-    name: "SolarWind Plus",
-    rating: 4.8,
-    energyPrice: 31.23,
-    basePrice: 7.8,
-    newCustomerBonus: 110,
-    instantBonus: 60,
-    guarantee: 12,
-    duration: 12,
-    price: 82,
-    savings: 681.73,
-    provider: "SolarWind",
-  },
-  {
-    id: "sp-2",
-    name: "EcoPower",
-    rating: 4.8,
-    energyPrice: 31.23,
-    basePrice: 7.8,
-    newCustomerBonus: 110,
-    instantBonus: 60,
-    guarantee: 12,
-    duration: 12,
-    price: 82,
-    savings: 681.73,
-    provider: "EcoPower",
-  },
-];
-
-export const topMatchData = [
-  {
-    id: "tm-1",
-    name: "GrünStrom Deutschland",
-    rating: 4.8,
-    energyPrice: 31.23,
-    basePrice: 7.8,
-    newCustomerBonus: 110,
-    instantBonus: 60,
-    guarantee: 12,
-    duration: 12,
-    price: 82,
-    savings: 681.73,
-    provider: "GrünStrom",
-  },
-];
-
-export const bestProviderData = [
-  {
-    id: "bp-1",
-    name: "NaturEnergie Max",
-    rating: 4.9,
-    energyPrice: 29.5,
-    basePrice: 6.95,
-    newCustomerBonus: 100,
-    instantBonus: 40,
-    guarantee: 24,
-    duration: 12,
-    price: 79,
-    savings: 720.5,
-    provider: "NaturEnergie",
-  },
-  {
-    id: "bp-2",
-    name: "ÖkoFair Strom",
-    rating: 4.7,
-    energyPrice: 30.1,
-    basePrice: 7.5,
-    newCustomerBonus: 80,
-    instantBonus: 20,
-    guarantee: 12,
-    duration: 12,
-    price: 85,
-    savings: 512.2,
-    provider: "ÖkoFair",
-  },
-];
 
 export default function page() {
-  const allTariffs = [...sponsorData, ...topMatchData, ...bestProviderData];
+
+  // get calculation details
+  const { data: calculationDetails } = useGetCalculationDetailsQuery();
+  const { data: suggestedTariffs } = useGetSuggestedTariffsQuery();
+
+
+
   return (
     <div className="w-full">
   <div
@@ -96,14 +28,14 @@ export default function page() {
   >
     {/* Sidebar */}
     <div className="w-full">
-      <FilterSidebar />
+      <FilterSidebar calculationDetails={calculationDetails?.data} />
     </div>
 
     {/* Main content */}
     <div className="flex flex-col gap-6 w-full">
-      <ComparisonSummaryCard />
-
-      <AllSection tariffs={allTariffs} />
+      <ComparisonSummaryCard calculationDetails={calculationDetails?.data} />
+      {/* <AllSection /> */}
+      <TariffSection title="Tarife" tariffs={ suggestedTariffs?.data || []} />
     </div>
   </div>
 </div>

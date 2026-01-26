@@ -1,6 +1,5 @@
 import AllSection from '@/app/(flow)/services/_components/MainServices/AllSection'
 import TariffSection from '@/app/(flow)/services/_components/MainServices/TariffSection'
-import React from 'react'
 
 
 const bestProviderData = [

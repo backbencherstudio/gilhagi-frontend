@@ -1,3 +1,5 @@
+"use client";
+
 // AdminSidebar.tsx
 import {
   LayoutDashboard,
@@ -10,11 +12,14 @@ import {
   LogOut,
   X,
   Building2,
+  MessageCircle,
 } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { usePathname } from "next/navigation"; // For Next.js 15 (App Router)
 import ThunderIcon from "../../icons/ThunderIcon";
+import { logout } from "@/redux/features/auth/authSlice";
+import { useAppDispatch } from "@/redux/store/hooks";
 
 // Navigation items array
 const navItems = [
@@ -38,6 +43,11 @@ const navItems = [
     icon: <Bell className="w-5 h-5" />,
     href: "/admin-dashboard/notifications",
   },
+  {
+    name: "Kontaktnachricht",
+    icon: <MessageCircle className="w-5 h-5" />,
+    href: "/admin-dashboard/contact-message",
+  },
 
   // {
   //   name: "Einstellungen",
@@ -54,7 +64,7 @@ export default function AdminSidebar({
   onClose: () => void;
 }) {
   const pathname = usePathname(); // Get the current pathname
-
+  const dispatch = useAppDispatch();
   return (
     <>
       {/* Mobile Overlay */}
@@ -76,7 +86,7 @@ export default function AdminSidebar({
         {/* Close button for mobile */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 lg:hidden p-2 hover:bg-gray-100 rounded-md"
+          className="absolute top-4 right-4 lg:hidden p-2 hover:bg-gray-100 rounded-md cursor-pointer"
         >
           <X className="w-5 h-5" />
         </button>
@@ -116,13 +126,13 @@ export default function AdminSidebar({
 
         {/* Logout Button */}
         <div className="absolute w-full bottom-0  p-6 border-t space-y-2">
-          <Link
-            href={"/logout"}
-            className="flex items-center gap-3 p-3 rounded-md text-red-500 text-base font-medium leading-[140%] hover:bg-gray-100 transition-colors bg-[#EDF3F7] border border-[#E2E8EE] "
+          <button
+            onClick={() => dispatch(logout())}
+            className="flex items-center gap-3 p-3 rounded-md text-red-500 text-base font-medium leading-[140%] hover:bg-gray-100 transition-colors bg-[#EDF3F7] border border-[#E2E8EE] w-full"
           >
             <LogOut className="w-5 h-5" />
             <span>Abmelden</span>
-          </Link>
+          </button>
 
           <p className="text-[#5F728B]  text-sm font-normal leading-[130%] tracking-[0.07px]">
             Energiemanagement

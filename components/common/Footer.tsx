@@ -123,7 +123,7 @@ export default function Footer() {
                     Wie es funktioniert
                   </Link>
                 </li>
-                
+
               </ul>
             </div>
 
@@ -174,6 +174,8 @@ export default function Footer() {
                     Datenschutzrichtlinie
                   </Link>
                 </li>
+
+                {/* Language Switcher will be added later */}
               </ul>
             </div>
           </div>

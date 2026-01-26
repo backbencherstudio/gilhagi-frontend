@@ -8,6 +8,10 @@ import { ProviderFormData } from "./ProviderForm";
 import TableTitle from "@/components/dashoboard/TableTitle";
 import ProviderModal from "./ProviderModal";
 import DeleteModal from "@/components/dashoboard/DeleteModal";
+import { useCreateProviderAdminMutation, useDeleteProviderAdminMutation, useGetProviderByIdAdminQuery, useGetProvidersAdminQuery, useUpdateProviderAdminMutation } from "@/redux/features/providers/providersApi";
+import { toast } from "sonner";
+import { CreateProviderResponseType, GetProvidersResponseType, ProviderType } from "@/redux/features/providers/provider.type";
+
 
 // Translation Map for German UI Labels
 const translations = {
@@ -86,9 +90,24 @@ const initialData = [
   },
 ];
 
-type ProviderRow = (typeof initialData)[number];
+type ProviderRow = (typeof initialData)[number] & { apiId?: number };
+
+
+const mapApiProviderToRow = (item: any): ProviderRow => ({
+  ID: `PRV${String(item.id).padStart(3, "0")}`,
+  Anbietername: item.provider_name,
+  Servicegebiete: item.service_areas,
+  Tarif: 0,
+  AktiveNutzer: 0,
+  Erneuerbar: item.renewable === 1 ? "Ja" : "Nein",
+  Status: item.status === 1 ? "Aktiv" : "Inaktiv",
+  apiId: item.id, // Store original API ID for updates
+});
+
 
 export default function ProviderTable({ postalCode }: { postalCode: string }) {
+
+  console.log("postalCode from ProviderTable", postalCode);
   const [providersByPostal, setProvidersByPostal] = useState<
     Record<string, ProviderRow[]>
   >({
@@ -108,7 +127,20 @@ export default function ProviderTable({ postalCode }: { postalCode: string }) {
     "1040": [],
     "1050": [],
   });
-  const providers = providersByPostal[postalCode] || [];
+  // const providers = providersByPostal[postalCode] || [];
+
+
+  // api call to get providers
+  const { data: providersData, isLoading: isLoadingProviders } = useGetProvidersAdminQuery(postalCode);
+  const [createProviderAdmin] = useCreateProviderAdminMutation();
+  const [updateProviderAdmin] = useUpdateProviderAdminMutation();
+  const [deleteProviderAdmin] = useDeleteProviderAdminMutation();
+
+
+
+  console.log("providersData", providersData);
+  const providers = providersData?.data?.map(mapApiProviderToRow) || [];
+
   const [modalState, setModalState] = useState<{
     isOpen: boolean;
     mode: "add" | "edit" | "view";
@@ -121,8 +153,10 @@ export default function ProviderTable({ postalCode }: { postalCode: string }) {
   const [deleteModalState, setDeleteModalState] = useState<{
     isOpen: boolean;
     provider?: any;
+    isLoading?: boolean;
   }>({
     isOpen: false,
+    isLoading: false,
   });
 
   const handleView = (row: any) => {
@@ -158,7 +192,11 @@ export default function ProviderTable({ postalCode }: { postalCode: string }) {
   const handleModalSubmit = async (data: ProviderFormData) => {
     if (modalState.mode === "add") {
       const current = providersByPostal[postalCode] || [];
-      const newId = `PRV${String(current.length + 1).padStart(3, "0")}`;
+      // Generate unique ID based on existing IDs
+      const existingIds = current.map(p => parseInt(p.ID.replace("PRV", ""))).filter(id => !isNaN(id));
+      const maxId = existingIds.length > 0 ? Math.max(...existingIds) : 0;
+      const newId = `PRV${String(maxId + 1).padStart(3, "0")}`;
+
       const newProvider = {
         ...data,
         ID: newId,
@@ -167,40 +205,82 @@ export default function ProviderTable({ postalCode }: { postalCode: string }) {
         Tarif: 0,
         AktiveNutzer: 0,
       } as ProviderRow;
-      setProvidersByPostal({
-        ...providersByPostal,
-        [postalCode]: [...current, newProvider],
+
+      setProvidersByPostal((prev) => ({
+        ...prev,
+        [postalCode]: [...(prev[postalCode] || []), newProvider],
+      }));
+
+      console.log("newProvider", newProvider);
+
+
+      createProviderAdmin({
+        provider_name: newProvider.Anbietername,
+        service_areas: newProvider.Servicegebiete,
+        renewable: newProvider.Erneuerbar === "Ja" ? true : false,
+        status: newProvider.Status === "Aktiv" ? true : false,
+      }).unwrap().then((res: CreateProviderResponseType) => {
+        console.log("res", res);
+        toast.success(res.message || "Provider created successfully");
+
+      }).catch((err: any) => {
+        console.log("err", err);
+        toast.error(err?.data?.message || "Failed to create provider");
       });
     } else if (modalState.mode === "edit" && modalState.selectedProvider) {
-      const current = providersByPostal[postalCode] || [];
-      const updated = current.map((provider) =>
-        provider.ID === modalState.selectedProvider.ID
-          ? {
-              ...modalState.selectedProvider,
-              ...data,
-              Erneuerbar: data.Erneuerbar ? "Ja" : "Nein",
-              Status: data.AktiverProvider ? "Aktiv" : "Inaktiv",
-            }
-          : provider
-      );
-      setProvidersByPostal({
-        ...providersByPostal,
-        [postalCode]: updated,
-      });
+      // Get the API ID from the selected provider
+      const providerId = modalState.selectedProvider.apiId;
+
+      if (!providerId) {
+        toast.error("Provider ID not found");
+        return;
+      }
+
+      // Call the update API
+      updateProviderAdmin({
+        id: providerId,
+        provider_name: data.Anbietername,
+        service_areas: data.Servicegebiete,
+        renewable: data.Erneuerbar,
+        status: data.AktiverProvider,
+      })
+        .unwrap()
+        .then((res: any) => {
+          console.log("Update response", res);
+          toast.success(res.message || "Provider updated successfully");
+        })
+        .catch((err: any) => {
+          console.log("Update error", err);
+          toast.error(err?.data?.message || "Failed to update provider");
+        });
     }
   };
 
-  const handleDeleteConfirm = () => {
+  const handleDeleteConfirm = async () => {
     if (deleteModalState.provider) {
-      const current = providersByPostal[postalCode] || [];
-      const updated = current.filter(
-        (provider) => provider.ID !== deleteModalState.provider.ID
-      );
-      setProvidersByPostal({
-        ...providersByPostal,
-        [postalCode]: updated,
-      });
-      setDeleteModalState({ isOpen: false });
+      const providerId = deleteModalState.provider.apiId;
+      if (!providerId) {
+        toast.error("Provider ID not found");
+        return;
+      }
+
+      // set loading State
+      setDeleteModalState((prev) => ({ ...prev, isLoading: true }));
+
+      try {
+        const res = await deleteProviderAdmin(providerId.toString()).unwrap();
+        console.log("res", res);
+        toast.success(res.message || "Provider deleted successfully");
+
+        // Close modal after successful deletion
+        setDeleteModalState({ isOpen: false, isLoading: false });
+      } catch (err: any) {
+        console.log("err", err);
+        toast.error(err?.data?.message || "Failed to delete provider");
+
+        // Keep modal open on error, but remove loading state
+        setDeleteModalState((prev) => ({ ...prev, isLoading: false }));
+      }
     }
   };
 
@@ -230,6 +310,7 @@ export default function ProviderTable({ postalCode }: { postalCode: string }) {
       <DataTable
         columns={columns}
         data={providers}
+        loading={isLoadingProviders}
         onView={handleView}
         onEdit={handleEdit}
         onDelete={handleDelete}
@@ -247,12 +328,12 @@ export default function ProviderTable({ postalCode }: { postalCode: string }) {
       {/* Delete Confirmation Modal */}
       <DeleteModal
         isOpen={deleteModalState.isOpen}
-        onClose={() => setDeleteModalState({ isOpen: false })}
+        onClose={() => setDeleteModalState({ isOpen: false, isLoading: false })}
         onConfirm={handleDeleteConfirm}
         title="Delete Provider"
-        description={`Are you sure you want to delete "${
-          deleteModalState.provider?.Anbietername || "this provider"
-        }"? This action cannot be undone.`}
+        description={`Are you sure you want to delete "${deleteModalState.provider?.Anbietername || "this provider"
+          }"? This action cannot be undone.`}
+        isLoading={deleteModalState.isLoading}
       />
     </div>
   );

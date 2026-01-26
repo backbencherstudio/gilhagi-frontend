@@ -7,6 +7,10 @@ import { DataTable } from "@/components/dashoboard/DataTable"; // Assuming DataT
 import TableTitle from "@/components/dashoboard/TableTitle";
 import TariffModal from "./TariffModal"; // Modal to add/edit tariff data
 import DeleteModal from "@/components/dashoboard/DeleteModal";
+import { useCreateTariffMutation, useDeleteTariffMutation, useGetAllTariffsAdminQuery, useUpdateTariffMutation } from "@/redux/features/terrif/teriffApi";
+import { CreateAndEditTariffType } from "@/redux/features/terrif/teriff.type";
+import { useGetProvidersAdminQuery } from "@/redux/features/providers/providersApi";
+import { toast } from "sonner";
 
 // Translation Map for German UI Labels (same structure as before)
 const translations = {
@@ -87,27 +91,39 @@ const initialData = [
   },
 ];
 
+
+// utils/tariffMapper.ts
+
+const mapApiTariffsToTable = (apiData: any[]): any[] => {
+  if (!apiData) return [];
+
+  return apiData?.map((item) => ({
+    ID: `TRF0${item.id.toString()}`,
+    // Accessing nested vendor name, falling back to "N/A"
+    Provider: item.vendor?.provider_name || "N/A",
+    TariffName: item.tariff_name,
+    // Parsing strings to numbers for the column 'render' functions
+    PricePerkWh: parseFloat(item.price_kwh),
+    BaseFee: `€${parseFloat(item.basic_fee).toFixed(2)}/month`,
+    Bonus: `€${parseFloat(item.exchange_bonus).toFixed(2)}`,
+    PriceGuarantee: item.price_guarantee,
+    RenewableEnergy: item.renewable === 1 || item.renewable === true,
+    Recommended: item.recommended === 1 || item.recommended === true,
+    // Store API ID and vendor ID for updates/deletes
+    apiId: item.id,
+    vendorId: item.vendor_id || item.vendor?.id,
+    // Including raw data in case the modal needs the full object
+    raw: item,
+  }));
+};
+
 type TariffRow = (typeof initialData)[number]
 
+
+// main component
 export default function TariffTable({ postalCode }: { postalCode: string }) {
-  const [tariffsByPostal, setTariffsByPostal] = useState<Record<string, TariffRow[]>>({
-    "1010": initialData,
-    "1020": [
-      {
-        ID: "TAR201",
-        Provider: "Wien Energie",
-        TariffName: "Öko Fair",
-        PricePerkWh: 0.31,
-        BaseFee: "€10.90/month",
-        Bonus: "€60",
-        PriceGuarantee: "12 months",
-      },
-    ],
-    "1030": [],
-    "1040": [],
-    "1050": [],
-  });
-  const tariffs = tariffsByPostal[postalCode] || [];
+ 
+
   const [modalState, setModalState] = useState<{
     isOpen: boolean;
     mode: "add" | "edit" | "view";
@@ -120,10 +136,28 @@ export default function TariffTable({ postalCode }: { postalCode: string }) {
   const [deleteModalState, setDeleteModalState] = useState<{
     isOpen: boolean;
     tariff?: any;
+    isLoading?: boolean;
   }>({
     isOpen: false,
+    isLoading: false,
   });
 
+  // api call to get tariffs
+  const { data: tariffsData, isLoading: isLoadingTariffs } = useGetAllTariffsAdminQuery(postalCode);
+  const { data: providersData } = useGetProvidersAdminQuery(postalCode);
+  const [createTariff] = useCreateTariffMutation();
+  const [updateTariff] = useUpdateTariffMutation();
+  const [deleteTariff] = useDeleteTariffMutation();
+
+  const tariffsTableData = tariffsData?.data ? mapApiTariffsToTable(tariffsData?.data) : [];
+
+  // Helper function to get vendor ID from provider name
+  const getVendorIdFromName = (providerName: string): number | null => {
+    const provider = providersData?.data?.find((p: any) => p.provider_name === providerName);
+    return provider?.id || null;
+  };
+
+  // console.log("tariffsTableData", tariffsTableData);
   // Handlers for view, edit, and delete actions
   const handleView = (row: any) => {
     setModalState({
@@ -157,41 +191,123 @@ export default function TariffTable({ postalCode }: { postalCode: string }) {
 
   const handleModalSubmit = async (data: any) => {
     if (modalState.mode === "add") {
-      const current = tariffsByPostal[postalCode] || [];
-      const newId = `TAR${String(current.length + 1).padStart(3, "0")}`;
-      const newTariff = {
-        ...data,
-        ID: newId,
-      } as TariffRow;
-      setTariffsByPostal({
-        ...tariffsByPostal,
-        [postalCode]: [...current, newTariff],
-      });
+      // Get vendor ID from provider name
+      const vendorId = getVendorIdFromName(data.Provider);
+
+      if (!vendorId) {
+        toast.error("Provider not found");
+        return;
+      }
+
+      // Parse BaseFee, Bonus, and Rates - handle both string and number inputs
+      const parseNumber = (value: string | number | undefined): number => {
+        if (typeof value === 'number') return value;
+        if (!value) return 0;
+        const match = String(value).match(/[\d.]+/);
+        return match ? parseFloat(match[0]) : 0;
+      };
+
+      const basicFee = parseNumber(data.BaseFee);
+      const exchangeBonus = parseNumber(data.Bonus);
+      const rates = parseNumber(data.Rates);
+
+      const newTariff: CreateAndEditTariffType = {
+        vendor_id: vendorId,
+        tariff_name: data.TariffName,
+        price_kwh: data.PricePerkWh,
+        basic_fee: basicFee,
+        exchange_bonus: exchangeBonus,
+        rates: rates,
+        price_guarantee: data.PriceGuarantee,
+        renewable: data.RenewableEnergy ? 1 : 0,
+        status: data.Recommended ? 1 : 0,
+      };
+
+      try {
+        const res = await createTariff(newTariff).unwrap();
+        // console.log("Create tariff response", res);
+        toast.success(res.message || "Tariff created successfully");
+      } catch (err: any) {
+        // console.log("Create tariff error", err);
+        toast.error(err?.data?.message || "Failed to create tariff");
+      }
     } else if (modalState.mode === "edit" && modalState.selectedTariff) {
-      const current = tariffsByPostal[postalCode] || [];
-      const updated = current.map((tariff) =>
-        tariff.ID === modalState.selectedTariff.ID
-          ? { ...data, ID: modalState.selectedTariff.ID }
-          : tariff
-      );
-      setTariffsByPostal({
-        ...tariffsByPostal,
-        [postalCode]: updated,
-      });
+      const tariffId = modalState.selectedTariff.apiId;
+
+      if (!tariffId) {
+        toast.error("Tariff ID not found");
+        return;
+      }
+
+      // Get vendor ID from provider name
+      const vendorId = getVendorIdFromName(data.Provider) || modalState.selectedTariff.vendorId;
+
+      if (!vendorId) {
+        toast.error("Provider not found");
+        return;
+      }
+
+      // Parse BaseFee, Bonus, and Rates - handle both string and number inputs
+      const parseNumber = (value: string | number | undefined): number => {
+        if (typeof value === 'number') return value;
+        if (!value) return 0;
+        const match = String(value).match(/[\d.]+/);
+        return match ? parseFloat(match[0]) : 0;
+      };
+
+      const basicFee = parseNumber(data.BaseFee);
+      const exchangeBonus = parseNumber(data.Bonus);
+      const rates = parseNumber(data.Rates);
+
+      const updatedTariff: CreateAndEditTariffType = {
+        vendor_id: vendorId,
+        tariff_name: data.TariffName,
+        price_kwh: data.PricePerkWh,
+        basic_fee: basicFee,
+        exchange_bonus: exchangeBonus,
+        rates: rates,
+        price_guarantee: data.PriceGuarantee,
+        renewable: data.RenewableEnergy ? 1 : 0,
+        status: data.Recommended ? 1 : 0,
+      };
+
+      try {
+        const res = await updateTariff({ id: tariffId.toString(), ...updatedTariff }).unwrap();
+        // console.log("Update tariff response", res);
+        toast.success(res.message || "Tariff updated successfully");
+      } catch (err: any) {
+        // console.log("Update tariff error", err);
+        toast.error(err?.data?.message || "Failed to update tariff");
+      }
     }
   };
 
-  const handleDeleteConfirm = () => {
+  const handleDeleteConfirm = async () => {
     if (deleteModalState.tariff) {
-      const current = tariffsByPostal[postalCode] || [];
-      const updated = current.filter(
-        (tariff) => tariff.ID !== deleteModalState.tariff.ID
-      );
-      setTariffsByPostal({
-        ...tariffsByPostal,
-        [postalCode]: updated,
-      });
-      setDeleteModalState({ isOpen: false });
+      const tariffId = deleteModalState.tariff.apiId;
+
+      if (!tariffId) {
+        toast.error("Tariff ID not found");
+        return;
+      }
+
+      // Set loading state
+      setDeleteModalState((prev) => ({ ...prev, isLoading: true }));
+
+      try {
+        const res = await deleteTariff(tariffId.toString()).unwrap();
+        // console.log("Delete tariff response", res);
+        toast.success(res.message || "Tariff deleted successfully");
+
+        // Close modal after successful deletion
+        setDeleteModalState({ isOpen: false, isLoading: false });
+      } catch (err: any) {
+        // console.log("Delete tariff error", err);
+        toast.error(err?.data?.message || "Failed to delete tariff");
+
+        // Keep modal open on error, but remove loading state
+        setDeleteModalState((prev) => ({ ...prev, isLoading: false }));
+      }
     }
   };
 
@@ -219,9 +335,13 @@ export default function TariffTable({ postalCode }: { postalCode: string }) {
         </div>
       </div>
 
+
+
       <DataTable
         columns={columns}
-        data={tariffs}
+        loading={isLoadingTariffs}
+        emptyStateMessage="Keine Tarife gefunden"
+        data={tariffsTableData}
         onView={handleView}
         onEdit={handleEdit}
         onDelete={handleDelete}
@@ -239,12 +359,12 @@ export default function TariffTable({ postalCode }: { postalCode: string }) {
       {/* Delete Confirmation Modal */}
       <DeleteModal
         isOpen={deleteModalState.isOpen}
-        onClose={() => setDeleteModalState({ isOpen: false })}
+        onClose={() => setDeleteModalState({ isOpen: false, isLoading: false })}
         onConfirm={handleDeleteConfirm}
         title="Delete Tariff"
-        description={`Are you sure you want to delete "${
-          deleteModalState.tariff?.TariffName || "this tariff"
-        }"? This action cannot be undone.`}
+        description={`Are you sure you want to delete "${deleteModalState.tariff?.TariffName || "this tariff"
+          }"? This action cannot be undone.`}
+        isLoading={deleteModalState.isLoading}
       />
     </div>
   );

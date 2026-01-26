@@ -81,7 +81,9 @@ export default function SponsorSection() {
             </div>
 
             <div>
-              <button className="card-btn w-full">Jetzt wechseln</button>
+              <button className="card-btn w-full cursor-pointer">
+                Jetzt wechseln
+              </button>
               <p className="text-[#085EC4] text-center mt-4 text-lg font-medium leading-[100%] underline underline-offset-6 ">
                 Tarifdetails
               </p>
@@ -174,7 +176,9 @@ export default function SponsorSection() {
             </div>
 
             <div>
-              <button className="card-btn w-full">Jetzt wechseln</button>
+              <button className="card-btn w-full cursor-pointer">
+                Jetzt wechseln
+              </button>
               <p className="text-[#085EC4] text-center mt-4 text-lg font-medium leading-[100%] underline underline-offset-6 ">
                 Tarifdetails
               </p>
@@ -189,7 +193,7 @@ export default function SponsorSection() {
           <h5 className="text-[#1C2022]  text-lg font-semibold leading-[160%] ">
             Bester Anbieter
           </h5>
-           <p className="text-[#5F728B]  text-lg font-normal leading-[160%]">
+          <p className="text-[#5F728B]  text-lg font-normal leading-[160%]">
             Berlin / Mitte - 6 von 220 Tarifen ab 47,27 €/Monat
           </p>
         </div>
@@ -261,7 +265,9 @@ export default function SponsorSection() {
             </div>
 
             <div>
-              <button className="card-btn w-full">Jetzt wechseln</button>
+              <button className="card-btn w-full cursor-pointer">
+                Jetzt wechseln
+              </button>
               <p className="text-[#085EC4] text-center mt-4 text-lg font-medium leading-[100%] underline underline-offset-6 ">
                 Tarifdetails
               </p>

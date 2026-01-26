@@ -1,6 +1,8 @@
 "use client";
 
 import { useForm, Controller } from "react-hook-form";
+import { useParams, useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,21 +15,72 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useCreateOrderMutation } from "@/redux/features/order/orderApi";
+
+interface FormData {
+  salutation: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone_number: string;
+  postal_code: string;
+  location: string;
+  street: string;
+  house_number: string;
+}
 
 export default function InformationForm() {
   const router = useRouter();
+  const params = useParams();
+  const tariffId = params.tariffId as string;
+  const [createOrder, { isLoading }] = useCreateOrderMutation();
 
   const {
     control,
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<FormData>();
 
-  const onSubmit = (data: any) => {
-    console.log("Form data:", data);
-    router.push("/services/provider/confirm");
+  // Map salutation values from German to API format
+  const mapSalutation = (value: string): string => {
+    const mapping: Record<string, string> = {
+      herr: "Man",
+      frau: "Woman",
+      divers: "Divers",
+    };
+    return mapping[value] || value;
+  };
+
+  const onSubmit = async (data: FormData) => {
+    try {
+      // Transform form data to API format
+      const orderData = {
+        tariff_id: parseInt(tariffId),
+        salutation: mapSalutation(data.salutation),
+        first_name: data.first_name.trim(),
+        last_name: data.last_name.trim(),
+        email: data.email.trim(),
+        phone_number: data.phone_number.trim(),
+        postal_code: data.postal_code.trim(),
+        location: data.location.trim(),
+        street: data.street.trim(),
+        house_number: data.house_number.trim(),
+      };
+
+      const response = await createOrder(orderData).unwrap();
+
+      if (response?.data) {
+        toast.success(response?.message || "Order created successfully");
+        // Redirect to success or order status page
+        router.push(`/services/provider/success`);
+      } else {
+        toast.error(response?.message || "Failed to create order");
+      }
+    } catch (error: any) {
+      console.error("Order creation error:", error);
+      toast.error(error?.data?.message || error?.message || "An error occurred");
+    }
   };
 
   return (
@@ -49,7 +102,7 @@ export default function InformationForm() {
           </Label>
 
           <Controller
-            name="anrede"
+            name="salutation"
             control={control}
             rules={{ required: "Bitte wählen Sie eine Anrede aus" }}
             render={({ field }) => (
@@ -57,7 +110,7 @@ export default function InformationForm() {
                 value={field.value ?? ""}
                 onValueChange={(val) => field.onChange(val)}
               >
-                <SelectTrigger className="px-4 py-6 w-full rounded-lg border-[#D6DEE6] bg-white">
+                <SelectTrigger className="px-4 py-3.5 w-full rounded-lg border-[#D6DEE6] bg-white">
                   <SelectValue placeholder="Bitte wählen Sie eine Anrede aus" />
                 </SelectTrigger>
 
@@ -70,9 +123,9 @@ export default function InformationForm() {
             )}
           />
 
-          {errors.anrede && (
+          {errors.salutation && (
             <p className="text-red-500 text-sm">
-              {String(errors.anrede.message)}
+              {String(errors.salutation.message)}
             </p>
           )}
         </div>
@@ -83,13 +136,13 @@ export default function InformationForm() {
             Vorname <span className="text-red-500">*</span>
           </Label>
           <Input
-            {...register("firstName", { required: true })}
+            {...register("first_name", { required: "Dieses Feld ist erforderlich." })}
             placeholder="Vorname"
             className="px-5 py-6 rounded-lg border border-[#E2E8EE]"
           />
-          {errors.firstName && (
+          {errors.first_name && (
             <p className="text-red-500 text-sm">
-              Dieses Feld ist erforderlich.
+              {errors.first_name.message || "Dieses Feld ist erforderlich."}
             </p>
           )}
         </div>
@@ -100,13 +153,13 @@ export default function InformationForm() {
             Nachname <span className="text-red-500">*</span>
           </Label>
           <Input
-            {...register("lastName", { required: true })}
+            {...register("last_name", { required: "Dieses Feld ist erforderlich." })}
             placeholder="Bitte geben Sie Ihren Nachnamen ein"
             className="px-5 py-6 rounded-lg border-[#D6DEE6]"
           />
-          {errors.lastName && (
+          {errors.last_name && (
             <p className="text-red-500 text-sm">
-              Dieses Feld ist erforderlich.
+              {errors.last_name.message || "Dieses Feld ist erforderlich."}
             </p>
           )}
         </div>
@@ -118,13 +171,19 @@ export default function InformationForm() {
           </Label>
           <Input
             type="email"
-            {...register("email", { required: true })}
+            {...register("email", {
+              required: "Dieses Feld ist erforderlich.",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: "Bitte geben Sie eine gültige E-Mail ein."
+              }
+            })}
             placeholder="john@example.com"
             className="px-5 py-6 rounded-lg border-[#D6DEE6]"
           />
           {errors.email && (
             <p className="text-red-500 text-sm">
-              Bitte geben Sie eine gültige E-Mail ein.
+              {errors.email.message || "Bitte geben Sie eine gültige E-Mail ein."}
             </p>
           )}
         </div>
@@ -135,13 +194,13 @@ export default function InformationForm() {
             Telefonnummer <span className="text-red-500">*</span>
           </Label>
           <Input
-            {...register("phone", { required: true })}
+            {...register("phone_number", { required: "Dieses Feld ist erforderlich." })}
             placeholder="z.B. +46 123 4567 89"
             className="px-5 py-6 rounded-lg border-[#D6DEE6]"
           />
-          {errors.phone && (
+          {errors.phone_number && (
             <p className="text-red-500 text-sm">
-              Dieses Feld ist erforderlich.
+              {errors.phone_number.message || "Dieses Feld ist erforderlich."}
             </p>
           )}
         </div>
@@ -152,13 +211,13 @@ export default function InformationForm() {
             Postleitzahl <span className="text-red-500">*</span>
           </Label>
           <Input
-            {...register("zip", { required: true })}
+            {...register("postal_code", { required: "Dieses Feld ist erforderlich." })}
             placeholder="10115"
             className="px-5 py-6 rounded-lg border-[#D6DEE6]"
           />
-          {errors.zip && (
+          {errors.postal_code && (
             <p className="text-red-500 text-sm">
-              Dieses Feld ist erforderlich.
+              {errors.postal_code.message || "Dieses Feld ist erforderlich."}
             </p>
           )}
         </div>
@@ -169,13 +228,13 @@ export default function InformationForm() {
             Standort <span className="text-red-500">*</span>
           </Label>
           <Input
-            {...register("city", { required: true })}
+            {...register("location", { required: "Dieses Feld ist erforderlich." })}
             placeholder="Berlin"
             className="px-5 py-6 rounded-lg border-[#D6DEE6]"
           />
-          {errors.city && (
+          {errors.location && (
             <p className="text-red-500 text-sm">
-              Dieses Feld ist erforderlich.
+              {errors.location.message || "Dieses Feld ist erforderlich."}
             </p>
           )}
         </div>
@@ -186,13 +245,13 @@ export default function InformationForm() {
             Straße <span className="text-red-500">*</span>
           </Label>
           <Input
-            {...register("street", { required: true })}
+            {...register("street", { required: "Dieses Feld ist erforderlich." })}
             placeholder="Bitte geben Sie Ihre Straßenadresse ein."
             className="px-5 py-6 rounded-lg border-[#D6DEE6]"
           />
           {errors.street && (
             <p className="text-red-500 text-sm">
-              Dieses Feld ist erforderlich.
+              {errors.street.message || "Dieses Feld ist erforderlich."}
             </p>
           )}
         </div>
@@ -203,12 +262,13 @@ export default function InformationForm() {
             Hausnummer <span className="text-red-500">*</span>
           </Label>
           <Input
-            {...register("houseNumber", { required: true })}
+            {...register("house_number", { required: "Dieses Feld ist erforderlich." })}
+            placeholder="Hausnummer"
             className="px-5 py-6 rounded-lg border-[#D6DEE6]"
           />
-          {errors.houseNumber && (
+          {errors.house_number && (
             <p className="text-red-500 text-sm">
-              Dieses Feld ist erforderlich.
+              {errors.house_number.message || "Dieses Feld ist erforderlich."}
             </p>
           )}
         </div>
@@ -227,9 +287,10 @@ export default function InformationForm() {
 
         <Button
           type="submit"
-          className="flex justify-center items-center gap-3 [background:var(--Primary,#085EC4)] px-6 py-3 rounded-4xl text-white cursor-pointer"
+          disabled={isLoading}
+          className="flex justify-center items-center gap-3 [background:var(--Primary,#085EC4)] px-6 py-3 rounded-4xl text-white cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Weiter <ArrowRight />
+          {isLoading ? "Wird gesendet..." : "Weiter"} <ArrowRight />
         </Button>
       </div>
 

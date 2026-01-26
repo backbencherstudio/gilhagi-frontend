@@ -11,7 +11,10 @@ import TestimonialsCard from "@/components/others/TestimonialsCard";
 
 const Testimonials = () => {
   return (
-    <section id="customer-reviews" className="max-w-[1320px] mx-auto px-4 md:px-12 py-10 md:py-25">
+    <section
+      id="customer-reviews"
+      className="max-w-[1320px] mx-auto px-4 md:px-12 py-10 md:py-25"
+    >
       {/* info */}
       <div className="mb-14">
         <h2 className="title-text max-w-[664px]">
@@ -60,7 +63,7 @@ const Testimonials = () => {
       <div className="w-full h-full">
         {/* Slider */}
         <Swiper
-         style={{ height: "100%" }}
+          style={{ height: "100%" }}
           modules={[Navigation]}
           loop={true}
           spaceBetween={24}
@@ -97,10 +100,10 @@ const Testimonials = () => {
 
         {/* Custom Navigation */}
         <div className="flex items-center justify-center gap-5 mt-10">
-          <button className="prev-btn border border-[#C9D7E2] p-3 rounded-full  transition-transform hover:bg-gray-200 duration-300">
+          <button className="prev-btn border border-[#C9D7E2] p-3 rounded-full  transition-transform hover:bg-gray-200 duration-300 cursor-pointer">
             <FaArrowLeftLong />
           </button>
-          <button className="next-btn border border-[#C9D7E2] p-3 rounded-full transition-transform hover:bg-gray-200 duration-300">
+          <button className="next-btn border border-[#C9D7E2] p-3 rounded-full transition-transform hover:bg-gray-200 duration-300 cursor-pointer">
             <FaArrowRightLong />
           </button>
         </div>

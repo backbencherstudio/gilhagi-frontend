@@ -46,7 +46,7 @@ export default function ConfirmPage() {
       <div className="mb-12 flex sm:justify-end">
         <button
           onClick={handleConfirm}
-          className="rounded-btn text-white w-full sm:w-auto"
+          className="rounded-btn text-white w-full sm:w-auto cursor-pointer"
         >
           Jetzt bestätigen
         </button>

@@ -1,3 +1,5 @@
+"use client";
+
 // AdminSidebar.tsx
 import {
   LayoutDashboard,
@@ -16,6 +18,8 @@ import Link from "next/link";
 import React from "react";
 import { usePathname } from "next/navigation"; // For Next.js 15 (App Router)
 import ThunderIcon from "../../icons/ThunderIcon";
+import { logout } from "@/redux/features/auth/authSlice";
+import { useAppDispatch } from "@/redux/store/hooks";
 
 // Navigation items array
 const navItems = [
@@ -29,23 +33,12 @@ const navItems = [
     icon: <FileText className="w-5 h-5" />,
     href: "/user-dashboard/documents",
   },
-  // {
-  //   name: "Anbieterliste",
-  //   icon: <Zap className="w-5 h-5" />,
-  //   href: "/user-dashboard/provider-list",
-  // },
-  // {
-  //   name: "Bestellverlauf",
-  //   icon: <History className="w-5 h-5" />,
-  //   href: "/user-dashboard/order-history",
-  // },
- 
+
   {
     name: "Unterstützung",
-    icon:  <MessagesSquare className="w-5 h-5" />,
+    icon: <MessagesSquare className="w-5 h-5" />,
     href: "/user-dashboard/support",
   },
- 
 ];
 
 export default function UserSidebar({
@@ -56,7 +49,7 @@ export default function UserSidebar({
   onClose: () => void;
 }) {
   const pathname = usePathname(); // Get the current pathname
-
+  const dispatch = useAppDispatch();
   return (
     <>
       {/* Mobile Overlay */}
@@ -76,7 +69,7 @@ export default function UserSidebar({
       `}
       > */}
 
-       <aside
+      <aside
         className={`
         fixed top-0 left-0 z-50
         w-[300px] h-screen bg-white border-r border-border
@@ -88,7 +81,7 @@ export default function UserSidebar({
         {/* Close button for mobile */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 lg:hidden p-2 hover:bg-gray-100 rounded-md"
+          className="absolute top-4 right-4 lg:hidden p-2 hover:bg-gray-100 rounded-md cursor-pointer"
         >
           <X className="w-5 h-5" />
         </button>
@@ -128,13 +121,13 @@ export default function UserSidebar({
 
         {/* Logout Button */}
         <div className="absolute w-full bottom-0  p-6 border-t space-y-2">
-          <Link
-            href={"/logout"}
-            className="flex items-center gap-3 p-3 rounded-md text-red-500 text-base font-medium leading-[140%] hover:bg-gray-100 transition-colors bg-[#EDF3F7] border border-[#E2E8EE] "
+          <button
+            onClick={() => dispatch(logout())}
+            className="flex  items-center gap-3 p-3 rounded-md text-red-500 text-base font-medium leading-[140%] hover:bg-gray-100 transition-colors bg-[#EDF3F7] border border-[#E2E8EE]  w-full text-left cursor-pointer "
           >
             <LogOut className="w-5 h-5" />
             <span>Abmelden</span>
-          </Link>
+          </button>
 
           <p className="text-[#5F728B]  text-sm font-normal leading-[130%] tracking-[0.07px]">
             Energiemanagement

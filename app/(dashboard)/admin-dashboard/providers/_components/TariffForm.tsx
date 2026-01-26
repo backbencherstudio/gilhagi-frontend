@@ -18,7 +18,9 @@ import {
 } from "@/components/ui/select";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 import * as z from "zod";
+import { useGetProvidersAdminQuery } from "@/redux/features/providers/providersApi";
 
 // Validierungsschema – expliziter Zahlentyp
 const tariffSchema = z.object({
@@ -30,6 +32,7 @@ const tariffSchema = z.object({
     .pipe(z.number().min(0, "Preis pro kWh muss positiv sein")),
   BaseFee: z.string().min(1, "Grundgebühr ist erforderlich"),
   Bonus: z.string().min(1, "Bonus ist erforderlich"),
+  Rates: z.string().min(1, "Rates ist erforderlich"),
   PriceGuarantee: z.string().min(1, "Preisgarantie ist erforderlich"),
   RenewableEnergy: z.boolean(),
   Recommended: z.boolean(),
@@ -43,6 +46,7 @@ export type TariffFormData = {
   BaseFee: string;
   Bonus: string;
   PriceGuarantee: string;
+  Rates: string;
   RenewableEnergy: boolean;
   Recommended: boolean;
 };
@@ -60,6 +64,11 @@ export default function TariffForm({
   isLoading = false,
   mode = "add",
 }: TariffFormProps) {
+
+
+  const { data: providersData } = useGetProvidersAdminQuery("");
+  const providersList = providersData?.data?.map((provider: any) => provider.provider_name);
+
   const form = useForm<TariffFormData>({
     resolver: zodResolver(tariffSchema) as any,
     defaultValues: {
@@ -69,16 +78,67 @@ export default function TariffForm({
       BaseFee: initialData?.BaseFee || "",
       Bonus: initialData?.Bonus || "",
       PriceGuarantee: initialData?.PriceGuarantee || "",
+      Rates: initialData?.Rates || "",
       RenewableEnergy: initialData?.RenewableEnergy || false,
       Recommended: initialData?.Recommended || false,
     },
   });
 
+  // Reset form when initialData changes (modal opens/closes)
+  useEffect(() => {
+    if (mode === "add") {
+      form.reset({
+        Provider: "",
+        TariffName: "",
+        PricePerkWh: 0,
+        BaseFee: "",
+        Bonus: "",
+        PriceGuarantee: "",
+        Rates: "",
+        RenewableEnergy: false,
+        Recommended: false,
+      });
+    } else if (initialData) {
+      form.reset({
+        Provider: initialData.Provider || "",
+        TariffName: initialData.TariffName || "",
+        PricePerkWh: initialData.PricePerkWh || 0,
+        BaseFee: initialData.BaseFee || "",
+        Bonus: initialData.Bonus || "",
+        PriceGuarantee: initialData.PriceGuarantee || "",
+        Rates: initialData.Rates || "",
+        RenewableEnergy: initialData.RenewableEnergy || false,
+        Recommended: initialData.Recommended || false,
+      });
+    }
+  }, [initialData, mode, form]);
+
   const isViewMode = mode === "view";
+
+  const handleFormSubmit = async (data: TariffFormData) => {
+
+    console.log("TariffForm data", data);
+
+    await onSubmit(data);
+    // Reset form after successful submission in add mode
+    if (mode === "add") {
+      form.reset({
+        Provider: "",
+        TariffName: "",
+        PricePerkWh: 0,
+        BaseFee: "",
+        Bonus: "",
+        PriceGuarantee: "",
+        Rates: "",
+        RenewableEnergy: false,
+        Recommended: false,
+      });
+    }
+  };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-2">
         {/* Anbieter */}
         <FormField
           control={form.control}
@@ -97,11 +157,9 @@ export default function TariffForm({
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="All Provider">Alle Anbieter</SelectItem>
-                  <SelectItem value="test1">Anbieter 1</SelectItem>
-                  <SelectItem value="test2">Anbieter 2</SelectItem>
-                  <SelectItem value="test3">Anbieter 3</SelectItem>
-                  <SelectItem value="test4">Anbieter 4</SelectItem>
+                  {providersList?.map((provider: any) => (
+                    <SelectItem key={provider} value={provider}>{provider}</SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
               <FormMessage />
@@ -229,6 +287,26 @@ export default function TariffForm({
           />
         </div>
 
+        {/* Tarifname */}
+        <FormField
+          control={form.control}
+          name="Rates"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="modal-form-label">Rates *</FormLabel>
+              <FormControl>
+                <Input
+                  className="modal-form-input"
+                  {...field}
+                  placeholder="Tarifnamen eingeben"
+                  disabled={isViewMode || isLoading}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         {/* 100 % erneuerbare Energie */}
         <FormField
           control={form.control}
@@ -239,9 +317,9 @@ export default function TariffForm({
                 <FormLabel className="modal-form-label text-base">
                   100 % erneuerbare Energie
                 </FormLabel>
-                <div className="text-sm text-gray-500">
+                {/* <div className="text-sm text-gray-500">
                   Dieser Tarif nutzt ausschließlich erneuerbare Energiequellen
-                </div>
+                </div> */}
               </div>
               <FormControl>
                 <Switch
@@ -264,9 +342,9 @@ export default function TariffForm({
                 <FormLabel className="modal-form-label text-base">
                   Als empfohlen markieren
                 </FormLabel>
-                <div className="text-sm text-gray-500">
+                {/* <div className="text-sm text-gray-500">
                   Diesen Tarif als Empfehlung für Kundinnen und Kunden hervorheben
-                </div>
+                </div> */}
               </div>
               <FormControl>
                 <Switch
@@ -289,8 +367,8 @@ export default function TariffForm({
             {isLoading
               ? "Wird gespeichert..."
               : mode === "edit"
-              ? "Tarif aktualisieren"
-              : "Tarif hinzufügen"}
+                ? "Tarif aktualisieren"
+                : "Tarif hinzufügen"}
           </Button>
         </div>
       </form>
