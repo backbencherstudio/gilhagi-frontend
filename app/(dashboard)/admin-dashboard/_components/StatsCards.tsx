@@ -1,5 +1,6 @@
-import React from "react";
+"use client";
 import { User, CheckCircle, Clock, ChartArea } from "lucide-react"; // Import Lucide icons
+import { useGetAdminOverviewStatsQuery } from "@/redux/features/adminOverview/AdminOverviewApi";
 
 // Color mapping for different types of stats
 const colorMap: any = {
@@ -8,7 +9,7 @@ const colorMap: any = {
   pendingChanges: "bg-orange-100 text-orange-100",
 };
 
-const StatCard = ({ icon, color, title, value, label, labelIcon }: any) => {
+const StatCard = ({ icon, color, title, value=0, label, labelIcon }: any) => {
   // Dynamically map the color class
   const cardColor = colorMap[color] || "bg-gray-100 text-gray-500"; // Default gray
 
@@ -40,7 +41,24 @@ const StatCard = ({ icon, color, title, value, label, labelIcon }: any) => {
   );
 };
 
-export default function StatsCards() {
+
+
+export default function   StatsCards() {
+  const { data: adminOverviewStats, isLoading: isLoadingAdminOverviewStats, isError: isErrorAdminOverviewStats } = useGetAdminOverviewStatsQuery(null);
+
+
+  console.log("adminOverviewStats", adminOverviewStats);
+
+  const { Active_contracts, Outstanding_bills, Total_number_of_customers } = adminOverviewStats || {};
+ 
+
+  if (isLoadingAdminOverviewStats) {
+    return <div>Loading...</div>;
+  }
+
+  if (isErrorAdminOverviewStats) {
+    return <div>Error loading admin overview stats</div>;
+  }
   return (
     <section className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
       {/* Stats Cards */}
@@ -48,23 +66,23 @@ export default function StatsCards() {
         icon={<User className="w-10 h-10 text-blue-500" />}
         color="clients"
         title="Gesamtzahl der Kunden"
-        value="2.847"
-        label="+124 in diesem Monat"
+        value={Total_number_of_customers}
+        label="+in diesem Monat"
         labelIcon = {<ChartArea className="w-4 h-4" />}
       />
       <StatCard
         icon={<CheckCircle className="w-10 h-10 text-green-500" />}
         color="activeContracts"
         title="Aktive Verträge"
-        value="1.923"
-        label="+89 in diesem Monat"
+        value={Active_contracts}
+        label="in diesem Monat"
       />
       <StatCard
         icon={<Clock className="w-10 h-10 text-red-500" />}
         color="pendingChanges"
         title="Ausstehende Wechsel"
-        value="156"
-        label="23 heute abgeschlossen"
+        value={Outstanding_bills }
+        label="heute abgeschlossen"
       />
     </section>
   );

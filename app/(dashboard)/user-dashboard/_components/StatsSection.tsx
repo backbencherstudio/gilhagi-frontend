@@ -1,3 +1,6 @@
+"use client";
+
+import { useGetConractHistoryQuery } from "@/redux/features/userOver/userOverviewApi";
 import React from "react";
 
 interface StatusIndicatorProps {
@@ -31,11 +34,19 @@ export default function StatsSection() {
   // For now, you can set it based on your logic
   const isBestTariff = true; // Change to true if user is on cheapest tariff
 
+  const { data: userOrderOverview, isLoading: isLoadingUserOrderOverview, isError: isErrorUserOrderOverview } = useGetConractHistoryQuery(null);
+
+
+
+  console.log("userOrderOverview", userOrderOverview);
+
+  const totalSavings = userOrderOverview?.total_savings || 0;
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       <StatCard
         title="Gesamte Einsparungen mit Wechselsicher"
-        amount="€598"
+        amount={`€ ${totalSavings}`}
       />
       
       {/* Status Indicator Card */}

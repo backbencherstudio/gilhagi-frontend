@@ -11,18 +11,34 @@ import {
   Cell,
 } from "recharts";
 import { Button } from "@/components/ui/button";
+import { useMonthlySwitchedStatsQuery } from "@/redux/features/adminOverview/AdminOverviewApi";
 type MonthlyData = {
   month: string;
   switches: number;
 };
+
+type ApiMonthlyStats = {
+  labels: string[];
+  data: number[];
+};
+
+export function convertMonthlyApiToChartData(
+  api: ApiMonthlyStats
+): MonthlyData[] {
+  return api.labels.map((month, index) => ({
+    month,
+    switches: api.data[index] ?? 0,
+  }));
+}
+
 const data:MonthlyData[] = [
   { month: "Jan", switches: 98 },
   { month: "Feb", switches: 65 },
   { month: "Mar", switches: 98 },
   { month: "Apr", switches: 128 },
   { month: "May", switches: 198 },
-  { month: "June", switches: 128 },
-  { month: "July", switches: 168 },
+  { month: "Jun", switches: 128 },
+  { month: "Jul", switches: 168 },
   { month: "Aug", switches: 228 },
   { month: "Oct", switches: 108 },
   { month: "Sep", switches: 278 },
@@ -46,7 +62,7 @@ const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
         <p className="text-blue-600 font-semibold text-sm">
           {payload[0].value} Customers
         </p>
-        <p className="text-gray-500 text-xs">Switched: April</p>
+        <p className="text-gray-500 text-xs">Switched </p>
       </div>
     );
   }
@@ -54,6 +70,16 @@ const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
 };
 
 export function MonthlyChart() {
+  const currentMonth = new Date().toLocaleString('default', { month: 'long' });
+  console.log("currentMonth", currentMonth.slice(0, 3));
+
+  const { data: monthlySwitchedStats, isLoading: isLoadingMonthlySwitchedStats, isError: isErrorMonthlySwitchedStats } = useMonthlySwitchedStatsQuery(null);
+  console.log("monthlySwitchedStats", monthlySwitchedStats);
+  const chartData: MonthlyData[] =
+  monthlySwitchedStats
+    ? convertMonthlyApiToChartData(monthlySwitchedStats)
+    : [];
+  console.log("chartData", chartData);
   return (
     <div className="w-full bg-[] rounded-lg border border-gray-200 p-5">
       {/* Header */}
@@ -73,7 +99,7 @@ export function MonthlyChart() {
         <div className="w-full h-96">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
-              data={data}
+              data={chartData}
               margin={{ top: 40, right: 40, left: 10, bottom: 40 }}
             >
               <CartesianGrid
@@ -89,25 +115,29 @@ export function MonthlyChart() {
               <YAxis
                 stroke="#999"
                 style={{ fontSize: "14px" }}
-                domain={[0, 350]}
+                // domain={[0, 5]}
+                domain={[0, Math.max(...chartData.map(entry => entry.switches))+5]}
               />
               <Tooltip
+              
                 content={<CustomTooltip />}
                 cursor={{ fill: "transparent" }}
               />
               <Bar
                 dataKey="switches"
                 radius={[4, 4, 0, 0]}
-                onClick={(data:any) => {
-                  if (data?.month === "May") {
-                    console.log("May clicked:", data);
-                  }
-                }}
+                // onClick={(data:any) => {
+                //   if (data?.month === "May") {
+                //     console.log("May clicked:", data);
+                //   }
+                // }}
               >
-                {data.map((entry, index) => (
+                {chartData.map((entry, index) => (
                   <Cell
                     key={`cell-${index}`}
-                    fill={entry.month === "May" ? "#0B5ED7" : "#D5D5E5"}
+                    fill={entry.month == currentMonth ? "#0B5ED7" : "#0B5ED77A"}
+                    
+                   
                   />
                 ))}
               </Bar>

@@ -1,4 +1,5 @@
-import { Bell, Menu } from "lucide-react";
+import { Bell, Menu, User } from "lucide-react";
+import Link from "next/link";
 
 export default function AdminHeader({
   onMenuClick,
@@ -22,15 +23,17 @@ export default function AdminHeader({
         {/* right  */}
         <div className="flex items-stretch gap-4 ">
           {/* Notification */}
-          <button className="flex items-center gap-[105px] border border-[#CCDAE4] bg-[#EDF3F7] p-3 rounded-md border-solid cursor-pointer">
-            <Bell />
-          </button>
+          <Link href="/admin-dashboard/notifications" className="flex items-center gap-[105px] border border-[#CCDAE4] bg-[#EDF3F7] p-3 rounded-md border-solid cursor-pointer hover:bg-[#085EC4] hover:text-white transition-all duration-300">
+            <Bell className="w-6 h-6" />
+          </Link>
 
           {/* Line */}
           <div className="border-l border-[#E2E8EE] " />
 
           {/* User */}
-          <div className="w-[43px] h-[43px] rounded-full bg-accent"></div>
+          <div className="md:p-4 p-2 rounded-full bg-accent flex items-center justify-center">
+            <User className="w-8 h-8 " />
+          </div>
         </div>
       </header>
     </div>

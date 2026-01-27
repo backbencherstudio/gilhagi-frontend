@@ -22,7 +22,7 @@ export default function PrivateRoute({ children }: PrivateRouteProps) {
   useEffect(() => {
     if (!isLoading) {
       if (!isAuthenticated) {
-        router.push("/login");
+        router.push("/");
       } else if (user && user.user_type === "admin") {
         // If user is admin, redirect to admin dashboard
         router.push("/admin-dashboard");

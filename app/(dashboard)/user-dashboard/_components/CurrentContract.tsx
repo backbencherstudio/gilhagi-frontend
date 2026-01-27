@@ -10,7 +10,7 @@ export default function CurrentContract() {
     isError: isErrorCurrentContract,
   } = useGetCurrentContractQuery(null);
 
-  const data = currentContract?.data;
+  const data = currentContract?.data; 
 
   if (isLoadingCurrentContract) {
     return (
@@ -28,7 +28,7 @@ export default function CurrentContract() {
     );
   }
 
-  if (data) {
+  if (!data) {
     return (
       <div className="border border-[#E9E9EA] bg-white p-8 rounded-2xl flex flex-col items-center justify-center text-center space-y-4 shadow-[0_1px_2px_0_rgba(10,13,18,0.05)]">
         <div className="w-12 h-12 rounded-full bg-[#F1F5F9] flex items-center justify-center">
