@@ -93,7 +93,7 @@ export default function CustomerActivityTable() {
     time: item.time,
   })) || [];
 
-  console.log("tableData", tableData);
+  // console.log("tableData", tableData);
   return (
     <div className="space-y-4 mt-4">
       <div className="rounded-lg border border-border  overflow-hidden ">

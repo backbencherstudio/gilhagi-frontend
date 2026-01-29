@@ -13,7 +13,6 @@ export default function TariffSection({
   ribbon,
   tariffs,
 }: TariffSectionProps) {
-  console.log("THis is , ", tariffs);
 
 
   return (

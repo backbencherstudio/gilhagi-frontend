@@ -97,7 +97,7 @@ export default function ContractDetailsPage() {
   }, [documentData]);
 
 
-  console.log(documentSections);
+  // console.log(documentSections);
 
   const userData = {
     name: contract?.data?.user?.first_name + " " + contract?.data?.user?.last_name,

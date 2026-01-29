@@ -149,7 +149,7 @@ const TariffDetails = ({ handleSwitch, tariffData }: TariffDetailsProps) => {
           <div className="w-full lg:w-[360px] divide-y">
             <InfoRow label="Grundpreis:" value={formatBasicFeePerMonth()} />
             <InfoRow label="Arbeitspreis:" value={formatPricePerKwh()} />
-            <InfoRow label="Erstlaufzeit:" value="N/A" />
+            <InfoRow label="Erstlaufzeit:" value="12 Monate" />
             <InfoRow label="Begrenzte Preisgarantie:" value={formatValue(tariffData?.price_guarantee)} />
           </div>
         </div>
@@ -169,7 +169,10 @@ const TariffDetails = ({ handleSwitch, tariffData }: TariffDetailsProps) => {
 
             <InfoRow2 label="Ihre Verbrauchszahl" value="für 2.500 kWh pro Jahr" />
             <InfoRow2 label="Energiepreis pro kWh" value={formatPricePerKwhDetails()} />
-            <InfoRow2 label="Gesamter Arbeitskosten" value={tariffData?.price_kwh ? `${(parseFloat(tariffData.price_kwh) * 2500 / 100).toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} € pro Jahr` : "N/A"} />
+
+            <InfoRow2 label="Preis pro kWh" value={formatPricePerKwhDetails()} />
+
+            {/* <InfoRow2 label="Estimated annual energy cost" value={tariffData?.price_kwh ? `${(parseFloat(tariffData.price_kwh) * 2500 / 100).toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} € pro Jahr` : "N/A"} /> */}
             <InfoRow2 label="Grundpreis" value={tariffData?.basic_fee ? `${formatCurrency(tariffData.basic_fee, "€")} pro Jahr (${formatBasicFeePerMonth()})` : "N/A"} />
 
             {/* Highlight Section */}

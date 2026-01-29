@@ -38,7 +38,6 @@ export default function StatsSection() {
 
 
 
-  console.log("userOrderOverview", userOrderOverview);
 
   const totalSavings = userOrderOverview?.total_savings || 0;
 

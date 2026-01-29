@@ -127,7 +127,7 @@ export default function TariffForm({
 
   const handleFormSubmit = async (data: TariffFormData) => {
 
-    console.log("TariffForm data", data);
+ 
 
     await onSubmit(data);
     // Reset form after successful submission in add mode

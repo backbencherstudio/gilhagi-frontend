@@ -31,7 +31,7 @@ const StatCard: React.FC<StatCardProps> = ({
 
   const { data: adminOrderOverview, isLoading: isLoadingAdminOrderOverview, isError: isErrorAdminOrderOverview } = useGetAdminOrderOverviewQuery(null);
 
-  console.log("adminOrderOverview", adminOrderOverview);
+  // console.log("adminOrderOverview", adminOrderOverview);
 
   return (
     <div className="flex items-center border border-[#E9EAEB] bg-white shadow-[0_1px_2px_0_rgba(10,13,18,0.05)] p-4 sm:p-6 rounded-2xl">

@@ -34,7 +34,6 @@ import { Pencil } from "lucide-react";
 // }
 export default function ComparisonSummaryCard({ calculationDetails }: { calculationDetails: any }) {
 
-  console.log("THis is calculationDetails", calculationDetails);
 
   const { tariff } = calculationDetails || {};
   const { vendor: provider } = tariff || {};

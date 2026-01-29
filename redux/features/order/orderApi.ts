@@ -28,8 +28,8 @@ const orderApi = baseApi.injectEndpoints({
         }),
 
         // step -3 (get suggested tariffs1)
-        getSuggestedTariffs: builder.query<any, void>({
-            query: () => `/tariff/index`,
+        getSuggestedTariffs: builder.query<any, {duration: any, eco: string}>({
+            query: ({duration, eco}: {duration: any, eco: string}) => `/tariff/index?duration=${duration}&eco=${eco}`,
             providesTags: ["Order"],
         }),
 
@@ -59,3 +59,4 @@ export const {
     useGetTariffDetailsQuery,
     useCreateOrderMutation,
 } = orderApi;  
+

@@ -71,15 +71,15 @@ const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
 
 export function MonthlyChart() {
   const currentMonth = new Date().toLocaleString('default', { month: 'long' });
-  console.log("currentMonth", currentMonth.slice(0, 3));
+  // console.log("currentMonth", currentMonth.slice(0, 3));
 
   const { data: monthlySwitchedStats, isLoading: isLoadingMonthlySwitchedStats, isError: isErrorMonthlySwitchedStats } = useMonthlySwitchedStatsQuery(null);
-  console.log("monthlySwitchedStats", monthlySwitchedStats);
+  // console.log("monthlySwitchedStats", monthlySwitchedStats);
   const chartData: MonthlyData[] =
   monthlySwitchedStats
     ? convertMonthlyApiToChartData(monthlySwitchedStats)
     : [];
-  console.log("chartData", chartData);
+  // console.log("chartData", chartData);
   return (
     <div className="w-full bg-[] rounded-lg border border-gray-200 p-5">
       {/* Header */}

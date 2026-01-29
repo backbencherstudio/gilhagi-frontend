@@ -1,7 +1,7 @@
 "use client";
 
 import Leaf from "@/components/icons/LeafIcon";
-import { CloudCog, PencilLine, UtilityPole } from "lucide-react";
+import { CloudCog, House, PencilLine, UtilityPole } from "lucide-react";
 import { useEffect, useState } from "react";
 import MonthSlider from "./MonthlySlider";
 import { useGetCurrentProviderQuery } from "@/redux/features/currentProvider/currentProviderApi";
@@ -29,7 +29,7 @@ type ConsumptionCardData = {
 
 
 type PriceView = "yearly" | "monthly";
-type GreenType = "eco" | "eco_plus" | "any";
+type GreenType =  string;
 type BonusType = "all" | "instant" | "none";
 
 interface Filters {
@@ -54,14 +54,14 @@ const getMappedCurrentCardData = (currentProvider: CalculateSavingResponse): Con
 /* -----------------------------
    MAIN SIDEBAR
 -------------------------------- */
-export default function FilterSidebar({ calculationDetails }: { calculationDetails: any }) {
+export default function FilterSidebar({ calculationDetails, duration, eco, setDuration, setEco }: { calculationDetails: any, duration: any, eco: string, setDuration: (duration: any) => void, setEco: (eco: string) => void }) {
 
   const [filters, setFilters] = useState<Filters>({
     priceView: "yearly",
-    duration: 12,
+    duration: duration,
     showShorter: true,
     priceGuarantee: true,
-    green: "any",
+    green: eco,
     bonus: "all",
   });
 
@@ -97,10 +97,10 @@ export default function FilterSidebar({ calculationDetails }: { calculationDetai
           onChange={(green: GreenType) => setFilters({ ...filters, green })}
         />
 
-        <BonusSelector
+        {/* <BonusSelector
           value={filters.bonus}
           onChange={(bonus: BonusType) => setFilters({ ...filters, bonus })}
-        />
+        /> */}
 
         <ResetFiltersButton onReset={resetFilters} />
       </div>
@@ -219,7 +219,7 @@ function GreenSelector({ value, onChange }: any) {
         active={value === "eco_plus"}
         onClick={() => onChange("eco_plus")}
       >
-        <Leaf /> Öko <span className="font-semibold text-[#077A64]">PLUS</span>
+        <House className="w-4 h-4 text-[#085EC4]" /> Nur Österreich
       </SelectorItem>
     </div>
   );
@@ -228,28 +228,28 @@ function GreenSelector({ value, onChange }: any) {
 /* -----------------------------
    BONUS SELECTOR
 -------------------------------- */
-function BonusSelector({ value, onChange }: any) {
-  return (
-    <div className="py-4 space-y-2">
-      <h4 className="font-medium">Boni</h4>
+// function BonusSelector({ value, onChange }: any) {
+//   return (
+//     <div className="py-4 space-y-2">
+//       <h4 className="font-medium">Boni</h4>
 
-      <SelectorItem active={value === "all"} onClick={() => onChange("all")}>
-        Alle Boni
-      </SelectorItem>
+//       <SelectorItem active={value === "all"} onClick={() => onChange("all")}>
+//         Alle Boni
+//       </SelectorItem>
 
-      <SelectorItem
-        active={value === "instant"}
-        onClick={() => onChange("instant")}
-      >
-        Nur Sofortbonus
-      </SelectorItem>
+//       <SelectorItem
+//         active={value === "instant"}
+//         onClick={() => onChange("instant")}
+//       >
+//         Nur Sofortbonus
+//       </SelectorItem>
 
-      <SelectorItem active={value === "none"} onClick={() => onChange("none")}>
-        Kein Sofortbonus
-      </SelectorItem>
-    </div>
-  );
-}
+//       <SelectorItem active={value === "none"} onClick={() => onChange("none")}>
+//         Kein Sofortbonus
+//       </SelectorItem>
+//     </div>
+//   );
+// }
 
 /* -----------------------------
    SHARED SELECTOR ITEM
