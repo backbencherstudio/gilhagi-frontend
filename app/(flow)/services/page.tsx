@@ -12,7 +12,7 @@ export default function page() {
 
 
   const [duration, setDuration] = useState<any>("");
-  const [eco, setEco] = useState<string>("");
+  const [eco, setEco] = useState<any>("");
 
   // get calculation details
   const { data: calculationDetails } = useGetCalculationDetailsQuery();
