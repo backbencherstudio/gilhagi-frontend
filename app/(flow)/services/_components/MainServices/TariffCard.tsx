@@ -6,39 +6,47 @@ import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/redux/store/hooks";
 
 interface Props {
-  tariff: any; // ← consider typing this properly later (Tariff interface)
+  tariff: any;
 }
 
 export default function TariffCard({ tariff }: Props) {
   const router = useRouter();
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
 
-  // ── Helper formatters ────────────────────────────────────────
-  const formatPrice = (value: string | number | null | undefined, decimals = 2): string => {
+  // ── Helpers ────────────────────────────────────────────────
+  const formatPrice = (
+    value: string | number | null | undefined,
+    decimals = 2
+  ): string => {
     if (value == null || value === "" || value === "_") return "n/a";
     const num = typeof value === "string" ? parseFloat(value) : value;
     return isNaN(num) ? "n/a" : num.toFixed(decimals);
   };
 
-  const formatMonths = (value: string | null | undefined): string => {
+  const extractMonths = (value?: string): string => {
     if (!value) return "n/a";
-    const match = value.match(/(\d+)/);
+    const match = value.match(/(\d+)\s*months?/i) || value.match(/(\d+)/);
     return match ? match[1] : "n/a";
   };
 
-  // ── Derived / formatted values ───────────────────────────────
+  // ── Derived values (UPDATED) ───────────────────────────────
   const values = {
-    name:          tariff?.tariff_name           ?? "n/a",
-    provider:      tariff?.vendor?.provider_name ?? "n/a",
-    energyPrice:   formatPrice(tariff?.price_kwh),
-    basePrice:     formatPrice(tariff?.basic_fee ? Number(tariff.basic_fee)  : null),
-    bonus:         formatPrice(tariff?.exchange_bonus),
-    rating:        tariff?.rates ? Number(tariff.rates).toFixed(1) : "n/a",
-    guarantee:     formatMonths(tariff?.price_guarantee),
-    duration:      formatValue(tariff?.duration, " Monate"),
-    monthlyPrice:  formatPrice(tariff?.price ?? (tariff?.basic_fee ? Number(tariff.basic_fee) : null)),
-    savings:       tariff?.savings ? `${tariff.savings} €` : null,
-    isEco:         tariff?.renewable === 1,
+    name: tariff?.tariff_name ?? "n/a",
+    provider: tariff?.vendor?.provider_name ?? "n/a",
+
+    energyPrice: formatPrice(tariff?.price_kwh),
+    basePrice: formatPrice(tariff?.basic_fee),
+    bonus: formatPrice(tariff?.exchange_bonus),
+
+    rating: tariff?.rates
+      ? Number(tariff.rates).toFixed(1)
+      : "n/a",
+
+    guarantee: extractMonths(tariff?.price_guarantee),
+
+    monthlyPrice: formatPrice(tariff?.per_monthly_cost),
+
+    isEco: tariff?.renewable === 1,
   };
 
   const handleSwitch = () => {
@@ -58,9 +66,13 @@ export default function TariffCard({ tariff }: Props) {
         <div className="flex items-center gap-2 mb-3">
           <div className="flex items-center gap-0.5">
             {Array.from({ length: 5 }).map((_, i) => (
-              <RatingStar key={i} filled={Number(values.rating) > i} /> 
+              <RatingStar
+                key={i}
+                filled={Number(values.rating) > i}
+              />
             ))}
           </div>
+
           <span className="text-[#5F728B] font-medium text-sm md:text-base">
             {values.rating}
           </span>
@@ -76,7 +88,9 @@ export default function TariffCard({ tariff }: Props) {
           <h3 className="text-[#1C2022] text-xl md:text-2xl font-semibold">
             {values.name}
           </h3>
-          <p className="text-[#5F728B] text-sm mt-1">von {values.provider}</p>
+          <p className="text-[#5F728B] text-sm mt-1">
+            von {values.provider}
+          </p>
         </div>
 
         <div className="text-[#5F728B] text-sm md:text-base space-y-2 max-w-[520px]">
@@ -86,16 +100,10 @@ export default function TariffCard({ tariff }: Props) {
             Bonus: {values.bonus} €
           </p>
 
-          <div className="flex flex-wrap gap-x-6 gap-y-1">
-            <p className="flex items-center gap-1.5">
-              <Info className="w-4 h-4" />
-              Preisgarantie: {values.guarantee} Monate
-            </p>
-            <p className="flex items-center gap-1.5">
-              <Info className="w-4 h-4" />
-              Laufzeit: {values.duration}
-            </p>
-          </div>
+          <p className="flex items-center gap-1.5">
+            <Info className="w-4 h-4" />
+            Preisgarantie: {values.guarantee} Monate
+          </p>
         </div>
       </div>
 
@@ -103,14 +111,9 @@ export default function TariffCard({ tariff }: Props) {
       <div className="lg:text-right flex flex-col gap-5 items-center lg:items-end w-full lg:w-auto">
         <div>
           <div className="text-[#1C2022] text-3xl md:text-[40px] font-semibold leading-tight">
-            {values.monthlyPrice} €<span className="text-xl md:text-2xl">/Monat</span>
+            {values.monthlyPrice} €
+            <span className="text-xl md:text-2xl">/Monat</span>
           </div>
-
-          {values.savings && (
-            <p className="text-[#5F728B] text-sm md:text-base mt-1 font-medium">
-              {values.savings} jährliche Einsparungen
-            </p>
-          )}
         </div>
 
         <div className="w-full lg:w-auto min-w-[180px]">
@@ -128,10 +131,4 @@ export default function TariffCard({ tariff }: Props) {
       </div>
     </div>
   );
-}
-
-// Optional tiny helper (if you want to keep using it sometimes)
-function formatValue(value: any, suffix = ""): string {
-  if (value == null || value === "" || value === "_") return "n/a";
-  return `${value}${suffix}`;
 }

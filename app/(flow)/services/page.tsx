@@ -11,7 +11,7 @@ import { useState } from "react";
 export default function page() {
 
 
-  const [duration, setDuration] = useState<any>(12);
+  const [duration, setDuration] = useState<any>("");
   const [eco, setEco] = useState<string>("");
 
   // get calculation details
