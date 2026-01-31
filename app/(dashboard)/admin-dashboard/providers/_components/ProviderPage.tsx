@@ -19,7 +19,7 @@ export default function ProviderPage() {
   const { data: postalCodes } = useGetPostalCodesQuery(null);
 
   const [postalCode, setPostalCode] = useState<string>("");
-  console.log("select postal codes", postalCode);
+
   const tabs = [
     {
       value: "provider-table",

@@ -45,7 +45,7 @@ export default function InformationForm() {
   // Map salutation values from German to API format
   const mapSalutation = (value: string): string => {
     const mapping: Record<string, string> = {
-      herr: "Man",
+      herr: "Mister",
       frau: "Woman",
       divers: "Divers",
     };

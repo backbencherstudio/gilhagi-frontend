@@ -75,7 +75,7 @@ export function ContactTable() {
     enddatum: formatValue(item?.created_at?.split("T")[0]),
     status: item?.tariff?.status === 1 ? "Aktiv" : "Pending",
   }));
-  console.log("tableDataa", tableData);
+
   return (
     <>
       <DataTable

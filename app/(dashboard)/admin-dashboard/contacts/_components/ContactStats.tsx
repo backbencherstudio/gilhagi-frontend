@@ -1,5 +1,9 @@
+"use client";
+
+
 import React from "react";
 import { FileText, User, CheckCircle } from "lucide-react";
+import { useGetAdminOrderOverviewQuery } from "@/redux/features/adminOverview/AdminOverviewApi";
 
 // Color mapping
 const colorMap: Record<string, string> = {
@@ -24,6 +28,10 @@ const StatCard: React.FC<StatCardProps> = ({
   // Extract background color safely
   const cardColor = colorMap[color] ?? "bg-gray-100 text-gray-500";
   const bgColorClass = cardColor.split(" ")[0]; // Gets 'bg-blue-100', etc.
+
+  const { data: adminOrderOverview, isLoading: isLoadingAdminOrderOverview, isError: isErrorAdminOrderOverview } = useGetAdminOrderOverviewQuery(null);
+
+  // console.log("adminOrderOverview", adminOrderOverview);
 
   return (
     <div className="flex items-center border border-[#E9EAEB] bg-white shadow-[0_1px_2px_0_rgba(10,13,18,0.05)] p-4 sm:p-6 rounded-2xl">

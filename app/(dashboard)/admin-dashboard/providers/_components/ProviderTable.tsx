@@ -107,7 +107,7 @@ const mapApiProviderToRow = (item: any): ProviderRow => ({
 
 export default function ProviderTable({ postalCode }: { postalCode: string }) {
 
-  console.log("postalCode from ProviderTable", postalCode);
+
   const [providersByPostal, setProvidersByPostal] = useState<
     Record<string, ProviderRow[]>
   >({
@@ -138,7 +138,7 @@ export default function ProviderTable({ postalCode }: { postalCode: string }) {
 
 
 
-  console.log("providersData", providersData);
+
   const providers = providersData?.data?.map(mapApiProviderToRow) || [];
 
   const [modalState, setModalState] = useState<{
@@ -211,7 +211,7 @@ export default function ProviderTable({ postalCode }: { postalCode: string }) {
         [postalCode]: [...(prev[postalCode] || []), newProvider],
       }));
 
-      console.log("newProvider", newProvider);
+    
 
 
       createProviderAdmin({

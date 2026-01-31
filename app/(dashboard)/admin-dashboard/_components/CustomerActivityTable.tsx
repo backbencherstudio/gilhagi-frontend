@@ -11,6 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useRecentActivityQuery } from "@/redux/features/adminOverview/AdminOverviewApi";
 import { formatDistanceToNow } from "date-fns";
 
 type Customer = {
@@ -73,45 +74,51 @@ const customerData: Customer[] = [
   },
 ];
 
-const App = () => {
-  return (
-    <div>
-      {customerData.map((customer, index) => (
-        <div key={index}>
-          <p>{customer.name}</p>
-          <CustomBadge status={customer.status} />
-        </div>
-      ))}
-    </div>
-  );
-};
+// {
+//   "initials": "MT",
+//   "customer": "Mr Test",
+//   "activity": "Contract switched",
+//   "status": "pending",
+//   "time": "4 hours ago"
+// }
 
 export default function CustomerActivityTable() {
+
+  const { data: recentActivity, isLoading: isLoadingRecentActivity, isError: isErrorRecentActivity } = useRecentActivityQuery(null);
+  const tableData = recentActivity?.data?.map((item: any) => ({
+    initials: item.initials,
+    customer: item.customer,
+    activity: item.activity,
+    status: item.status,
+    time: item.time,
+  })) || [];
+
+  // console.log("tableData", tableData);
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 mt-4">
       <div className="rounded-lg border border-border  overflow-hidden ">
         <Table className="p-5">
           <TableHeader className="bg-[#F5F9FD] p-5">
             <TableRow className="text-[#1C2022]  text-sm font-medium leading-[140%] tracking-[0.07px] p-5">
               <TableHead className="pl-5 py-3">Customer</TableHead>
-              <TableHead className="">Activity</TableHead>
-              <TableHead >Status</TableHead>
-              <TableHead>Time</TableHead>
+              <TableHead className="">Aktivität</TableHead>
+              <TableHead >Status</TableHead>  
+              <TableHead>Zeit</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody className="">
-            {customerData.map((customer, index) => (
+            {tableData.map((customer: any, index: number) => (
               <TableRow className="" key={index}>
                 <TableCell className="pl-5 py-3">
                   <div className="flex items-center gap-2">
                     <Avatar>
                       <AvatarImage
                         src="/path/to/image.jpg"
-                        alt={customer.name}
+                        alt={customer.customer || "No Customer"}
                       />
                       <AvatarFallback>{customer.initials}</AvatarFallback>
                     </Avatar>
-                    <span className="text-[#1C2022]  text-sm font-semibold leading-[140%] tracking-[0.07px]">{customer.name}</span>
+                    <span className="text-[#1C2022]  text-sm font-semibold leading-[140%] tracking-[0.07px]">{customer.customer || "No Customer"}</span>
                   </div>
                 </TableCell>
                 <TableCell className="text-[#5F728B] text-xs font-normal leading-[132%] tracking-[0.06px]">{customer.activity}</TableCell>
@@ -123,7 +130,7 @@ export default function CustomerActivityTable() {
                   <CustomBadge status={customer.status} />
                   
                 </TableCell>
-                <TableCell className="text-[#B9C2CD]  text-xs font-normal leading-[132%] tracking-[0.06px]">{formatDistanceToNow(customer.time)} ago</TableCell>
+                {/* <TableCell className="text-[#B9C2CD]  text-xs font-normal leading-[132%] tracking-[0.06px]">{formatDistanceToNow(customer.time)} ago</TableCell> */}
               </TableRow>
             ))}
           </TableBody>

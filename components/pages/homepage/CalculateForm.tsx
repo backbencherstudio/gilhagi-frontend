@@ -33,12 +33,12 @@ export default function CalculateForm() {
   });
 
   const { data: tariffsData } = useGetAllTariffsUserQuery(undefined);
-  console.log(tariffsData);
+  // console.log(tariffsData);
   const tariffs = tariffsData?.data?.map((tariff: any) => ({
     id: tariff.id,
     name: tariff.tariff_name,
   })) || [];
-  console.log(tariffs);
+  // console.log(tariffs);
 
   const [userType, setUserType] = useState<"private" | "commercial">("private");
   const [calculateSaving, { isLoading: isCalculateSavingLoading }] = useCalculateSavingMutation();
@@ -131,8 +131,8 @@ export default function CalculateForm() {
             </label>
             <input
               id="postal_code"
-              type="text"
-              placeholder="Ihre Postleitzahl"
+              type="number"
+              placeholder="1012"
               {...register("postal_code", {
                 required: "Postleitzahl ist erforderlich",
               })}

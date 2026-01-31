@@ -27,9 +27,18 @@ const tariffSchema = z.object({
   Provider: z.string().min(1, "Anbieter ist erforderlich"),
   TariffName: z.string().min(1, "Tarifname ist erforderlich"),
   PricePerkWh: z
-    .union([z.string(), z.number()])
-    .transform((val) => (typeof val === "string" ? parseFloat(val) || 0 : val))
-    .pipe(z.number().min(0, "Preis pro kWh muss positiv sein")),
+  .union([z.string(), z.number()])
+  .transform((val) => {
+    if (val === "" || val === undefined) return undefined;
+    return Number(val);
+  })
+  .refine((val) => val !== undefined, {
+    message: "Preis pro kWh ist erforderlich",
+  })
+  .refine((val) => val !== undefined && val >= 0, {
+    message: "Preis pro kWh muss positiv sein",
+  }),
+
   BaseFee: z.string().min(1, "Grundgebühr ist erforderlich"),
   Bonus: z.string().min(1, "Bonus ist erforderlich"),
   Rates: z.string().min(1, "Rates ist erforderlich"),
@@ -74,7 +83,8 @@ export default function TariffForm({
     defaultValues: {
       Provider: initialData?.Provider || "",
       TariffName: initialData?.TariffName || "",
-      PricePerkWh: initialData?.PricePerkWh || 0,
+      PricePerkWh: initialData?.PricePerkWh ?? undefined,
+
       BaseFee: initialData?.BaseFee || "",
       Bonus: initialData?.Bonus || "",
       PriceGuarantee: initialData?.PriceGuarantee || "",
@@ -117,7 +127,7 @@ export default function TariffForm({
 
   const handleFormSubmit = async (data: TariffFormData) => {
 
-    console.log("TariffForm data", data);
+ 
 
     await onSubmit(data);
     // Reset form after successful submission in add mode
@@ -205,10 +215,10 @@ export default function TariffForm({
                     min="0"
                     placeholder="0,32"
                     disabled={isViewMode || isLoading}
-                    value={field.value}
+                    value={field.value ?? ""}
                     onChange={(e) => {
                       const value = e.target.value;
-                      field.onChange(value === "" ? 0 : parseFloat(value));
+                      field.onChange(value === "" ? undefined : Number(value));
                     }}
                     onBlur={field.onBlur}
                   />

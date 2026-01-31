@@ -5,13 +5,18 @@ import FilterSidebar from "./_components/FilterSidebar/FilterSidebar";
 import AllSection from "./_components/MainServices/AllSection";
 import { useGetCalculationDetailsQuery, useGetSuggestedTariffsQuery } from "@/redux/features/order/orderApi";
 import TariffSection from "./_components/MainServices/TariffSection";
+import { useState } from "react";
 
 
 export default function page() {
 
+
+  const [duration, setDuration] = useState<any>("");
+  const [eco, setEco] = useState<any>("");
+
   // get calculation details
   const { data: calculationDetails } = useGetCalculationDetailsQuery();
-  const { data: suggestedTariffs } = useGetSuggestedTariffsQuery();
+  const { data: suggestedTariffs } = useGetSuggestedTariffsQuery({duration, eco});
 
 
 
@@ -28,7 +33,7 @@ export default function page() {
   >
     {/* Sidebar */}
     <div className="w-full">
-      <FilterSidebar calculationDetails={calculationDetails?.data} />
+      <FilterSidebar calculationDetails={calculationDetails?.data} duration={duration} eco={eco} setDuration={setDuration} setEco={setEco} />
     </div>
 
     {/* Main content */}

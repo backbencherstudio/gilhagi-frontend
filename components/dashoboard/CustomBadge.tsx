@@ -1,15 +1,15 @@
 import React from "react";
 
 interface BadgeProps {
-  status: "Completed" | "Pending" | "Open" ; // Define possible status values
+  status: "approved" | "pending" | "open" ; // Define possible status values
 }
 
 const CustomBadge: React.FC<BadgeProps> = ({ status }) => {
   // Define different styles based on the status
   const badgeStyles = {
-    Completed: "bg-[rgba(14,181,128,0.10)] text-[#0EB580] border-[#0EB580]",
-    Pending: "bg-[rgba(255,136,0,0.10)] text-[#F80] border-[#F80]",
-    Open: "bg-[rgba(37,133,246,0.10)]  border-[#2585F6] text-[#2585F6]",
+    approved: "bg-[rgba(14,181,128,0.10)] text-[#0EB580] border-[#0EB580]",
+    pending: "bg-[rgba(255,136,0,0.10)] text-[#F80] border-[#F80]",
+    open: "bg-[rgba(37,133,246,0.10)]  border-[#2585F6] text-[#2585F6]",
   };
 
   return (

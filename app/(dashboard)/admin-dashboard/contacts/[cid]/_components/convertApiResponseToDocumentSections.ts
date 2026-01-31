@@ -4,7 +4,7 @@ export const convertApiResponseToDocumentSections = (documentData: any) => {
   
     const baseUrl = process.env.NEXT_PUBLIC_IMAGE_API_URL; // Replace with your actual base URL
 
-    console.log(baseUrl);
+    // console.log(baseUrl);
     return [
       {
         title: "Electricity Provider",

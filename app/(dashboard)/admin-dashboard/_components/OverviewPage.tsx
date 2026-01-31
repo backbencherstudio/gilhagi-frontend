@@ -19,7 +19,7 @@ const OverViewContent = () => {
       <div className="flex items-center gap-2 ">
         <CalendarDays className="w-5 h-5 text-[#5F728B]" />
         <p className="text-[#5F728B]  text-base font-normal leading-[140%] tracking-[0.08px]">
-          Do, 27. Nov
+          {new Date().toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long' })}
         </p>
       </div>
     </section>
