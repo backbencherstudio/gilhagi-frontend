@@ -6,7 +6,7 @@ const HowItWorks = () => {
     <section
       id="how-it-works"
       className=" w-full bg-cover bg-center flex flex-col items-center justify-center text-white px-4"
-      style={{ backgroundImage: "url('images/how-it-works.png')" }}
+      style={{ backgroundImage: "url('/images/how-it-works2.png')" }}
     >
       {/* info */}
       <div className="max-w-[1320px] mx-auto py-20 md:py-32 space-y-20 md:space-y-30 ">

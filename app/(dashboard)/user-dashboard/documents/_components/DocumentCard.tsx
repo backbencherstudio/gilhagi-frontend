@@ -16,6 +16,7 @@ import {
   removeDocument,
   DOCUMENT_FIELD_MAP,
   type DocumentField,
+  deleteDocument,
 } from "@/lib/api/documentApi";
 
 interface Document {
@@ -89,33 +90,36 @@ export default function DocumentCard({
 
   const handleRemove = async () => {
     if (!canRemove || isRemoving) return;
-
+  
     const fieldName = DOCUMENT_FIELD_MAP[document.id] as DocumentField;
     if (!fieldName) {
       toast.error("Invalid document type");
       return;
     }
-
+  
     const confirmed = window.confirm(
-      "Are you sure you want to remove this document? It will be deleted from the server."
+      "Are you sure you want to remove this document?"
     );
-
+  
     if (!confirmed) return;
-
+  
     setIsRemoving(true);
-
+  
     try {
-      await removeDocument(fieldName);
-      toast.success("Document removed successfully");
-      if (onRemove) {
-        onRemove();
-      }
+      const res = await deleteDocument(fieldName);
+  
+      toast.success(
+        res.message || "Document removed successfully"
+      );
+  
+      onRemove?.();
     } catch (error: any) {
       toast.error(error?.message || "Failed to remove document");
     } finally {
       setIsRemoving(false);
     }
   };
+  
 
   const handleOpenSample = () => {
     if (!sampleUrl || sampleUrl === "#") return;

@@ -1,4 +1,10 @@
+import { useAppSelector } from "@/redux/store/hooks";
+
 export default function CustomerInfo() {
+  const user = useAppSelector((state: any) => state.auth.user);
+
+  console.log(user);
+
   return (
     <div className="gap-8 self-stretch border border-[#E2E8EE] [background:var(--BG-soft,#F8FCFD)] p-4 sm:p-6 rounded-2xl border-solid space-y-8">
       <div className="pb-4 border-b">
@@ -6,7 +12,8 @@ export default function CustomerInfo() {
       </div>
 
       <div className=" space-y-4">
-        <InfoRow label="Ihr Name" value="Prof. Tawhidul Alam" />
+       
+        <InfoRow label="Ihr Name" value={`${user?.first_name} ${user?.last_name}`} />
         <InfoRow label="Adresse" value="Am Pankepark 10, 101 10115 Berlin" />
         <InfoRow
           label="Die Rechnungsadresse ist identisch mit der Adresse des

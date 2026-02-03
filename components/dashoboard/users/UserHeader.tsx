@@ -1,4 +1,4 @@
-import { Bell, Menu } from "lucide-react";
+import { Bell, Menu, User } from "lucide-react";
 import React from "react";
 
 export default function UserHeader({
@@ -29,7 +29,9 @@ export default function UserHeader({
         <div className="border-l border-[#E2E8EE] " />
 
         {/* User */}
-        <div className="w-[43px] h-[43px] rounded-full bg-accent"></div>
+        <div className="w-10 md:w-12 lg:w-14 h-10 md:h-12 lg:h-14 rounded-full bg-accent flex items-center justify-center">
+          <User className="w-8 h-8 " />
+        </div>
       </div>
     </header>
   );

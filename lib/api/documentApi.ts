@@ -175,6 +175,46 @@ const getUserDocumentByIdApi = baseApi.injectEndpoints({
     }),
 });
 
+
+
+/**
+ * Deletes a document by field name
+ */
+export async function deleteDocument(
+    fieldName: DocumentField
+  ): Promise<UploadResult> {
+    const state = store.getState();
+    const token = selectToken(state);
+  
+    if (!token) {
+      throw new Error("Authentication required");
+    }
+  
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    if (!apiUrl) {
+      throw new Error("API URL not configured");
+    }
+  
+    const response = await privateAxios.post(
+      "/user/document/delete-field",
+      {
+        field_name: fieldName,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  
+    return {
+      success: response.data?.status ?? true,
+      message: response.data?.message,
+      data: response.data?.data,
+    };
+  }
+  
+
 export const { useGetUserDocumentByIdQuery } = getUserDocumentByIdApi;
 
 

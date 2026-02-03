@@ -9,6 +9,7 @@ import {
   XCircle,
   Image,
   ArrowLeft,
+  CircleUser,
 } from "lucide-react";
 import ImagePreviewModal from "./ImagePreviewModal";
 import HeadingTitle from "@/components/dashoboard/HeadingTittle";
@@ -70,7 +71,7 @@ export default function ContractDetailsPage() {
   const [approveContract, { isLoading: isApproveContractLoading }] = useApproveContractMutation();
   const [rejectContract, { isLoading: isRejectContractLoading }] = useRejectContractMutation();
   const [documentSections, setDocumentSections] = useState<any[]>(defaultDocumentSections);
-  
+
   // Store original dates to track changes
   const originalDatesRef = useRef<{
     windowStart: string;
@@ -83,8 +84,8 @@ export default function ContractDetailsPage() {
   });
 
   // Get user documents query
-  const userId = contract?.data?.user_id;
-  const { data: documentData } = useGetUserDocumentByIdQuery(userId  ?? "", {
+  const userId = contract?.data?.user_documents_id;
+  const { data: documentData } = useGetUserDocumentByIdQuery(userId ?? "", {
     skip: !userId, // Skip the query if userId is not available
   }) as any;
 
@@ -227,11 +228,13 @@ export default function ContractDetailsPage() {
         <Card className="mb-8 p-4">
           <div className="flex items-start justify-between mb-6">
             <div className="flex items-start gap-4">
-              <img
+              {/* <img
                 src={userData.avatar || "/placeholder.svg"}
                 alt={userData.name}
                 className="w-16 h-16 rounded-full"
-              />
+              /> */}
+
+              <CircleUser className="w-10 h-10 md:w-12 md:h-12 rounded-full text-muted-foreground" />
               <div>
                 <h2 className="text-2xl font-bold">{userData.name}</h2>
                 <p className="text-muted-foreground">{userData.city}</p>

@@ -73,14 +73,13 @@ const customerData: Customer[] = [
     initials: "RF",
   },
 ];
-
 // {
-//   "initials": "MT",
-//   "customer": "Mr Test",
-//   "activity": "Contract switched",
+//   "initials": "HR",
+//   "customer": "Habibur Rahman",
+//   "activity": "Document uploaded",
 //   "status": "pending",
-//   "time": "4 hours ago"
-// }
+//   "time": "5 hours ago"
+// },
 
 export default function CustomerActivityTable() {
 
@@ -93,7 +92,18 @@ export default function CustomerActivityTable() {
     time: item.time,
   })) || [];
 
-  // console.log("tableData", tableData);
+  if (isLoadingRecentActivity) {
+    return <div>Loading...</div>;
+  }
+
+  if (isErrorRecentActivity) {
+    const message =
+      (isErrorRecentActivity as any)?.data?.message ||
+      "Something went wrong. Please try again.";
+    return <div className="text-red-600/70 ">{message} !!</div>;
+  }
+
+
   return (
     <div className="space-y-4 mt-4">
       <div className="rounded-lg border border-border  overflow-hidden ">
@@ -130,7 +140,9 @@ export default function CustomerActivityTable() {
                   <CustomBadge status={customer.status} />
                   
                 </TableCell>
-                {/* <TableCell className="text-[#B9C2CD]  text-xs font-normal leading-[132%] tracking-[0.06px]">{formatDistanceToNow(customer.time)} ago</TableCell> */}
+                <TableCell className="text-[#B9C2CD]  text-xs font-normal leading-[132%] tracking-[0.06px]">{customer?.time} </TableCell>
+
+                
               </TableRow>
             ))}
           </TableBody>

@@ -20,6 +20,7 @@ import { usePathname } from "next/navigation"; // For Next.js 15 (App Router)
 import ThunderIcon from "../../icons/ThunderIcon";
 import { logout } from "@/redux/features/auth/authSlice";
 import { useAppDispatch } from "@/redux/store/hooks";
+import { useRouter } from "next/navigation";
 
 // Navigation items array
 const navItems = [
@@ -65,6 +66,7 @@ export default function AdminSidebar({
 }) {
   const pathname = usePathname(); // Get the current pathname
   const dispatch = useAppDispatch();
+  const router = useRouter();
   return (
     <>
       {/* Mobile Overlay */}
@@ -92,7 +94,7 @@ export default function AdminSidebar({
         </button>
         {/* Logo Section */}
         <div className="px-6 pb-6 pt-[27px] border-b ">
-          <div>
+          <div className="cursor-pointer" onClick={() => router.push("/")}>
             <img src="/Wechselsicher-logo3.svg" alt="Wechselsicher-logo3" />
           </div>
 
@@ -128,7 +130,7 @@ export default function AdminSidebar({
         <div className="absolute w-full bottom-0  p-6 border-t space-y-2">
           <button
             onClick={() => dispatch(logout())}
-            className="flex items-center gap-3 p-3 rounded-md text-red-500 text-base font-medium leading-[140%] hover:bg-gray-100 transition-colors bg-[#EDF3F7] border border-[#E2E8EE] w-full"
+            className="flex items-center gap-3 p-3 rounded-md text-red-500 text-base font-medium leading-[140%] hover:bg-gray-100 transition-colors bg-[#EDF3F7] border border-[#E2E8EE] w-full cursor-pointer"
           >
             <LogOut className="w-5 h-5" />
             <span>Abmelden</span>
