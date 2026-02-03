@@ -28,7 +28,7 @@ export default function CurrentContract() {
     return <div className="text-red-600/70 ">{message} !!</div>;
   }
   
-  const isActive = data.status === "Active";
+  const isActive = data?.status === "Active";
 
   return (
     <div className="space-y-8 self-stretch border border-[#E9E9EA] bg-white shadow-[0_1px_2px_0_rgba(10,13,18,0.05)] p-5 rounded-2xl">
@@ -59,7 +59,7 @@ export default function CurrentContract() {
               Vertragsbeginn
             </p>
             <p className="text-[#1C2022] text-lg font-semibold leading-[160%]">
-              {data.start_date}
+              {data?.start_date}
             </p>
           </div>
 
@@ -68,7 +68,7 @@ export default function CurrentContract() {
               Laufzeit
             </p>
             <p className="text-[#1C2022] text-lg font-semibold leading-[160%]">
-              {data.duration}
+              {data?.duration}
             </p>
           </div>
         </div>
@@ -79,7 +79,7 @@ export default function CurrentContract() {
               Anbieter
             </p>
             <p className="text-[#1C2022] text-2xl font-semibold leading-[130%] tracking-[0.12px]">
-              {data.provider || "Unbekannter Anbieter"}
+              {data?.provider || "Unbekannter Anbieter"}
             </p>
           </div>
 
@@ -88,7 +88,7 @@ export default function CurrentContract() {
               Monatlicher Preis
             </p>
             <p className="text-[#085EC4] text-2xl font-semibold leading-[130%] tracking-[0.12px]">
-              €{data.monthly_price}
+              €{data?.monthly_price}
             </p>
           </div>
         </div>

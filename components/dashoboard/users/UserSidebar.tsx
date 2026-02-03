@@ -15,11 +15,10 @@ import {
   History,
 } from "lucide-react";
 import Link from "next/link";
-import React from "react";
 import { usePathname } from "next/navigation"; // For Next.js 15 (App Router)
-import ThunderIcon from "../../icons/ThunderIcon";
 import { logout } from "@/redux/features/auth/authSlice";
 import { useAppDispatch } from "@/redux/store/hooks";
+import { useRouter } from "next/navigation";
 
 // Navigation items array
 const navItems = [
@@ -50,6 +49,7 @@ export default function UserSidebar({
 }) {
   const pathname = usePathname(); // Get the current pathname
   const dispatch = useAppDispatch();
+  const router = useRouter();
   return (
     <>
       {/* Mobile Overlay */}
@@ -87,7 +87,7 @@ export default function UserSidebar({
         </button>
         {/* Logo Section */}
         <div className="px-6 pb-6 pt-[27px] border-b ">
-          <div>
+          <div className="cursor-pointer" onClick={() => router.push("/")}>
             <img src="/Wechselsicher-logo3.svg" alt="Wechselsicher-logo" />
           </div>
 

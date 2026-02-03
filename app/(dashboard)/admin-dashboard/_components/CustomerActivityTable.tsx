@@ -92,6 +92,17 @@ export default function CustomerActivityTable() {
     time: item.time,
   })) || [];
 
+  if (isLoadingRecentActivity) {
+    return <div>Loading...</div>;
+  }
+
+  if (isErrorRecentActivity) {
+    const message =
+      (isErrorRecentActivity as any)?.data?.message ||
+      "Something went wrong. Please try again.";
+    return <div className="text-red-600/70 ">{message} !!</div>;
+  }
+
 
   return (
     <div className="space-y-4 mt-4">
