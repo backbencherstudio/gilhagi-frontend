@@ -1,20 +1,41 @@
-
 import { baseApi } from "../api/baseApi";
-    
-const userOverviewApi = baseApi.injectEndpoints({ 
-    endpoints: (builder) => ({
 
-        getCurrentContract: builder.query({
-            query: () => "/user/currentContract",
-            providesTags: ["UserOverview"],
-        }),
+const userOverviewApi = baseApi.injectEndpoints({
+  endpoints: (builder) => ({
 
-        getConractHistory: builder.query({
-            query: () => "/user/contractHistory",
-            providesTags: ["UserOverview"],
-        }),
-      
+    getCurrentContract: builder.query({
+      query: () => "/user/currentContract",
+      transformResponse: (response:any) => {
+        if(response?.success === false) {
+          return { data: [] };
+        }
+        return response?.data;
+      },
+      providesTags: ["UserOverview"],
     }),
-}); 
 
-export const { useGetCurrentContractQuery, useGetConractHistoryQuery } = userOverviewApi;
+    getConractHistory: builder.query({
+      query: () => "/user/contractHistory",
+
+      // ✅ ONLY normalize known "empty data" response
+      transformResponse: (response: any) => {
+        if (
+          response?.success === false 
+        ) {
+          return { data: [] };
+        }
+
+        return response;
+      },
+
+      // ❌ REMOVE transformErrorResponse completely
+      providesTags: ["UserOverview"],
+    }),
+
+  }),
+});
+
+export const {
+  useGetCurrentContractQuery,
+  useGetConractHistoryQuery,
+} = userOverviewApi;

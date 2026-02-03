@@ -8,6 +8,7 @@ export default function CurrentContract() {
     data: currentContract,
     isLoading: isLoadingCurrentContract,
     isError: isErrorCurrentContract,
+    error: errorCurrentContract,
   } = useGetCurrentContractQuery(null);
 
   const data = currentContract?.data; 
@@ -21,34 +22,10 @@ export default function CurrentContract() {
   }
 
   if (isErrorCurrentContract) {
-    return (
-      <div className="p-5 text-sm text-red-500">
-        Error loading current contract
-      </div>
-    );
-  }
-
-  if (!data) {
-    return (
-      <div className="border border-[#E9E9EA] bg-white p-8 rounded-2xl flex flex-col items-center justify-center text-center space-y-4 shadow-[0_1px_2px_0_rgba(10,13,18,0.05)]">
-        <div className="w-12 h-12 rounded-full bg-[#F1F5F9] flex items-center justify-center">
-          <TickIcon className="w-5 h-5 text-[#d43232]" />
-        </div>
-  
-        <div className="space-y-1">
-          <p className="text-[#1C2022] text-lg font-semibold">
-            Kein aktiver Vertrag
-          </p>
-          <p className="text-[#5F728B] text-sm">
-            Aktuell ist kein Stromvertrag hinterlegt.
-          </p>
-        </div>
-  
-        {/* <button className="mt-2 px-4 py-2 rounded-lg bg-[#085EC4] text-white text-sm font-medium hover:bg-[#064aa0] transition">
-          Vertrag auswählen
-        </button> */}
-      </div>
-    );
+    const message =
+      (errorCurrentContract as any)?.data?.message ||
+      "Something went wrong. Please try again.";
+    return <div className="text-red-600/70 ">{message} !!</div>;
   }
   
   const isActive = data.status === "Active";

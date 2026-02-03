@@ -1,7 +1,15 @@
+'use client'
+
+import { useAppSelector } from "@/redux/store/hooks";
 import { Sparkles } from "lucide-react";
 import React from "react";
 
 export default function HelloSection() {
+
+  const user = useAppSelector((state: any) => state.auth.user);
+
+  // console.log(user);
+
   return (
     <section className="flex flex-col items-start gap-5 self-stretch border [background:var(--Primary,#085EC4)] p-8 rounded-2xl border-solid relative">
       <div className="py-3">
@@ -10,7 +18,7 @@ export default function HelloSection() {
           <p className="flex-[1_0_0] text-[#FFF] text-base font-normal leading-[140%] tracking-[0.08px]">Wechselsicher-Dashboard</p>
         </div>
         <h1 className="self-stretch text-[#FFF] text-[32px] font-semibold leading-[130%] md:text-[28px] sm:text-[24px]">
-          Willkommen zurück, Tawhid
+          Willkommen zurück, {user?.first_name && user?.last_name ? `${user?.first_name} ${user?.last_name}` : 'User'}
         </h1>
         <p className="self-stretch text-[#CCDAE4] text-base font-normal leading-[140%] tracking-[0.08px] sm:text-sm">
           Hier ist Ihre aktuelle Übersicht und Einsparungen.

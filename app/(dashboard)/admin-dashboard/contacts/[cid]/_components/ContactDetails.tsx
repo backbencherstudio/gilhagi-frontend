@@ -83,7 +83,7 @@ export default function ContractDetailsPage() {
   });
 
   // Get user documents query
-  const userId = contract?.data?.user_id;
+  const userId = contract?.data?.user_documents_id;
   const { data: documentData } = useGetUserDocumentByIdQuery(userId  ?? "", {
     skip: !userId, // Skip the query if userId is not available
   }) as any;

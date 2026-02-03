@@ -20,9 +20,12 @@ function ElectricityTable() {
     data: contractHistory,
     isLoading: isLoadingContractHistory,
     isError: isErrorContractHistory,
+    error: errorContractHistory,
   } = useGetConractHistoryQuery(null);
 
   const rows = contractHistory?.data ?? [];
+
+  // console.log(errorContractHistory);
 
   if (isLoadingContractHistory) {
     return (
@@ -33,11 +36,14 @@ function ElectricityTable() {
   }
 
   if (isErrorContractHistory) {
-    return (
-      <div className="p-5 text-sm text-red-500">
-        Failed to load contract history
-      </div>
-    );
+    const message =
+      (errorContractHistory as any)?.data?.message ||
+      "Something went wrong. Please try again.";
+    return <div className="text-red-600 text-center">{message} !!</div>;
+  }
+  
+  if (!rows?.length) {
+    return <div>No contract history found</div>;
   }
 
   return (

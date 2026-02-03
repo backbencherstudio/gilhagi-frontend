@@ -6,6 +6,12 @@ const adminOverviewApi = baseApi.injectEndpoints({
             query: () => "/admin/overview",
             providesTags: ["AdminOverview"],
         }),
+
+        getAdminOrderStats: builder.query({
+            query: () => "/admin/order/overview",
+            providesTags: ["AdminOverview"],
+        }),
+
         monthlySwitchedStats: builder.query({
             query: () => "admin/monthly-switches",
             providesTags: ["AdminOverview"],
@@ -27,4 +33,5 @@ const adminOverviewApi = baseApi.injectEndpoints({
     }),
 }); 
 
-export const { useGetAdminOverviewStatsQuery, useMonthlySwitchedStatsQuery, useUpcomingContractsStatsQuery, useRecentActivityQuery, useGetAdminOrderOverviewQuery } = adminOverviewApi;
+export const { useGetAdminOverviewStatsQuery, useMonthlySwitchedStatsQuery, useUpcomingContractsStatsQuery, useRecentActivityQuery, useGetAdminOrderOverviewQuery, useGetAdminOrderStatsQuery } = adminOverviewApi;
+

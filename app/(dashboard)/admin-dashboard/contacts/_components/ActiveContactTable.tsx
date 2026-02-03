@@ -69,7 +69,7 @@ export function ContactTable() {
   const tableData = mapToTable(approvedContracts?.data ?? [], (item: any) => ({
     vertragsId: `USR-${item.id}`,
     benutzer: formatValue(item?.user, (u) => `${u.first_name} ${u.last_name}`),
-    anbieter: formatValue(item.vendor?.provider_name),
+    anbieter: formatValue(item?.tariff?.vendor?.provider_name || "N/A"),
     tarif: formatValue(item?.tariff?.tariff_name),
     monatsKosten: formatValue(item?.tariff?.price_kwh, (p) => `${p} €/kWh`),
     enddatum: formatValue(item?.created_at?.split("T")[0]),

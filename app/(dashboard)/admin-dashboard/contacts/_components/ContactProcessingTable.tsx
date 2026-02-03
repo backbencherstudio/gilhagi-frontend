@@ -60,7 +60,7 @@ const mapApiWaitingContractsToTable = (orders: any[]) => {
   return orders?.map((order) => ({
     vertragsId: `USR-${order.id}`,
     benutzer: formatValue(order?.user, (u) => `${u.first_name} ${u.last_name}`),
-    anbieter: formatValue(order.vendor?.provider_name),
+    anbieter: formatValue(order?.tariff?.vendor?.provider_name || "N/A"),
     tarif: formatValue(order?.tariff?.tariff_name),
     monatsKosten: formatValue(order?.tariff?.price_kwh, (p) => `${p} €/kWh`),
     enddatum: formatValue(order?.created_at?.split("T")[0]),

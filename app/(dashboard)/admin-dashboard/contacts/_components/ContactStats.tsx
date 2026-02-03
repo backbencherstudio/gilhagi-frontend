@@ -3,7 +3,7 @@
 
 import React from "react";
 import { FileText, User, CheckCircle } from "lucide-react";
-import { useGetAdminOrderOverviewQuery } from "@/redux/features/adminOverview/AdminOverviewApi";
+import { useGetAdminOrderOverviewQuery, useGetAdminOrderStatsQuery } from "@/redux/features/adminOverview/AdminOverviewApi";
 
 // Color mapping
 const colorMap: Record<string, string> = {
@@ -56,27 +56,43 @@ const StatCard: React.FC<StatCardProps> = ({
     </div>
   );
 };
-
+// {
+//   "Active Contracts": 3,
+//   "Waiting for processing": 3,
+//   "Completed bills of exchange": 3
+// // }
 export default function StatsCards() {
+
+  const { data: adminOrderStats, isLoading: isLoadingAdminOrderStats, isError: isErrorAdminOrderStats } = useGetAdminOrderStatsQuery(null);
+
+  const { "Active Contracts": active_contracts, "Waiting for processing": pending_changes, "Completed bills of exchange": completed_switches } = adminOrderStats || {};
+
+  
+  if (isLoadingAdminOrderStats) {
+    return <div>Loading...</div>;
+  }
+  if (isErrorAdminOrderStats) {
+    return <div>Error loading admin order stats</div>;
+  }
   return (
     <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-5">
       <StatCard
         icon={<FileText className="w-6 h-6 sm:w-8 sm:h-8 text-blue-500" />}
         color="activeContracts"
         title="Aktive Verträge"
-        value="1.923"
+        value={active_contracts}
       />
       <StatCard
         icon={<User className="w-6 h-6 sm:w-8 sm:h-8 text-purple-500" />}
         color="pendingChanges"
         title="Warten auf Bearbeitung"
-        value="156"
+        value={pending_changes}
       />
       <StatCard
         icon={<CheckCircle className="w-6 h-6 sm:w-8 sm:h-8 text-green-500" />}
         color="completedSwitches"
         title="Abgeschlossene Wechsel"
-        value="847"
+        value={completed_switches}
       />
     </section>
   );
