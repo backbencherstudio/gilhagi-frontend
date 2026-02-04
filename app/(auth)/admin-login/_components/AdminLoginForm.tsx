@@ -157,12 +157,12 @@ const AdminLoginForm = () => {
           </span>
         </div>
 
-        <button
+        {/* <button
           type="button"
           className="text-sm md:text-base text-[#085EC4] hover:underline cursor-pointer"
         >
           Passwort vergessen?
-        </button>
+        </button> */}
       </div>
 
       <button

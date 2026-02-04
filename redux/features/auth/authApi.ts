@@ -58,6 +58,28 @@ interface RegisterResponse {
   };
 }
 
+
+interface ForgotPasswordRequest {
+  email: string;
+}
+
+interface VerifyOtpRequest {
+  email: string;
+  otp: string;
+}
+
+interface ResetPasswordRequest {
+  email: string;
+  password: string;
+  password_confirmation: string;
+}
+
+interface GenericAuthResponse {
+  status?: boolean;
+  message: string;
+}
+
+
 // Helper function to transform admin data to User format
 const transformAdminToUser = (adminData: AdminLoginResponse["admin"]): User => {
   const nameParts = adminData.name.split(" ");
@@ -158,9 +180,48 @@ export const authApi = baseApi.injectEndpoints({
         }
       },
     }),
+
+      // ======================
+    // Forgot Password
+    // ======================
+    forgotPassword: builder.mutation<
+      GenericAuthResponse,
+      ForgotPasswordRequest
+    >({
+      query: (data) => ({
+        url: "/forgot-password",
+        method: "POST",
+        body: data,
+      }),
+    }),
+
+    // ======================
+    // Verify OTP
+    // ======================
+    verifyOtp: builder.mutation<GenericAuthResponse, VerifyOtpRequest>({
+      query: (data) => ({
+        url: "/verify-otp",
+        method: "POST",
+        body: data,
+      }),
+    }),
+
+    // ======================
+    // Reset Password
+    // ======================
+    resetPassword: builder.mutation<
+      GenericAuthResponse,
+      ResetPasswordRequest
+    >({
+      query: (data) => ({
+        url: "/reset-password",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
 // Export hooks for usage in components
-export const { useLoginMutation, useAdminLoginMutation, useRegisterMutation } =
+export const { useLoginMutation, useAdminLoginMutation, useRegisterMutation, useForgotPasswordMutation, useVerifyOtpMutation, useResetPasswordMutation } =
   authApi;
