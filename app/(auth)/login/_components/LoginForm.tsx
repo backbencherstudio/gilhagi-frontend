@@ -2,12 +2,13 @@
 
 import * as React from "react";
 import { useForm } from "react-hook-form";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff,  } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useAppSelector } from "@/redux/store/hooks";
 import type { RootState } from "@/redux/store";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
+import Link from "next/link";
 
 type LoginFormValues = {
   email: string;
@@ -159,12 +160,7 @@ const LoginForm = () => {
           </span>
         </div>
 
-        <button
-          type="button"
-          className="text-sm md:text-base text-[#085EC4] hover:underline cursor-pointer"
-        >
-          Passwort vergessen?
-        </button>
+        <Link href="/forgot-password" className="text-sm md:text-base text-[#085EC4] hover:underline cursor-pointer"> Passwort vergessen?</Link>
       </div>
 
       <button
