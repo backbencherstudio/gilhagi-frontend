@@ -26,7 +26,7 @@ export default function Hero() {
         </h2> */}
 
         <div className="flex flex-col items-center justify-center ">
-          <h2 className="text-white text-3xl sm:text-4xl md:text-[64px] font-semibold leading-[130%] mb-6 max-w-full md:max-w-[1040px]  text-center mt-25">Stromanbieter wechseln <br /> innerhalb 5 Minuten.
+          <h2 className="text-white text-3xl sm:text-4xl md:text-[64px] font-semibold leading-[130%] mb-6 max-w-full   text-center mt-25">Stromanbieter wechseln <br /> innerhalb 5 Minuten.
             Jetzt anmelden <br /> - Wir übernehmen den Papierkram.</h2>
         </div>
 
