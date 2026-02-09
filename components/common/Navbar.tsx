@@ -48,7 +48,7 @@ export default function Navbar() {
   const closeMenu = () => setOpen(false);
 
   const links = [
-    { href: "/#customer-reviews", label: "Kundenbewertungen" },
+    { href: "/faq", label: "FAQ" },
     { href: "/#how-it-works", label: "Wie es funktioniert" },
     { href: "/#contact", label: "Kontakt" },
   ] as const;

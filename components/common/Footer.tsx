@@ -117,10 +117,26 @@ export default function Footer() {
                 </li> */}
                 <li className="mb-2">
                   <Link
-                    href="#how-it-works"
+                    href="/#how-it-works"
                     className="text-[#C9D7E2] text-lg hover:text-white transition"
                   >
                     Wie es funktioniert
+                  </Link>
+                </li>
+                <li className="mb-2">
+                  <Link
+                    href="/cancelation-policy"
+                    className="text-[#C9D7E2] text-lg hover:text-white transition"
+                  >
+                    Widerrufsbelehrung
+                  </Link>
+                </li>
+                <li className="mb-2">
+                  <Link
+                    href="/agbs"
+                    className="text-[#C9D7E2] text-lg hover:text-white transition"
+                  >
+                    AGBs
                   </Link>
                 </li>
 
@@ -135,7 +151,7 @@ export default function Footer() {
                 </li>
                 <li className="mb-2">
                   <Link
-                    href="#contact"
+                    href="/#contact"
                     className="text-[#C9D7E2] text-lg hover:text-white transition"
                   >
                     Kontakt

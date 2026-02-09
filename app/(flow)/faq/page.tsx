@@ -57,8 +57,7 @@ export default function Page() {
             </h1>
             <p className="text-sm md:text-base text-[#5F728B] leading-[140%]">
               Alles, was Sie über den Wechsel zu einem neuen Stromtarif mit
-              Wechselsicher wissen müssen – modern und übersichtlich im
-              Akkordeon-Stil.
+              Wechselsicher wissen müssen. 
             </p>
           </div>
           <div className="w-full lg:w-[320px] shrink-0 flex justify-center lg:justify-end">

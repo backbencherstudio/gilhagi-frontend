@@ -124,9 +124,9 @@ export default function TariffCard({ tariff }: Props) {
             Jetzt wechseln
           </button>
 
-          <p className="text-[#085EC4] text-center mt-3 text-sm md:text-base font-medium underline cursor-pointer hover:text-blue-700 transition-colors">
+          {/* <p className="text-[#085EC4] text-center mt-3 text-sm md:text-base font-medium underline cursor-pointer hover:text-blue-700 transition-colors">
             Tarifdetails
-          </p>
+          </p> */}
         </div>
       </div>
     </div>
