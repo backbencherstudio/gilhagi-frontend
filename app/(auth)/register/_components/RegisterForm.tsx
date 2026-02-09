@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { useRegisterMutation } from "@/redux/features/auth/authApi";
+import Link from "next/link";
 
 type RegisterFormValues = {
   first_name: string;
@@ -16,6 +17,8 @@ type RegisterFormValues = {
   password: string;
   password_confirmation: string;
   privacy_policy: boolean;
+  cancelation_policy: boolean;
+  terms_and_power_of_attorney: boolean;
 };
 
 const RegisterForm = () => {
@@ -43,6 +46,8 @@ const RegisterForm = () => {
       password: "",
       password_confirmation: "",
       privacy_policy: false,
+      cancelation_policy: false,
+      terms_and_power_of_attorney: false,
     },
     mode: "onChange",
   });
@@ -51,7 +56,8 @@ const RegisterForm = () => {
   const password = watch("password");
 
   const privacyPolicy = watch("privacy_policy");
-
+  const cancelationPolicy = watch("cancelation_policy");
+  const termsAndPowerOfAttorney = watch("terms_and_power_of_attorney");
   const onSubmit = async (values: RegisterFormValues) => {
     // Validate privacy policy
     if (!values.privacy_policy) {
@@ -90,7 +96,7 @@ const RegisterForm = () => {
 
   return (
     <form
-      className="w-full border border-[#D8DEE4] bg-white p-6 md:p-8 rounded-3xl"
+      className="w-full border border-[#D8DEE4] bg-white md:p-6 p-4 rounded-3xl"
       onSubmit={handleSubmit(onSubmit)}
       noValidate
     >
@@ -107,15 +113,14 @@ const RegisterForm = () => {
       )}
 
       {/* Input Fields */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 mb-8 w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 mb-6 w-full">
         <div>
           <label className="form-label">Vorname *</label>
           <input
             type="text"
             placeholder="z.B. John"
-            className={`form-input w-full ${
-              errors.first_name ? "border border-red-500" : ""
-            }`}
+            className={`form-input w-full ${errors.first_name ? "border border-red-500" : ""
+              }`}
             {...registerField("first_name", {
               required: "Vorname is required",
             })}
@@ -132,9 +137,8 @@ const RegisterForm = () => {
           <input
             type="text"
             placeholder="z.B. Doe"
-            className={`form-input w-full ${
-              errors.last_name ? "border border-red-500" : ""
-            }`}
+            className={`form-input w-full ${errors.last_name ? "border border-red-500" : ""
+              }`}
             {...registerField("last_name", {
               required: "Nachname is required",
             })}
@@ -151,9 +155,8 @@ const RegisterForm = () => {
           <input
             type="email"
             placeholder="john@example.com"
-            className={`form-input w-full ${
-              errors.email ? "border border-red-500" : ""
-            }`}
+            className={`form-input w-full ${errors.email ? "border border-red-500" : ""
+              }`}
             {...registerField("email", {
               required: "E-Mail is required",
               pattern: {
@@ -172,9 +175,8 @@ const RegisterForm = () => {
           <input
             type="text"
             placeholder="z.B. +49 123 456789"
-            className={`form-input w-full ${
-              errors.phone_number ? "border border-red-500" : ""
-            }`}
+            className={`form-input w-full ${errors.phone_number ? "border border-red-500" : ""
+              }`}
             {...registerField("phone_number", {
               required: "Telefonnummer is required",
             })}
@@ -193,9 +195,8 @@ const RegisterForm = () => {
             <input
               type={showPassword ? "text" : "password"}
               placeholder="Mindestens 8 Zeichen"
-              className={`form-input w-full pr-12 ${
-                errors.password ? "border border-red-500" : ""
-              }`}
+              className={`form-input w-full pr-12 ${errors.password ? "border border-red-500" : ""
+                }`}
               {...registerField("password", {
                 required: "Password is required",
                 minLength: {
@@ -226,9 +227,8 @@ const RegisterForm = () => {
             <input
               type={showPasswordConfirmation ? "text" : "password"}
               placeholder="Passwort bestätigen"
-              className={`form-input w-full pr-12 ${
-                errors.password_confirmation ? "border border-red-500" : ""
-              }`}
+              className={`form-input w-full pr-12 ${errors.password_confirmation ? "border border-red-500" : ""
+                }`}
               {...registerField("password_confirmation", {
                 required: "Please confirm your password",
                 validate: (value) => {
@@ -261,25 +261,83 @@ const RegisterForm = () => {
         </div>
       </div>
 
-      {/* Checkbox */}
-      <div className="flex items-start gap-3 mb-8">
-        <Checkbox
-          checked={privacyPolicy}
-          onCheckedChange={(v) => setValue("privacy_policy", v === true)}
-          className="mt-1 data-[state=checked]:bg-[#085EC4]"
-        />
+      <div className="space-y-2 mb-6">
+        {/* Checkbox */}
+        <div className="flex items-start gap-3 ">
+          <Checkbox
+            checked={privacyPolicy}
+            onCheckedChange={(v) => setValue("privacy_policy", v === true)}
+            className="mt-1 data-[state=checked]:bg-[#085EC4]"
+          />
 
-        <div className="flex-1">
-          <p className="text-[#707070] text-sm md:text-base leading-[160%]">
-            Ich stimme der Datenschutzrichtlinie zu und erkläre mich damit
-            einverstanden, von Wechselsicher kontaktiert zu werden.
-          </p>
-          {errors.privacy_policy && (
-            <p className="mt-2 text-sm text-red-600">
-              You must agree to the privacy policy
+          <div className="flex-1">
+            <p className="text-[#707070] text-sm md:text-base leading-[160%]">
+              Ich stimme der <Link href="/privacy-policy" className="text-[#085EC4] font-medium hover:underline">Datenschutzrichtlinie</Link> zu und erkläre mich damit
+              einverstanden, von Wechselsicher kontaktiert zu werden.
             </p>
-          )}
+            {errors.privacy_policy && (
+              <p className="mt-2 text-sm text-red-600">
+                You must agree to the privacy policy
+              </p>
+            )}
+          </div>
         </div>
+        <div className="flex items-start gap-3">
+          <Checkbox
+            checked={cancelationPolicy}
+            onCheckedChange={(v) => setValue("cancelation_policy", v === true)}
+            className="mt-1 data-[state=checked]:bg-[#085EC4]"
+          />
+
+          <div className="flex-1">
+            <p className="text-[#707070] text-sm md:text-base leading-[160%]">Ich erkläre, dass ich die Datenschutzerklärung gelesen habe und akzeptiere die Verarbeitung meiner Daten. <Link href="/cancelation-policy" className="text-[#085EC4] font-medium hover:underline">Widerrufsbelehrung</Link></p>
+            {errors.cancelation_policy && (
+              <p className="mt-2 text-sm text-red-600">
+                You must agree to the cancelation policy
+              </p>
+            )}
+          </div>
+        </div>
+
+        <div className="flex items-start gap-3">
+          <Checkbox
+            checked={termsAndPowerOfAttorney}
+            onCheckedChange={(v) =>
+              setValue("terms_and_power_of_attorney", v === true)
+            }
+            className="mt-1 data-[state=checked]:bg-[#085EC4]"
+          />
+
+          <div className="flex-1">
+            <p className="text-[#707070] text-sm md:text-base leading-[160%]">
+              Ich bestätige, dass ich die{" "}
+              <Link
+                href="/agbs"
+                className="text-[#085EC4] font-medium hover:underline"
+              >
+                Allgemeinen Geschäftsbedingungen (AGBs)
+              </Link>{" "}
+              gelesen habe und akzeptiere diese. Außerdem erteile ich Wechselsicher
+              eine Vollmacht, mich im Zusammenhang mit meinem Energievertrag zu
+              vertreten, insbesondere Verträge in meinem Namen abzuschließen oder zu
+              kündigen. Details siehe{" "}
+              <Link
+                href="/vollmacht"
+                className="text-[#085EC4] font-medium hover:underline"
+              >
+                Vollmacht
+              </Link>
+              .
+            </p>
+
+            {errors.terms_and_power_of_attorney && (
+              <p className="mt-2 text-sm text-red-600">
+                You must agree to the AGBs and the power of attorney
+              </p>
+            )}
+          </div>
+        </div>
+
       </div>
 
       {/* Submit Button */}

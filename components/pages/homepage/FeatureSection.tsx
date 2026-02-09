@@ -16,8 +16,7 @@ const featuresList: FeatureCardProps[] = [
   {
     icon: "/features/fea_2.svg",
     title: "Geld sparen, keine Gebühren",
-    description:
-      "Sie zahlen nur eine kleine Servicegebühr, wenn wir Ihnen Geld sparen. Andernfalls zahlen Sie nichts.",
+    description: "Der Service ist für Sie komplett Kostenlos, da wir uns durch Förderungen und Provisionen finanzieren."
   },
   {
     icon: "/features/fea_3.svg",

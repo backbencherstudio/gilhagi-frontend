@@ -54,7 +54,7 @@ const ContactInfo = () => {
             <Mail className="w-6 h-6" />
           </div>
           <p className="text-[#1C2022] text-lg font-medium leading-[160%] break-words">
-            support@yourcompany.com
+          support@wechselsicher.at
           </p>
         </div>
 
@@ -63,18 +63,18 @@ const ContactInfo = () => {
             <Phone className="w-6 h-6" />
           </div>
           <p className="text-[#1C2022] text-lg font-medium leading-[160%] break-words">
-            +49 123 456 7890
+          +41 78 447 44 67
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        {/* <div className="flex items-center gap-3">
           <div className="p-2 bg-[#085EC4] text-white rounded-lg">
             <MapPin className="w-6 h-6" />
           </div>
           <p className="text-[#1C2022] text-lg font-medium leading-[160%] break-words">
             Musterstraße 12, 10115 Berlin, Deutschland
           </p>
-        </div>
+        </div> */}
       </div>
     </div>
   );

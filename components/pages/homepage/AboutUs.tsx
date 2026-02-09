@@ -26,8 +26,8 @@ export default function AboutUs() {
           {/* RIGHT Image - Absolute positioned */}
           <div className="absolute z-40 left-[53%] top-1/2 transform -translate-y-1/2 max-w-[645px] max-h-[766px] w-full">
             <img
-              className="w-full h-full object-cover"
-              src="\images\about-us.png"
+              className="w-full h-full object-cover rounded-3xl"
+              src="/images/about-us2.jpg"
               alt="About us visualization"
             />
           </div>
@@ -79,7 +79,7 @@ export default function AboutUs() {
           <div className="mt-8 mb-8 mx-auto max-w-[344px]">
             <img
               className="w-full h-auto rounded-lg"
-              src="\images\about-us.png"
+           src="/images/about-us2.jpg"
               alt="About us visualization"
             />
           </div>

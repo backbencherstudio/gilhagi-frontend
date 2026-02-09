@@ -96,7 +96,7 @@ export default function InformationForm() {
       {/* Grid Layout */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Anrede */}
-        <div className=" md:col-span-2 flex flex-col space-y-2">
+        {/* <div className=" md:col-span-2 flex flex-col space-y-2">
           <Label className="text-sm font-medium">
             Anrede <span className="text-red-500">*</span>
           </Label>
@@ -128,7 +128,7 @@ export default function InformationForm() {
               {String(errors.salutation.message)}
             </p>
           )}
-        </div>
+        </div> */}
 
         {/* Vorname */}
         <div className="flex flex-col space-y-2">
@@ -225,7 +225,7 @@ export default function InformationForm() {
         {/* Standort */}
         <div className="flex flex-col space-y-2">
           <Label className="text-sm font-medium">
-            Standort <span className="text-red-500">*</span>
+            Ort <span className="text-red-500">*</span>
           </Label>
           <Input
             {...register("location", { required: "Dieses Feld ist erforderlich." })}
