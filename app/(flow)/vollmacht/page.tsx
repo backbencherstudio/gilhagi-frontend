@@ -17,12 +17,14 @@ export default function Page() {
           </h2>
           <p className="text-sm md:text-base text-[#5F728B] leading-[140%]">
             <span className="font-medium text-[#1C2022]">
-              [Unternehmensname]
+              Wechselsicher GmbH
             </span>
             <br />
-            [Straße, Hausnummer]
+            Uferzeile 1
             <br />
-            [PLZ, Ort, Land]
+            4702 Wallern an der Trattnach
+            <br />
+            Österreich
             <br />
             sowie deren Mitarbeiter und Beauftragte.
           </p>

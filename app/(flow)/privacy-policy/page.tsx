@@ -25,12 +25,18 @@ export default function Page() {
             Nutzung von Wechselsicher ist:
             <br />
             <span className="font-medium text-[#1C2022]">
-              Wechselsicher – Immer der beste Stromvertrag
+              Wechselsicher GmbH
             </span>
             <br />
-            [Unternehmensname], [Straße, Hausnummer], [PLZ, Ort]
+            Uferzeile 1
             <br />
-            E-Mail: support@Wechselsicher.com
+            4702 Wallern an der Trattnach
+            <br />
+            Österreich
+            <br />
+            Telefon: +41 78 447 44 67
+            <br />
+            E-Mail: support@wechselsicher.at
           </p>
         </section>
 
@@ -126,27 +132,16 @@ export default function Page() {
             Recht auf:
           </p>
           <ul className="list-disc pl-5 text-sm md:text-base text-[#5F728B] space-y-1">
-            <li>
-              Auskunft über die Verarbeitung Ihrer personenbezogenen Daten,
-            </li>
+            <li>Auskunft über die Verarbeitung Ihrer personenbezogenen Daten,</li>
             <li>Berichtigung unrichtiger oder unvollständiger Daten,</li>
-            <li>
-              Löschung Ihrer Daten, sofern keine Aufbewahrungspflichten
-              bestehen,
-            </li>
-            <li>
-              Einschränkung der Verarbeitung, wenn z. B. die Richtigkeit der
-              Daten bestritten wird,
-            </li>
-            <li>
-              Widerspruch gegen bestimmte Verarbeitungen sowie
-              Datenübertragbarkeit.
-            </li>
+            <li>Löschung Ihrer Daten, sofern keine Aufbewahrungspflichten bestehen,</li>
+            <li>Einschränkung der Verarbeitung,</li>
+            <li>Widerspruch gegen bestimmte Verarbeitungen sowie Datenübertragbarkeit.</li>
           </ul>
           <p className="text-sm md:text-base text-[#5F728B] leading-[140%]">
             Zudem haben Sie das Recht, eine erteilte Einwilligung jederzeit mit
             Wirkung für die Zukunft zu widerrufen. Zur Ausübung Ihrer Rechte
-            können Sie uns unter der oben genannten Adresse kontaktieren.
+            können Sie uns jederzeit unter support@wechselsicher.at kontaktieren.
           </p>
         </section>
 
